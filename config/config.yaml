@@ -6,8 +6,8 @@ app:
   MigrationURL:  file://migrations
 
 mysql:
-  Host: paradise-mysql
-  #Host: localhost
+  #Host: paradise-mysql
+  Host: localhost
   ContainerName: paradise_mysql
   Port: 3306
   User: root

@@ -12,7 +12,7 @@ services:
     volumes:
       - database_mysql:/var/lib/mysql
     networks:
-      - paradise-app
+      - paradise_network
 
   # redis:
   #   image: redis:alpine
@@ -33,10 +33,10 @@ services:
     ports:
       - "8081:8081"
     networks:
-      - paradise-app
+      - paradise_network
 volumes:
   database_mysql:
 
 networks:
-  paradise-app:
+  paradise_network:
     driver: bridge

@@ -7,6 +7,7 @@ import (
 	accountstorage "paradise-booking/modules/account/storage"
 	accountusecase "paradise-booking/modules/account/usecase"
 	mysqlprovider "paradise-booking/provider/mysql"
+	"paradise-booking/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,13 +19,13 @@ func main() {
 		return
 	}
 
-	//utils.RunDBMigration(cfg)
-
 	// Declare DB
 	db, err := mysqlprovider.NewMySQL(cfg)
 	if err != nil {
 		log.Fatalln("Can not connect mysql: ", err)
 	}
+
+	utils.RunDBMigration(cfg)
 
 	// declare dependencies
 	accountRepo := accountstorage.NewAccountStorage(db)
