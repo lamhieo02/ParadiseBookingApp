@@ -66,7 +66,7 @@ func ValidateJWT(accessToken string, cfg *config.Config) (*TokenPayload, error) 
 	if err != nil {
 		return nil, ErrInvalidToken
 	}
-	if token.Valid == false {
+	if !token.Valid {
 		return nil, ErrInvalidToken
 	}
 	claims, ok := token.Claims.(*myClaim)

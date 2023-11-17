@@ -1,18 +1,18 @@
 app:
   Version: 1.0.0
-  Port: 8080
+  Port: 8081
   Mode: development
   Secret: 109339Lam
   MigrationURL:  file://migrations
 
 mysql:
-  #Host: go-mysql
-  Host: localhost
-  ContainerName: go01_mysql
+  Host: paradise-mysql
+  #Host: localhost
+  ContainerName: paradise_mysql
   Port: 3306
   User: root
   Password: 109339Lam@
-  DBName: go-airbnb
+  DBName: paradise
 
 aws:
   Region: ap-southeast-1

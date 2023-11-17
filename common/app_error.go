@@ -75,3 +75,11 @@ func ErrCannotDeleteEntity(entity string, cause error) *AppError {
 func ErrEntityExisted(entity string, cause error) *AppError {
 	return NewCustomError(cause, fmt.Sprintf("%s have existed", entity))
 }
+
+func ErrEmailOrPasswordInvalid(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("%s email or password invalid", entity))
+}
+
+func ErrEmailNotExist(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("%s email is not exist", entity))
+}
