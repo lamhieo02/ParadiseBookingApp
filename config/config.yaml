@@ -1,0 +1,29 @@
+app:
+  Version: 1.0.0
+  Port: 8080
+  Mode: development
+  Secret: 109339Lam
+  MigrationURL:  file://migrations
+
+mysql:
+  #Host: go-mysql
+  Host: localhost
+  ContainerName: go01_mysql
+  Port: 3306
+  User: root
+  Password: 109339Lam@
+  DBName: go-airbnb
+
+aws:
+  Region: ap-southeast-1
+  APIKey: AKIAXFND7G2RDKLZP6WM
+  SecretKey: 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
+  S3Domain: d24vk7oviyillz.cloudfront.net
+  S3Bucket: lamhieogo
+
+redis:
+  # Host: redis
+  Host: localhost
+  Port: 6379
+  Password: ""
+  DB: 0
