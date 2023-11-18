@@ -64,6 +64,10 @@ func main() {
 	// Place
 	v1.POST("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.CreatePlace())
 	v1.PUT("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.UpdatePlace())
+	v1.GET("/places/:id", placeHdl.GetPlaceByID())
+	v1.GET("/places/owner", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.ListPlaceByVendor())
+	v1.GET("/places/owner/:vendor_id", placeHdl.ListPlaceByVendorID())
+	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
 
 	router.Run(":" + cfg.App.Port)
 }
