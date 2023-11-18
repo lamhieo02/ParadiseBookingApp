@@ -7,12 +7,13 @@ import (
 
 func ConvertAccountEntityToInfoResp(account *entities.Account) *iomodel.AccountInfoResp {
 	return &iomodel.AccountInfoResp{
-		Id: account.Id,
-		Email: account.Email,
+		Id:       account.Id,
+		Role:     account.Role,
+		Email:    account.Email,
 		Username: account.Username,
 		FullName: account.FullName,
-		Address: account.Address,
-		Phone: account.Phone,
-		Dob: account.Dob,
+		Address:  account.Address,
+		Phone:    account.Phone,
+		Dob:      account.Dob,
 	}
 }
