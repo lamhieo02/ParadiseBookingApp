@@ -3,9 +3,14 @@ package main
 import (
 	"log"
 	"paradise-booking/config"
+	"paradise-booking/constant"
 	accounthandler "paradise-booking/modules/account/handler"
 	accountstorage "paradise-booking/modules/account/storage"
 	accountusecase "paradise-booking/modules/account/usecase"
+	"paradise-booking/modules/middleware"
+	placehandler "paradise-booking/modules/place/handler"
+	placestorage "paradise-booking/modules/place/storage"
+	placeusecase "paradise-booking/modules/place/usecase"
 	mysqlprovider "paradise-booking/provider/mysql"
 	"paradise-booking/utils"
 
@@ -33,6 +38,10 @@ func main() {
 	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo)
 	accountHdl := accounthandler.NewAccountHandler(accountUseCase)
 
+	// pepare for place
+	placeRepo := placestorage.NewPlaceStorage(db)
+	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeRepo, accountRepo)
+	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 	router := gin.Default()
 
 	// fix error CORS
@@ -41,10 +50,20 @@ func main() {
 	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
 	router.Use(cors.New(configCORS))
 
+	middlewares := middleware.NewMiddlewareManager(cfg, accountRepo)
+	router.Use(middlewares.Recover())
+
 	v1 := router.Group("/api/v1")
+
+	// User
 	v1.POST("/register", accountHdl.RegisterAccount())
 	v1.POST("/login", accountHdl.LoginAccount())
-	v1.PATCH("/update/:id", accountHdl.UpdatePersonalInfoAccountById())
-	v1.GET("/get-profile", accountHdl.GetAccountByEmail())
+	v1.PATCH("/account/:id", accountHdl.UpdatePersonalInfoAccountById())
+	v1.GET("/profile", accountHdl.GetAccountByEmail())
+
+	// Place
+	v1.POST("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.CreatePlace())
+	v1.PUT("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.UpdatePlace())
+
 	router.Run(":" + cfg.App.Port)
 }

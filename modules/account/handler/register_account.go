@@ -12,9 +12,8 @@ func (hdl *accountHandler) RegisterAccount() gin.HandlerFunc {
 		var data iomodel.AccountRegister
 
 		if err := c.ShouldBind(&data); err != nil {
-			//c.JSON(http.StatusBadRequest, gin.H{"error": err})
-			//return
-			panic(err)
+			c.JSON(http.StatusBadRequest, gin.H{"error": err})
+			return
 		}
 
 		result, err := hdl.accountUC.CreateAccount(c.Request.Context(), &data)

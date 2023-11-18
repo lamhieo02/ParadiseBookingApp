@@ -21,6 +21,12 @@ WORKDIR /app/
 COPY --from=builder /app/go-airbnb .
 #copy config
 COPY config/config.yaml ./config/
+#COPY wait-for-it.sh
+COPY wait-for-it.sh .
+#COPY start.sh
+COPY start.sh .
+#RUN chmod +x wait-for-it.sh
+RUN chmod +x wait-for-it.sh
 #copy migrations
 COPY migrations migrations
 #CMD ["make migrate_up"]

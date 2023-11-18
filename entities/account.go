@@ -21,3 +21,11 @@ type Account struct {
 func (*Account) TableName() string {
 	return "accounts"
 }
+
+func (a *Account) GetRole() int {
+	return a.Role
+}
+
+func (a *Account) GetEmail() string {
+	return a.Email
+}

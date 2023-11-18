@@ -32,6 +32,10 @@ func ErrForbidden(causes error) *AppError {
 	return &AppError{Causes: causes, Message: "you have no permission", StatusCode: http.StatusForbidden}
 }
 
+func ErrNotOwner(causes error) *AppError {
+	return &AppError{Causes: causes, Message: "you are not owner of this place", StatusCode: http.StatusForbidden}
+}
+
 func ErrBadRequest(causes error) *AppError {
 	return &AppError{Causes: causes, Message: "invalid request", StatusCode: http.StatusBadRequest}
 }
@@ -62,6 +66,10 @@ func ErrEntityNotFound(entity string, cause error) *AppError {
 
 func ErrCannotCreateEntity(entity string, cause error) *AppError {
 	return NewCustomError(cause, fmt.Sprintf("Cannot create %s", entity))
+}
+
+func ErrCannotGetEntity(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("Cannot get %s", entity))
 }
 
 func ErrCannotUpdateEntity(entity string, cause error) *AppError {
