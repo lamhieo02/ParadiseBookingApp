@@ -6,7 +6,6 @@ import (
 	"paradise-booking/modules/account/iomodel"
 	jwtprovider "paradise-booking/provider/jwt"
 	"paradise-booking/utils"
-	"strconv"
 )
 
 func (uc *accountUseCase) LoginAccount(ctx context.Context, accountModel *iomodel.AccountLogin) (token *jwtprovider.Token, err error) {
@@ -22,7 +21,7 @@ func (uc *accountUseCase) LoginAccount(ctx context.Context, accountModel *iomode
 	}
 
 	// generate toke
-	token, err = jwtprovider.GenerateJWT(jwtprovider.TokenPayload{Role: strconv.Itoa(account.Role), Email: account.Email}, uc.cfg)
+	token, err = jwtprovider.GenerateJWT(jwtprovider.TokenPayload{Role: account.Role, Email: account.Email}, uc.cfg)
 	if err != nil {
 		return nil, common.ErrInternal(err)
 	}

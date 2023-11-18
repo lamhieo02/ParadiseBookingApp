@@ -13,7 +13,7 @@ import (
 // data to generate Token
 type TokenPayload struct {
 	Email string `json:"email"`
-	Role  string `json:"role"`
+	Role  int    `json:"role"`
 }
 
 // data receive after generate
@@ -26,15 +26,6 @@ type myClaim struct {
 	Payload TokenPayload `json:"payload"`
 	jwt.RegisteredClaims
 }
-
-//	type jwtProvider struct {
-//		secret string
-//	}
-//
-//	func NewJWTProvider(secret string) *jwtProvider {
-//		return &jwtProvider{secret: secret}
-//	}
-//
 
 func GenerateJWT(data TokenPayload, cfg *config.Config) (*Token, error) {
 	expiredAt := jwt.NewNumericDate(time.Now().Local().Add(time.Hour * 12))
