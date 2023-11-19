@@ -11,6 +11,8 @@ type accountUseCase interface {
 	LoginAccount(ctx context.Context, accountModel *iomodel.AccountLogin) (toke *jwtprovider.Token, err error)
 	UpdatePersonalInforAccountById(ctx context.Context, accountModel *iomodel.AccountUpdatePersonalInfo, id int) (err error)
 	GetAccountByEmail(ctx context.Context, email string) (account *iomodel.AccountInfoResp, err error)
+	GetAccountByID(ctx context.Context, id int) (account *iomodel.AccountInfoResp, err error)
+	UpdateAccountRoleByID(ctx context.Context, accountModel *iomodel.AccountChangeRole, id int) (err error)
 }
 
 type accountHandler struct {

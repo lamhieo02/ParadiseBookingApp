@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *accountStorage) GetProfile(ctx context.Context, id int) (*entities.Account, error) {
+func (s *accountStorage) GetProfileByID(ctx context.Context, id int) (*entities.Account, error) {
 
 	var account entities.Account
 	db := s.db.Table(account.TableName())

@@ -18,7 +18,7 @@ type PlaceStorage interface {
 }
 
 type AccountStorage interface {
-	GetProfile(ctx context.Context, id int) (*entities.Account, error)
+	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 	GetAccountByEmail(ctx context.Context, email string) (*entities.Account, error)
 }
 
