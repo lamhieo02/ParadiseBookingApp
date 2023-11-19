@@ -57,6 +57,9 @@ func main() {
 	v1 := router.Group("/api/v1")
 
 	// health check
+	v1.GET("/", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"Hello": "World"})
+	})
 	v1.GET("/healthchecker", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success"})
 	})
