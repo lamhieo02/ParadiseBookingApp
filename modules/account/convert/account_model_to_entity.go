@@ -23,8 +23,8 @@ func ConvertAccountUpdatePersonalInfoModelToEntity(account *iomodel.AccountUpdat
 	return entities.Account{
 		Username: account.Username,
 		FullName: account.FullName,
-		Address: account.Address,
-		Phone: account.Phone,
-		Dob: account.Dob,
+		Address:  account.Address,
+		Phone:    account.Phone,
+		Dob:      account.Dob,
 	}
 }

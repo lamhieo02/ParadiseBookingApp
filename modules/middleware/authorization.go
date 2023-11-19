@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"net/http"
+	"paradise-booking/common"
 	jwtprovider "paradise-booking/provider/jwt"
 	"strings"
 
@@ -27,22 +28,22 @@ func (m *middlewareManager) RequiredAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := extractTokenFromHeader(c.Request)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-			return
-			// panic(common.ErrAuthorized(err))
+			// c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+			// return
+			panic(common.ErrAuthorized(err))
 		}
 
 		payload, err := jwtprovider.ValidateJWT(token, m.cfg)
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-			return
-			// panic(common.ErrAuthorized(err))
+			// c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+			// return
+			panic(common.ErrAuthorized(err))
 		}
 		account, err := m.accountSto.GetAccountByEmail(c.Request.Context(), payload.Email)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err})
-			return
-			// panic(common.ErrBadRequest(err))
+			// c.JSON(http.StatusBadRequest, gin.H{"error": err})
+			// return
+			panic(common.ErrBadRequest(err))
 		}
 
 		c.Set("Account", account)

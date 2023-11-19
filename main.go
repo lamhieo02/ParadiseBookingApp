@@ -47,7 +47,7 @@ func main() {
 	// fix error CORS
 	configCORS := cors.DefaultConfig()
 	configCORS.AllowOrigins = []string{"http://localhost:3000"}
-	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
 	router.Use(cors.New(configCORS))
 
 	middlewares := middleware.NewMiddlewareManager(cfg, accountRepo)
@@ -60,6 +60,8 @@ func main() {
 	v1.POST("/login", accountHdl.LoginAccount())
 	v1.PATCH("/account/:id", accountHdl.UpdatePersonalInfoAccountById())
 	v1.GET("/profile", accountHdl.GetAccountByEmail())
+	v1.GET("/profile/:id", middlewares.RequiredAuth(), accountHdl.GetAccountByID())
+	v1.PATCH("/account/role/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.UpdateAccountRoleByID())
 
 	// Place
 	v1.POST("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.CreatePlace())
