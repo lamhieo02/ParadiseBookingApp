@@ -1,6 +1,7 @@
 package iomodel
 
 type GetPlaceResp struct {
+	ID            int     `json:"id" form:"id"`
 	VendorID      int     `json:"vendor_id" form:"vendor_id"`
 	Name          string  `json:"name" form:"name"`
 	Description   string  `json:"description" form:"description"`

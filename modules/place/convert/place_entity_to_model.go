@@ -7,6 +7,7 @@ import (
 
 func ConvertPlaceEntityToGetModel(data *entities.Place) *iomodel.GetPlaceResp {
 	return &iomodel.GetPlaceResp{
+		ID:            data.Id,
 		VendorID:      data.VendorID,
 		Name:          data.Name,
 		Description:   data.Description,

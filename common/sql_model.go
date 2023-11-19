@@ -4,16 +4,13 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type SQLModel struct {
 	Id int `json:"id" gorm:"column:id"`
 	// FakeId    string    `json:"id" gorm:"-"`
-	CreatedAt *time.Time     `json:"created_at" gorm:"column:created_at"`
-	UpdatedAt *time.Time     `json:"updated_at" gorm:"column:updated_at"`
-	DeletedAt gorm.DeletedAt `json:"deleted_at" gorm:"column:deleted_at"`
+	CreatedAt *time.Time `json:"created_at" gorm:"column:created_at"`
+	UpdatedAt *time.Time `json:"updated_at" gorm:"column:updated_at"`
 }
 
 type Image struct {

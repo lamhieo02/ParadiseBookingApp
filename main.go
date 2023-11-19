@@ -70,6 +70,7 @@ func main() {
 	v1.GET("/places/owner", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.ListPlaceByVendor())
 	v1.GET("/places/owner/:vendor_id", placeHdl.ListPlaceByVendorID())
 	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
+	v1.GET("/places", placeHdl.ListAllPlace())
 
 	router.Run(":" + cfg.App.Port)
 }
