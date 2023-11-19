@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"paradise-booking/config"
 	"paradise-booking/constant"
 	accounthandler "paradise-booking/modules/account/handler"
@@ -36,7 +37,7 @@ func main() {
 	// declare dependencies
 	accountRepo := accountstorage.NewAccountStorage(db)
 	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo)
-	accountHdl := accounthandler.NewAccountHandler(accountUseCase)
+	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
 	// pepare for place
 	placeRepo := placestorage.NewPlaceStorage(db)
@@ -55,6 +56,11 @@ func main() {
 
 	v1 := router.Group("/api/v1")
 
+	// health check
+	v1.GET("/healthchecker", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, gin.H{"status": "success"})
+	})
+
 	// User
 	v1.POST("/register", accountHdl.RegisterAccount())
 	v1.POST("/login", accountHdl.LoginAccount())
@@ -72,5 +78,7 @@ func main() {
 	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
 	v1.GET("/places", placeHdl.ListAllPlace())
 
+	// google login
+	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
 }

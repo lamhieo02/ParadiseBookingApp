@@ -7,12 +7,17 @@ app:
 
 mysql:
   #Host: paradise-mysql
-  Host: localhost
-  ContainerName: paradise_mysql
-  Port: 3306
+  # Host: localhost
+  # ContainerName: paradise_mysql
+  # Port: 3306
+  # User: root
+  # Password: 109339Lam@
+  # DBName: paradise
+  Host: viaduct.proxy.rlwy.net
+  Port: 13281
   User: root
-  Password: 109339Lam@
-  DBName: paradise
+  Password: ahf3hhDgEdBD1ea4cA-1G4AeDAd1hHE3
+  DBName: railway
 
 aws:
   Region: ap-southeast-1
@@ -27,3 +32,8 @@ redis:
   Port: 6379
   Password: ""
   DB: 0
+
+google:
+  ClientID: 701762046284-1o7u891fgp06kvi0f7344dikclpmjdmq.apps.googleusercontent.com
+  ClientSecret: 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
+  RedirectURL: http://localhost:3000/
