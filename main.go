@@ -69,7 +69,7 @@ func main() {
 	v1.POST("/login", accountHdl.LoginAccount())
 	v1.PATCH("/account/:id", accountHdl.UpdatePersonalInfoAccountById())
 	v1.GET("/profile", accountHdl.GetAccountByEmail())
-	v1.GET("/profile/:id", middlewares.RequiredAuth(), accountHdl.GetAccountByID())
+	v1.GET("/profile/:id", accountHdl.GetAccountByID())
 	v1.PATCH("/account/role/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.UpdateAccountRoleByID())
 
 	// Place
