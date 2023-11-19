@@ -2,6 +2,7 @@ package accounthandler
 
 import (
 	"context"
+	"paradise-booking/config"
 	"paradise-booking/modules/account/iomodel"
 	jwtprovider "paradise-booking/provider/jwt"
 )
@@ -17,8 +18,9 @@ type accountUseCase interface {
 
 type accountHandler struct {
 	accountUC accountUseCase
+	cfg       *config.Config
 }
 
-func NewAccountHandler(accountUseCase accountUseCase) *accountHandler {
-	return &accountHandler{accountUC: accountUseCase}
+func NewAccountHandler(cfg *config.Config, accountUseCase accountUseCase) *accountHandler {
+	return &accountHandler{accountUC: accountUseCase, cfg: cfg}
 }

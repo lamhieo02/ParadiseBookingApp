@@ -7,10 +7,19 @@ import (
 )
 
 type Config struct {
-	App   AppConfig
-	Mysql MysqlConfig
-	AWS   AWSConfig
-	Redis RedisConfig
+	App    AppConfig
+	Mysql  MysqlConfig
+	AWS    AWSConfig
+	Redis  RedisConfig
+	Google GoogleConfig
+}
+
+type GoogleConfig struct {
+	ClientID     string
+	ClientSecret string
+	RedirectURL  string
+	Scopes       []string
+	Endpoint     any
 }
 
 type AppConfig struct {
