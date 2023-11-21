@@ -37,3 +37,8 @@ google:
   ClientID: 701762046284-1o7u891fgp06kvi0f7344dikclpmjdmq.apps.googleusercontent.com
   ClientSecret: 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
   RedirectURL: http://localhost:3000/
+
+email:
+  EmailSenderName: LamNguyen
+  EmailSenderAddress: lamfan011@gmail.com
+  EmailSenderPassword: earzqfmxxcxorlxz

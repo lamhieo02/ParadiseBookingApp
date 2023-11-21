@@ -12,6 +12,13 @@ type Config struct {
 	AWS    AWSConfig
 	Redis  RedisConfig
 	Google GoogleConfig
+	Email  EmailSenderConfig
+}
+
+type EmailSenderConfig struct {
+	EmailSenderName     string
+	EmailSenderAddress  string
+	EmailSenderPassword string
 }
 
 type GoogleConfig struct {
