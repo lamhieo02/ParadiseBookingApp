@@ -49,7 +49,7 @@ func main() {
 	configCORS := cors.DefaultConfig()
 	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
 	configCORS.AllowHeaders = []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
-	configCORS.AllowAllOrigins = true
+	configCORS.AllowOrigins = []string{"http://localhost:3000"}
 	router.Use(cors.New(configCORS))
 
 	middlewares := middleware.NewMiddlewareManager(cfg, accountRepo)
