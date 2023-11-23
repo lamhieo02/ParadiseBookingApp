@@ -18,7 +18,7 @@ type Account struct {
 	Avatar   string `json:"avatar" gorm:"avatar"`
 }
 
-func (*Account) TableName() string {
+func (Account) TableName() string {
 	return "accounts"
 }
 
@@ -28,4 +28,15 @@ func (a *Account) GetRole() int {
 
 func (a *Account) GetEmail() string {
 	return a.Email
+}
+
+var MapRole map[int]string = map[int]string{
+	1: "User",
+	2: "Vendor",
+	3: "Admin",
+}
+
+var MapStatus map[int]string = map[int]string{
+	0: "Active",
+	1: "Inactive",
 }
