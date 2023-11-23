@@ -11,6 +11,7 @@ type AccountStorage interface {
 	GetAccountByEmail(ctx context.Context, email string) (account *entities.Account, err error)
 	UpdateAccountById(ctx context.Context, id int, accountUpdate *entities.Account) error
 	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
+	GetAllAccountUserAndVendor(ctx context.Context) ([]entities.Account, error)
 }
 
 type accountUseCase struct {

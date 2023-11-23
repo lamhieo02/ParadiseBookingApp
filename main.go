@@ -71,7 +71,9 @@ func main() {
 	v1.PATCH("/account/:id", accountHdl.UpdatePersonalInfoAccountById())
 	v1.GET("/profile", accountHdl.GetAccountByEmail())
 	v1.GET("/profile/:id", accountHdl.GetAccountByID())
+	v1.GET("/accounts", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.GetAllAccountUserAndVendor())
 	v1.PATCH("/account/role/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.UpdateAccountRoleByID())
+	v1.POST("/change/password", middlewares.RequiredAuth(), accountHdl.ChangePassword())
 
 	// Place
 	v1.POST("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.CreatePlace())
