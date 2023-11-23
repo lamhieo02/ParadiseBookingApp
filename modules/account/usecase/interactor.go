@@ -4,6 +4,7 @@ import (
 	"context"
 	"paradise-booking/config"
 	"paradise-booking/entities"
+	"paradise-booking/worker"
 )
 
 type AccountStorage interface {
@@ -14,10 +15,11 @@ type AccountStorage interface {
 }
 
 type accountUseCase struct {
-	accountStorage AccountStorage
-	cfg            *config.Config
+	accountStorage  AccountStorage
+	cfg             *config.Config
+	taskDistributor worker.TaskDistributor
 }
 
-func NewUserUseCase(cfg *config.Config, accountSto AccountStorage) *accountUseCase {
-	return &accountUseCase{accountSto, cfg}
+func NewUserUseCase(cfg *config.Config, accountSto AccountStorage, taskDistributor worker.TaskDistributor) *accountUseCase {
+	return &accountUseCase{accountSto, cfg, taskDistributor}
 }
