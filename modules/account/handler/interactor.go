@@ -17,6 +17,7 @@ type accountUseCase interface {
 	UpdateAccountRoleByID(ctx context.Context, accountModel *iomodel.AccountChangeRole, id int) (err error)
 	GetAllAccountUserAndVendor(ctx context.Context) ([]entities.Account, error)
 	ChangePassword(ctx context.Context, email string, changePassModel *iomodel.ChangePassword) error
+	ChangeStatusAccount(ctx context.Context, accountID int, status int) error
 }
 
 type accountHandler struct {
