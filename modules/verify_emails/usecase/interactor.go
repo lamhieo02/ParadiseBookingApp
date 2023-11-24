@@ -14,8 +14,13 @@ type VerifyEmailsUseCase interface {
 	CreateVerifyEmails(ctx context.Context, email string) (*entities.VerifyEmail, error)
 }
 
+type AccountStorage interface {
+	UpdateIsVerifyEmailByEmail(ctx context.Context, email string) error
+}
+
 type verifyEmailsUseCase struct {
 	verifyEmailsStore verifyEmailsStorage
+	accountStore      AccountStorage
 }
 
 func NewVerifyEmailsUseCase(verifyEmailsStore verifyEmailsStorage) *verifyEmailsUseCase {

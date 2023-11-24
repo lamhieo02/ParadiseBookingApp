@@ -12,6 +12,7 @@ import (
 
 const (
 	TaskSendVerifyEmail = "task:send_verify_email"
+	UrlVerifyEmail      = "http://18.136.196.55:8081/api/v1/verify_email"
 )
 
 type PayloadSendVerifyEmail struct {
@@ -67,8 +68,8 @@ func (processor *redisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 
 func sendMailToVerifyEmail(processor *redisTaskProcessor, verifyEmail *entities.VerifyEmail, account *entities.Account) error {
 	subject := "Welcome to Paradise Booking"
-	verifyUrl := fmt.Sprintf("http://localhost:8081/api/v1/verify_email?email=%s&secret_code=%s",
-		verifyEmail.Email, verifyEmail.ScretCode)
+	verifyUrl := fmt.Sprintf("%s?email=%s&secret_code=%s",
+		UrlVerifyEmail, verifyEmail.Email, verifyEmail.ScretCode)
 	content := fmt.Sprintf(`Hello %s,<br/>
 	Thank you for registering with us!<br/>
 	Please <a href="%s">click here</a> to verify your email address.<br/>
