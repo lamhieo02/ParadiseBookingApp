@@ -27,8 +27,8 @@ aws:
   S3Bucket: lamhieogo
 
 redis:
-  #Host: redis
-  Host: localhost
+  Host: redis
+  #Host: ec2-18-136-196-55.ap-southeast-1.compute.amazonaws.com
   Port: 6379
   Password: ""
   DB: 0
