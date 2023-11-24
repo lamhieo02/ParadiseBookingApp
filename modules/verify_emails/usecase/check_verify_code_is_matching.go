@@ -25,6 +25,7 @@ func (uc *verifyEmailsUseCase) CheckVerifyCodeIsMatching(ctx context.Context, em
 
 	// if all is ok => update status to verified
 	account := &entities.Account{
+		Email:           email,
 		IsEmailVerified: 1,
 	}
 
