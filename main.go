@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	cmdworker "paradise-booking/cmd/worker"
 	"paradise-booking/config"
 	"paradise-booking/constant"
 	accounthandler "paradise-booking/modules/account/handler"
@@ -12,11 +13,19 @@ import (
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
 	placeusecase "paradise-booking/modules/place/usecase"
+	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
+	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
+	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
+	"paradise-booking/provider/cache"
 	mysqlprovider "paradise-booking/provider/mysql"
+	redisprovider "paradise-booking/provider/redis"
 	"paradise-booking/utils"
+	"paradise-booking/worker"
+	"sync"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/hibiken/asynq"
 )
 
 func main() {
@@ -34,9 +43,37 @@ func main() {
 
 	utils.RunDBMigration(cfg)
 
+	// Declare redis
+	redis, err := redisprovider.NewRedisClient(cfg)
+	if err != nil {
+		log.Fatalln("Can not connect redis: ", err)
+	}
+
+	// declare redis client for asynq
+	redisOpt := asynq.RedisClientOpt{
+		Addr: cfg.Redis.Host + ":" + cfg.Redis.Port,
+	}
+
+	// declare verify email usecase
+	verifyEmailsSto := verifyemailsstorage.NewVerifyEmailsStorage(db)
+	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto)
+	verifyEmailsHdl := verifyemailshanlder.NewVerifyEmailsHandler(verifyEmailsUseCase)
+
+	// declare task distributor
+	taskDistributor := worker.NewRedisTaskDistributor(&redisOpt)
+
+	wg := new(sync.WaitGroup)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		cmdworker.RunTaskProcessor(&redisOpt, accountstorage.NewAccountStorage(db), cfg, verifyEmailsUseCase)
+	}()
+	wg.Wait()
+
 	// declare dependencies
 	accountRepo := accountstorage.NewAccountStorage(db)
-	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo)
+	accountCache := cache.NewAuthUserCache(accountRepo, cache.NewRedisCache(redis))
+	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo, taskDistributor)
 	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
 	// pepare for place
@@ -45,14 +82,11 @@ func main() {
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 	router := gin.Default()
 
-	// fix error CORS
-	configCORS := cors.DefaultConfig()
-	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
-	configCORS.AllowHeaders = []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
-	configCORS.AllowOrigins = []string{"http://localhost:3000"}
+	// config CORS
+	configCORS := setupCors()
 	router.Use(cors.New(configCORS))
 
-	middlewares := middleware.NewMiddlewareManager(cfg, accountRepo)
+	middlewares := middleware.NewMiddlewareManager(cfg, accountCache)
 	router.Use(middlewares.Recover())
 
 	v1 := router.Group("/api/v1")
@@ -85,7 +119,19 @@ func main() {
 	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
 	v1.GET("/places", placeHdl.ListAllPlace())
 
+	// verify email
+	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
+
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
+}
+
+func setupCors() cors.Config {
+	configCORS := cors.DefaultConfig()
+	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	configCORS.AllowHeaders = []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
+	configCORS.AllowOrigins = []string{"http://localhost:3000"}
+
+	return configCORS
 }
