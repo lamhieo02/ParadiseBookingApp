@@ -29,3 +29,14 @@ func (a *Account) GetRole() int {
 func (a *Account) GetEmail() string {
 	return a.Email
 }
+
+var MapRole map[int]string = map[int]string{
+	1: "User",
+	2: "Vendor",
+	3: "Admin",
+}
+
+var MapStatus map[int]string = map[int]string{
+	1: "Active",
+	0: "Inactive",
+}

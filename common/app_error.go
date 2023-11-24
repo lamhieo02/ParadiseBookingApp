@@ -95,7 +95,9 @@ func ErrEmailNotExist(entity string, cause error) *AppError {
 func ErrExpiredVerifyCode(entity string, cause error) *AppError {
 	return NewCustomError(cause, fmt.Sprintf("%s verify code is expired", entity))
 }
-
 func ErrVerifyCodeIsNotMatching(entity string, cause error) *AppError {
 	return NewCustomError(cause, fmt.Sprintf("%s verify code is not matching", entity))
+}
+func ErrOldPasswordInvalid(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("%s old password invalid", entity))
 }

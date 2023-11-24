@@ -14,6 +14,7 @@ type AccountStorage interface {
 	UpdateAccountById(ctx context.Context, id int, accountUpdate *entities.Account) error
 	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 	CreateTx(ctx context.Context, createUserTxParam accountstorage.CreateUserTxParam) error
+	GetAllAccountUserAndVendor(ctx context.Context) ([]entities.Account, error)
 }
 
 type accountUseCase struct {
