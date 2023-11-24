@@ -91,3 +91,11 @@ func ErrEmailOrPasswordInvalid(entity string, cause error) *AppError {
 func ErrEmailNotExist(entity string, cause error) *AppError {
 	return NewCustomError(cause, fmt.Sprintf("%s email is not exist", entity))
 }
+
+func ErrExpiredVerifyCode(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("%s verify code is expired", entity))
+}
+
+func ErrVerifyCodeIsNotMatching(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("%s verify code is not matching", entity))
+}

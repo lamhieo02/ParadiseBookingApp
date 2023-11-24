@@ -13,11 +13,15 @@ import (
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
 	placeusecase "paradise-booking/modules/place/usecase"
+	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
+	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
+	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
 	"paradise-booking/provider/cache"
 	mysqlprovider "paradise-booking/provider/mysql"
 	redisprovider "paradise-booking/provider/redis"
 	"paradise-booking/utils"
 	"paradise-booking/worker"
+	"sync"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -50,9 +54,21 @@ func main() {
 		Addr: cfg.Redis.Host + ":" + cfg.Redis.Port,
 	}
 
+	// declare verify email usecase
+	verifyEmailsSto := verifyemailsstorage.NewVerifyEmailsStorage(db)
+	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto)
+	verifyEmailsHdl := verifyemailshanlder.NewVerifyEmailsHandler(verifyEmailsUseCase)
+
 	// declare task distributor
 	taskDistributor := worker.NewRedisTaskDistributor(&redisOpt)
-	go cmdworker.RunTaskProcessor(&redisOpt, accountstorage.NewAccountStorage(db))
+
+	wg := new(sync.WaitGroup)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		cmdworker.RunTaskProcessor(&redisOpt, accountstorage.NewAccountStorage(db), cfg, verifyEmailsUseCase)
+	}()
+	wg.Wait()
 
 	// declare dependencies
 	accountRepo := accountstorage.NewAccountStorage(db)
@@ -66,11 +82,8 @@ func main() {
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 	router := gin.Default()
 
-	// fix error CORS
-	configCORS := cors.DefaultConfig()
-	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
-	configCORS.AllowHeaders = []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
-	configCORS.AllowOrigins = []string{"http://localhost:3000"}
+	// config CORS
+	configCORS := setupCors()
 	router.Use(cors.New(configCORS))
 
 	middlewares := middleware.NewMiddlewareManager(cfg, accountCache)
@@ -103,7 +116,19 @@ func main() {
 	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
 	v1.GET("/places", placeHdl.ListAllPlace())
 
+	// verify email
+	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
+
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
+}
+
+func setupCors() cors.Config {
+	configCORS := cors.DefaultConfig()
+	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	configCORS.AllowHeaders = []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
+	configCORS.AllowOrigins = []string{"http://localhost:3000"}
+
+	return configCORS
 }

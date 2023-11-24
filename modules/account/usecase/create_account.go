@@ -4,8 +4,10 @@ import (
 	"context"
 	"paradise-booking/common"
 	"paradise-booking/constant"
+	"paradise-booking/entities"
 	"paradise-booking/modules/account/convert"
 	"paradise-booking/modules/account/iomodel"
+	accountstorage "paradise-booking/modules/account/storage"
 	"paradise-booking/utils"
 	"paradise-booking/worker"
 	"time"
@@ -26,27 +28,30 @@ func (uc *accountUseCase) CreateAccount(ctx context.Context, accountModel *iomod
 
 	// default in first register account will have role user
 	accountEntity.Role = int(constant.UserRole)
-
 	accountEntity.Password = hashedPassword
-	if err = uc.accountStorage.Create(ctx, &accountEntity); err != nil {
+
+	paramCreateTx := accountstorage.CreateUserTxParam{
+		Data: &accountEntity,
+		AfterCreate: func(data *entities.Account) error {
+			// after create account success, we will send email to user to verify account
+			taskPayload := worker.PayloadSendVerifyEmail{
+				Email: accountEntity.Email,
+			}
+			opts := []asynq.Option{
+				asynq.MaxRetry(10),
+				asynq.ProcessIn(10 * time.Second),
+				asynq.Queue(worker.QueueSendVerifyEmail),
+			}
+
+			return uc.taskDistributor.DistributeTaskSendVerifyEmail(ctx, &taskPayload, opts...)
+		},
+	}
+
+	if err = uc.accountStorage.CreateTx(ctx, paramCreateTx); err != nil {
 		return nil, err
 	}
 
 	//TODO: use db transaction to make sure create account success and send email verify success
-
-	// after create account success, we will send email to user to verify account
-	taskPayload := worker.PayloadSendVerifyEmail{
-		Email: accountEntity.Email,
-	}
-
-	opts := []asynq.Option{
-		asynq.MaxRetry(5),
-		asynq.ProcessIn(10 * time.Second),
-	}
-
-	if err := uc.taskDistributor.DistributeTaskSendVerifyEmail(ctx, &taskPayload, opts...); err != nil {
-		return nil, err
-	}
 
 	return &accountEntity.Email, nil
 }

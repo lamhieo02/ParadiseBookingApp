@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"paradise-booking/entities"
 
 	"github.com/hibiken/asynq"
-	"gorm.io/gorm"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -32,7 +33,8 @@ func (distributor *redisTaskDistributor) DistributeTaskSendVerifyEmail(
 		return fmt.Errorf("error when enqueue task: %v", err)
 	}
 
-	fmt.Print(ctx, "Enqueued task: %v", info)
+	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
+		Str("queue", info.Queue).Int("max_retry", info.MaxRetry).Msg("enqueued task")
 	return nil
 }
 
@@ -43,15 +45,39 @@ func (processor *redisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 	}
 
 	account, err := processor.accountSto.GetAccountByEmail(ctx, payload.Email)
-	if err == gorm.ErrRecordNotFound {
-		return fmt.Errorf("account with email %s not found: %w", payload.Email, asynq.SkipRetry)
-	}
+	// if err == gorm.ErrRecordNotFound {
+	// 	return fmt.Errorf("account with email %s not found: %w", payload.Email, asynq.SkipRetry)
+	// }
 	if err != nil {
 		return fmt.Errorf("error when get account by email: %w", err)
 	}
 
-	//TODO: send verify email
+	dataVerifyEmail, err := processor.verifyEmailsUC.CreateVerifyEmails(ctx, account.Email)
+	if err != nil {
+		return fmt.Errorf("error when create verify email: %w", err)
+	}
 
-	fmt.Println(ctx, "Process task: %v, sending email %s", task, account.Email)
+	sendMailToVerifyEmail(processor, dataVerifyEmail, account)
+	log.Info().Msg("send verify email success")
+
+	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
+		Str("email", account.Email).Msg("processed task")
+	return nil
+}
+
+func sendMailToVerifyEmail(processor *redisTaskProcessor, verifyEmail *entities.VerifyEmail, account *entities.Account) error {
+	subject := "Welcome to Paradise Booking"
+	verifyUrl := fmt.Sprintf("http://localhost:8081/api/v1/verify_email?email=%s&secret_code=%s",
+		verifyEmail.Email, verifyEmail.ScretCode)
+	content := fmt.Sprintf(`Hello %s,<br/>
+	Thank you for registering with us!<br/>
+	Please <a href="%s">click here</a> to verify your email address.<br/>
+	`, account.FullName, verifyUrl)
+	to := []string{account.Email}
+
+	err := processor.mailer.SendEmail(subject, content, to, nil, nil, nil)
+	if err != nil {
+		return fmt.Errorf("failed to send verify email: %w", err)
+	}
 	return nil
 }

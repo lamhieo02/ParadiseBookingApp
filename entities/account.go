@@ -18,7 +18,7 @@ type Account struct {
 	Avatar   string `json:"avatar" gorm:"avatar"`
 }
 
-func (*Account) TableName() string {
+func (Account) TableName() string {
 	return "accounts"
 }
 
