@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 	"paradise-booking/common"
 	jwtprovider "paradise-booking/provider/jwt"
@@ -30,6 +31,7 @@ func (m *middlewareManager) RequiredAuth() gin.HandlerFunc {
 		if err != nil {
 			// c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 			// return
+			log.Printf("err: %v, when extractTokenFromHeader", err)
 			panic(common.ErrAuthorized(err))
 		}
 
@@ -37,6 +39,7 @@ func (m *middlewareManager) RequiredAuth() gin.HandlerFunc {
 		if err != nil {
 			// c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 			// return
+			log.Printf("err: %v, when ValidateJWT", err)
 			panic(common.ErrAuthorized(err))
 		}
 		account, err := m.accountSto.GetAccountByEmail(c.Request.Context(), payload.Email)
