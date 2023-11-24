@@ -37,6 +37,6 @@ var MapRole map[int]string = map[int]string{
 }
 
 var MapStatus map[int]string = map[int]string{
-	0: "Active",
-	1: "Inactive",
+	1: "Active",
+	0: "Inactive",
 }
