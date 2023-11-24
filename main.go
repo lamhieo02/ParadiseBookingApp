@@ -54,13 +54,19 @@ func main() {
 		Addr: cfg.Redis.Host + ":" + cfg.Redis.Port,
 	}
 
-	// declare verify email usecase
-	verifyEmailsSto := verifyemailsstorage.NewVerifyEmailsStorage(db)
-	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto)
-	verifyEmailsHdl := verifyemailshanlder.NewVerifyEmailsHandler(verifyEmailsUseCase)
-
 	// declare task distributor
 	taskDistributor := worker.NewRedisTaskDistributor(&redisOpt)
+
+	// declare dependencies account
+	accountRepo := accountstorage.NewAccountStorage(db)
+	accountCache := cache.NewAuthUserCache(accountRepo, cache.NewRedisCache(redis))
+	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo, taskDistributor)
+	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
+
+	// declare verify email usecase
+	verifyEmailsSto := verifyemailsstorage.NewVerifyEmailsStorage(db)
+	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto, accountRepo)
+	verifyEmailsHdl := verifyemailshanlder.NewVerifyEmailsHandler(verifyEmailsUseCase)
 
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
@@ -71,10 +77,6 @@ func main() {
 	wg.Wait()
 
 	// declare dependencies
-	accountRepo := accountstorage.NewAccountStorage(db)
-	accountCache := cache.NewAuthUserCache(accountRepo, cache.NewRedisCache(redis))
-	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo, taskDistributor)
-	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
 	// pepare for place
 	placeRepo := placestorage.NewPlaceStorage(db)

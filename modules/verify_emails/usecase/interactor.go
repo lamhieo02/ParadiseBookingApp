@@ -23,6 +23,6 @@ type verifyEmailsUseCase struct {
 	accountStore      AccountStorage
 }
 
-func NewVerifyEmailsUseCase(verifyEmailsStore verifyEmailsStorage) *verifyEmailsUseCase {
-	return &verifyEmailsUseCase{verifyEmailsStore: verifyEmailsStore}
+func NewVerifyEmailsUseCase(verifyEmailsStore verifyEmailsStorage, accountSto AccountStorage) *verifyEmailsUseCase {
+	return &verifyEmailsUseCase{verifyEmailsStore: verifyEmailsStore, accountStore: accountSto}
 }
