@@ -27,10 +27,10 @@ aws:
   S3Bucket: lamhieogo
 
 redis:
-  Host: redis
-  #Host: ec2-18-136-196-55.ap-southeast-1.compute.amazonaws.com
-  Port: 6379
-  Password: ""
+  #Host: redis
+  Host: redis-17757.c295.ap-southeast-1-1.ec2.cloud.redislabs.com
+  Port: 17757
+  Password: ZEW6dhRArdcKBxmzNLh6dRVQnAwV04bk
   DB: 0
 
 google:

@@ -51,7 +51,8 @@ func main() {
 
 	// declare redis client for asynq
 	redisOpt := asynq.RedisClientOpt{
-		Addr: cfg.Redis.Host + ":" + cfg.Redis.Port,
+		Addr:     cfg.Redis.Host + ":" + cfg.Redis.Port,
+		Password: cfg.Redis.Password,
 	}
 
 	// declare task distributor
