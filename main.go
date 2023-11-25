@@ -111,7 +111,7 @@ func main() {
 	v1.GET("/accounts", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.GetAllAccountUserAndVendor())
 	v1.PATCH("/account/role/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.UpdateAccountRoleByID())
 	v1.POST("/change/password", middlewares.RequiredAuth(), accountHdl.ChangePassword())
-	v1.POST("/change/status", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), accountHdl.ChangeStatusAccount())
+	v1.POST("/change/status", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.ChangeStatusAccount())
 
 	// Place
 	v1.POST("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.CreatePlace())
