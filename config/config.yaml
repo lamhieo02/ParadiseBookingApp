@@ -26,6 +26,7 @@ aws:
   S3Domain: d1dblnjcawoqkg.cloudfront.net
   S3Bucket: paradisebooking
   S3FolderImages: images
+  
 redis:
   #Host: redis
   Host: redis-17757.c295.ap-southeast-1-1.ec2.cloud.redislabs.com

@@ -135,7 +135,7 @@ func main() {
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
 
 	// upload file to s3
-	v1.POST("/upload", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole, constant.UserRole, constant.AdminRole), uploadHdl.UploadFile())
+	v1.POST("/upload", middlewares.RequiredAuth(), uploadHdl.UploadFile())
 
 	// google login
 	//v1.GET("/google/login")
