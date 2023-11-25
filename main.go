@@ -13,12 +13,15 @@ import (
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
 	placeusecase "paradise-booking/modules/place/usecase"
+	uploadhandler "paradise-booking/modules/upload/handler"
+	uploadusecase "paradise-booking/modules/upload/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
 	"paradise-booking/provider/cache"
 	mysqlprovider "paradise-booking/provider/mysql"
 	redisprovider "paradise-booking/provider/redis"
+	s3provider "paradise-booking/provider/s3"
 	"paradise-booking/utils"
 	"paradise-booking/worker"
 	"sync"
@@ -83,6 +86,12 @@ func main() {
 	placeRepo := placestorage.NewPlaceStorage(db)
 	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeRepo, accountRepo)
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
+
+	// upload file to s3
+	s3Provider := s3provider.NewS3Provider(cfg)
+	uploadUC := uploadusecase.NewUploadUseCase(cfg, s3Provider)
+	uploadHdl := uploadhandler.NewUploadHandler(cfg, uploadUC)
+
 	router := gin.Default()
 
 	// config CORS
@@ -124,6 +133,9 @@ func main() {
 
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
+
+	// upload file to s3
+	v1.POST("/upload", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole, constant.UserRole, constant.AdminRole), uploadHdl.UploadFile())
 
 	// google login
 	//v1.GET("/google/login")

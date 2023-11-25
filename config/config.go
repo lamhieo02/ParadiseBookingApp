@@ -45,11 +45,12 @@ type MysqlConfig struct {
 	DBName        string
 }
 type AWSConfig struct {
-	Region    string
-	APIKey    string
-	SecretKey string
-	S3Bucket  string
-	S3Domain  string
+	Region         string
+	APIKey         string
+	SecretKey      string
+	S3Bucket       string
+	S3Domain       string
+	S3FolderImages string
 }
 type RedisConfig struct {
 	Host     string
