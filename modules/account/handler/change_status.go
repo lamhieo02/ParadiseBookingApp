@@ -14,7 +14,7 @@ func (hdl *accountHandler) ChangeStatusAccount() gin.HandlerFunc {
 
 		statusParam := c.Query("status")
 		status, _ := strconv.ParseUint(statusParam, 10, 64)
-		err := hdl.accountUC.ChangeStatusAccount(c, int(accountID), int(status))
+		err := hdl.accountUC.ChangeStatusAccount(c.Request.Context(), int(accountID), int(status))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
