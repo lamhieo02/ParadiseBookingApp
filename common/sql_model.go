@@ -14,9 +14,9 @@ type SQLModel struct {
 }
 
 type Image struct {
-	Width  float32 `json:"width" gorm:"column:width"`
-	Height float32 `json:"height" gorm:"column:height"`
-	Url    string  `json:"url" gorm:"column:url"`
+	// Width  float32 `json:"width" gorm:"column:width"`
+	// Height float32 `json:"height" gorm:"column:height"`
+	Url string `json:"url" gorm:"column:url"`
 }
 
 func (j *Image) Value() (driver.Value, error) {
