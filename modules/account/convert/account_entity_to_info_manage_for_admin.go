@@ -18,6 +18,7 @@ func ConvertAccountEntityToInfoMangageForAdmin(accounts []entities.Account) []io
 			Address:  v.Address,
 			Phone:    v.Phone,
 			Dob:      v.Dob,
+			Avt:      v.Avatar,
 		})
 	}
 	return result
