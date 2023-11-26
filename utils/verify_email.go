@@ -5,7 +5,9 @@ import (
 	"time"
 )
 
-const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+const (
+	charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+)
 
 func GenerateRandomCode(length int) string {
 	src := rand.NewSource(time.Now().UnixNano())

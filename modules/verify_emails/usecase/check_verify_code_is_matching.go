@@ -3,6 +3,7 @@ package verifyemailsusecase
 import (
 	"context"
 	"paradise-booking/common"
+	"paradise-booking/constant"
 	"paradise-booking/entities"
 
 	"gorm.io/gorm"
@@ -10,7 +11,7 @@ import (
 
 func (uc *verifyEmailsUseCase) CheckVerifyCodeIsMatching(ctx context.Context, email string, code string) error {
 	// check if verify code and email is matching
-	data, err := uc.verifyEmailsStore.Get(ctx, email, code)
+	data, err := uc.verifyEmailsStore.Get(ctx, email, code, constant.TypeVerifyEmail)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return common.ErrVerifyCodeIsNotMatching("verify code", nil)

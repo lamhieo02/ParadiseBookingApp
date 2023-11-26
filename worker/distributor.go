@@ -8,6 +8,11 @@ import (
 
 type TaskDistributor interface {
 	DistributeTaskSendVerifyEmail(ctx context.Context, payload *PayloadSendVerifyEmail, opts ...asynq.Option) error
+	DistributeTaskSendVerifyResetCodePassword(
+		ctx context.Context,
+		payload *PayloadSendVerifyResetCodePassword,
+		opts ...asynq.Option,
+	) error
 }
 
 type redisTaskDistributor struct {

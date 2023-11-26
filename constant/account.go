@@ -7,3 +7,8 @@ const (
 	VendorRole
 	AdminRole
 )
+
+const (
+	TypeVerifyEmail   = 1
+	TypeResetPassword = 2
+)

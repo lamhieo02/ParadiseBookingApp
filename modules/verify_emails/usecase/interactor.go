@@ -7,11 +7,14 @@ import (
 
 type verifyEmailsStorage interface {
 	Create(ctx context.Context, data *entities.VerifyEmail) (*entities.VerifyEmail, error)
-	Get(ctx context.Context, email string, verifyCode string) (*entities.VerifyEmail, error)
+	Get(ctx context.Context, email string, verifyCode string, _type int) (*entities.VerifyEmail, error)
+	CheckIsExist(ctx context.Context, email string, _type int) (*entities.VerifyEmail, error)
+	Update(ctx context.Context, email string, _type int, verifyEmail *entities.VerifyEmail) error
 }
 
 type VerifyEmailsUseCase interface {
 	CreateVerifyEmails(ctx context.Context, email string) (*entities.VerifyEmail, error)
+	UpsertResetSetCodePassword(ctx context.Context, email string) (*entities.VerifyEmail, error)
 }
 
 type AccountStorage interface {

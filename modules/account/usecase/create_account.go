@@ -51,7 +51,5 @@ func (uc *accountUseCase) CreateAccount(ctx context.Context, accountModel *iomod
 		return nil, err
 	}
 
-	//TODO: use db transaction to make sure create account success and send email verify success
-
 	return &accountEntity.Email, nil
 }

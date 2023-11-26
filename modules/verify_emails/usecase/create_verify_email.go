@@ -18,6 +18,7 @@ func (uc *verifyEmailsUseCase) CreateVerifyEmails(ctx context.Context, email str
 	// create verify email
 	record := &entities.VerifyEmail{
 		Email:     email,
+		Type:      constant.TypeVerifyEmail,
 		ScretCode: randomCode,
 		ExpiredAt: &expiredTime,
 	}

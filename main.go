@@ -64,14 +64,16 @@ func main() {
 	// declare dependencies account
 	accountRepo := accountstorage.NewAccountStorage(db)
 	accountCache := cache.NewAuthUserCache(accountRepo, cache.NewRedisCache(redis))
-	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo, taskDistributor)
-	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
 	// declare verify email usecase
 	verifyEmailsSto := verifyemailsstorage.NewVerifyEmailsStorage(db)
 	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto, accountRepo)
 	verifyEmailsHdl := verifyemailshanlder.NewVerifyEmailsHandler(verifyEmailsUseCase)
 
+	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo, verifyEmailsUseCase, taskDistributor)
+	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
+
+	// run task processor
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
 	go func() {
@@ -121,6 +123,8 @@ func main() {
 	v1.PATCH("/account/role/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.UpdateAccountRoleByID())
 	v1.POST("/change/password", middlewares.RequiredAuth(), accountHdl.ChangePassword())
 	v1.POST("/change/status", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.AdminRole), accountHdl.ChangeStatusAccount())
+	v1.POST("/forgot/password", accountHdl.ForgotPassword())
+	v1.POST("/reset/password", accountHdl.ResetPassword())
 
 	// Place
 	v1.POST("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.CreatePlace())
@@ -133,6 +137,9 @@ func main() {
 
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
+
+	// verify reset code password
+	v1.GET("/verify_reset_password", verifyEmailsHdl.CheckResetCodePasswordIsMatching())
 
 	// upload file to s3
 	v1.POST("/upload", middlewares.RequiredAuth(), uploadHdl.UploadFile())

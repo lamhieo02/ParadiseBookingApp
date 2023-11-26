@@ -11,13 +11,15 @@ import (
 )
 
 const (
-	QueueSendVerifyEmail = "send_verify_email"
-	QueueDefault         = "default"
+	QueueSendVerifyEmail       = "send_verify_email"
+	QueueSendResetCodePassword = "send_verify_reset_code_password"
+	QueueDefault               = "default"
 )
 
 type TaskProcessor interface {
 	Start() error
 	ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error
+	ProcessTaskSendVerifyResetCodePassword(ctx context.Context, task *asynq.Task) error
 }
 
 type AccountStorage interface {
@@ -26,6 +28,7 @@ type AccountStorage interface {
 
 type VerifyEmailsUseCase interface {
 	CreateVerifyEmails(ctx context.Context, email string) (*entities.VerifyEmail, error)
+	UpsertResetSetCodePassword(ctx context.Context, email string) (*entities.VerifyEmail, error)
 }
 
 type redisTaskProcessor struct {
@@ -43,8 +46,9 @@ func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountSto
 		redisOpt,
 		asynq.Config{
 			Queues: map[string]int{
-				QueueSendVerifyEmail: 10,
-				QueueDefault:         5,
+				QueueSendVerifyEmail:       10,
+				QueueSendResetCodePassword: 10,
+				QueueDefault:               5,
 			},
 			ErrorHandler: asynq.ErrorHandlerFunc(func(ctx context.Context, task *asynq.Task, err error) {
 				log.Error().Err(err).Str("task type", task.Type()).
@@ -60,6 +64,7 @@ func (processor *redisTaskProcessor) Start() error {
 	mux := asynq.NewServeMux()
 
 	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
+	mux.HandleFunc(TaskSendResetCodePassword, processor.ProcessTaskSendVerifyResetCodePassword)
 
 	return processor.server.Start(mux)
 
