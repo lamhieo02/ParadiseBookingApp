@@ -28,10 +28,12 @@ aws:
   S3FolderImages: images
   
 redis:
-  #Host: redis
-  Host: redis-17757.c295.ap-southeast-1-1.ec2.cloud.redislabs.com
-  Port: 17757
-  Password: ZEW6dhRArdcKBxmzNLh6dRVQnAwV04bk
+  Host: viaduct.proxy.rlwy.net
+  #Host: redis-17757.c295.ap-southeast-1-1.ec2.cloud.redislabs.com
+  Port: 54525
+  #Port: 6379
+  Password: fGPm2IKP2plNOJCLMoghBDkCBenpBD5b
+  #Password: ""
   DB: 0
 
 google:

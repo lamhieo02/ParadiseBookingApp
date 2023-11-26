@@ -6,6 +6,7 @@ import (
 
 type verifyEmailsUseCase interface {
 	CheckVerifyCodeIsMatching(ctx context.Context, email string, code string) error
+	CheckResetCodePasswordIsMatching(ctx context.Context, email string, code string) error
 }
 
 type verifyEmailsHandler struct {

@@ -17,12 +17,17 @@ type AccountStorage interface {
 	GetAllAccountUserAndVendor(ctx context.Context) ([]entities.Account, error)
 }
 
+type VerifyEmailsUseCase interface {
+	UpsertResetSetCodePassword(ctx context.Context, email string) (*entities.VerifyEmail, error)
+}
+
 type accountUseCase struct {
 	accountStorage  AccountStorage
+	verifyEmailsUC  VerifyEmailsUseCase
 	cfg             *config.Config
 	taskDistributor worker.TaskDistributor
 }
 
-func NewUserUseCase(cfg *config.Config, accountSto AccountStorage, taskDistributor worker.TaskDistributor) *accountUseCase {
-	return &accountUseCase{accountSto, cfg, taskDistributor}
+func NewUserUseCase(cfg *config.Config, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, taskDistributor worker.TaskDistributor) *accountUseCase {
+	return &accountUseCase{accountSto, verifyEmailsUC, cfg, taskDistributor}
 }
