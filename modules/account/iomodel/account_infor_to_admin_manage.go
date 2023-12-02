@@ -11,4 +11,6 @@ type AccountInfoToAdminManageResp struct {
 	Phone    string `json:"phone"`
 	Dob      string `json:"dob"`
 	Avt      string `json:"avatar"`
+	Created  string `json:"created"`
+	Updated  string `json:"updated"`
 }

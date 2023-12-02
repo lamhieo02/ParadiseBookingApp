@@ -98,7 +98,7 @@ func main() {
 
 	// prepare for booking
 	bookingSto := bookingstorage.NewBookingStorage(db)
-	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor)
+	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto)
 	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
 	// upload file to s3
@@ -150,6 +150,7 @@ func main() {
 	// booking
 	v1.POST("/bookings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole), bookingHdl.CreateBooking())
 	v1.GET("/confirm_booking", bookingHdl.UpdateStatusBooking())
+	v1.POST("/booking_list", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.ListBooking())
 
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
