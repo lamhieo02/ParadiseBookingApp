@@ -16,6 +16,7 @@ type Place struct {
 	Country       string  `json:"country" gorm:"column:country"`
 	State         string  `json:"state" gorm:"column:state"`
 	City          string  `json:"city" gorm:"column:city"`
+	MaxGuest      int     `json:"max_guest" gorm:"column:max_guest"`
 }
 
 func (Place) TableName() string {
