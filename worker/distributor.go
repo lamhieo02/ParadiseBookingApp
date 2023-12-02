@@ -7,10 +7,18 @@ import (
 )
 
 type TaskDistributor interface {
-	DistributeTaskSendVerifyEmail(ctx context.Context, payload *PayloadSendVerifyEmail, opts ...asynq.Option) error
+	DistributeTaskSendVerifyEmail(
+		ctx context.Context,
+		payload *PayloadSendVerifyEmail,
+		opts ...asynq.Option) error
 	DistributeTaskSendVerifyResetCodePassword(
 		ctx context.Context,
 		payload *PayloadSendVerifyResetCodePassword,
+		opts ...asynq.Option,
+	) error
+	DistributeTaskSendConfirmBooking(
+		ctx context.Context,
+		payload *PayloadSendConfirmBooking,
 		opts ...asynq.Option,
 	) error
 }

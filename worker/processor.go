@@ -13,6 +13,7 @@ import (
 const (
 	QueueSendVerifyEmail       = "send_verify_email"
 	QueueSendResetCodePassword = "send_verify_reset_code_password"
+	QueueSendConfirmBooking    = "send_confirm_booking"
 	QueueDefault               = "default"
 )
 
@@ -20,6 +21,7 @@ type TaskProcessor interface {
 	Start() error
 	ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error
 	ProcessTaskSendVerifyResetCodePassword(ctx context.Context, task *asynq.Task) error
+	ProcessTaskSendConfirmBooking(ctx context.Context, task *asynq.Task) error
 }
 
 type AccountStorage interface {
@@ -65,6 +67,7 @@ func (processor *redisTaskProcessor) Start() error {
 
 	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
 	mux.HandleFunc(TaskSendResetCodePassword, processor.ProcessTaskSendVerifyResetCodePassword)
+	mux.HandleFunc(TaskSendConfirmBooking, processor.ProcessTaskSendConfirmBooking)
 
 	return processor.server.Start(mux)
 

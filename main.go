@@ -9,6 +9,10 @@ import (
 	accounthandler "paradise-booking/modules/account/handler"
 	accountstorage "paradise-booking/modules/account/storage"
 	accountusecase "paradise-booking/modules/account/usecase"
+	bookinghandler "paradise-booking/modules/booking/handler"
+	bookingstorage "paradise-booking/modules/booking/storage"
+	bookingusecase "paradise-booking/modules/booking/usecase"
+	bookingdetailstorage "paradise-booking/modules/booking_detail/storage"
 	"paradise-booking/modules/middleware"
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
@@ -62,15 +66,15 @@ func main() {
 	taskDistributor := worker.NewRedisTaskDistributor(&redisOpt)
 
 	// declare dependencies account
-	accountRepo := accountstorage.NewAccountStorage(db)
-	accountCache := cache.NewAuthUserCache(accountRepo, cache.NewRedisCache(redis))
+	accountSto := accountstorage.NewAccountStorage(db)
+	accountCache := cache.NewAuthUserCache(accountSto, cache.NewRedisCache(redis))
 
 	// declare verify email usecase
 	verifyEmailsSto := verifyemailsstorage.NewVerifyEmailsStorage(db)
-	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto, accountRepo)
+	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto, accountSto)
 	verifyEmailsHdl := verifyemailshanlder.NewVerifyEmailsHandler(verifyEmailsUseCase)
 
-	accountUseCase := accountusecase.NewUserUseCase(cfg, accountRepo, verifyEmailsUseCase, taskDistributor)
+	accountUseCase := accountusecase.NewUserUseCase(cfg, accountSto, verifyEmailsUseCase, taskDistributor)
 	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
 	// run task processor
@@ -84,10 +88,18 @@ func main() {
 
 	// declare dependencies
 
-	// pepare for place
-	placeRepo := placestorage.NewPlaceStorage(db)
-	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeRepo, accountRepo)
+	// prepare for place
+	placeSto := placestorage.NewPlaceStorage(db)
+	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountSto)
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
+
+	// prepare for booking detail
+	bookingDetailSto := bookingdetailstorage.NewBookingDetailStorage(db)
+
+	// prepare for booking
+	bookingSto := bookingstorage.NewBookingStorage(db)
+	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor)
+	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
 	// upload file to s3
 	s3Provider := s3provider.NewS3Provider(cfg)
@@ -134,6 +146,10 @@ func main() {
 	v1.GET("/places/owner/:vendor_id", placeHdl.ListPlaceByVendorID())
 	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
 	v1.GET("/places", placeHdl.ListAllPlace())
+
+	// booking
+	v1.POST("/bookings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole), bookingHdl.CreateBooking())
+	v1.GET("/confirm_booking", bookingHdl.UpdateStatusBooking())
 
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
