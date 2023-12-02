@@ -31,6 +31,7 @@ func (distributor *redisTaskDistributor) DistributeTaskSendConfirmBooking(
 		return fmt.Errorf("error when marshal payload: %v", err)
 	}
 	task := asynq.NewTask(TaskSendConfirmBooking, jsonPayload, opts...)
+
 	info, err := distributor.client.EnqueueContext(ctx, task)
 	if err != nil {
 		return fmt.Errorf("error when enqueue task: %v", err)
@@ -56,7 +57,7 @@ func (processor *redisTaskProcessor) ProcessTaskSendConfirmBooking(ctx context.C
 		return fmt.Errorf("error when get account by email: %w", err)
 	}
 
-	sendMailToVerifyBooking(processor, account, payload.BookingID)
+	SendMailToVerifyBooking(processor, account, payload.BookingID)
 	log.Info().Msg("send verify booking success")
 
 	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
@@ -65,7 +66,7 @@ func (processor *redisTaskProcessor) ProcessTaskSendConfirmBooking(ctx context.C
 	return nil
 }
 
-func sendMailToVerifyBooking(processor *redisTaskProcessor, account *entities.Account, bookingID int) error {
+func SendMailToVerifyBooking(processor *redisTaskProcessor, account *entities.Account, bookingID int) error {
 	subject := "Welcome to Paradise Booking"
 	verifyUrl := fmt.Sprintf("%s?booking_id=%d?status=%d",
 		UrlConfirmBooking, bookingID, constant.BookingStatusConfirmed)

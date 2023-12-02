@@ -2,20 +2,20 @@ package bookinghandler
 
 import (
 	"net/http"
-	"paradise-booking/modules/booking/iomodel"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (hdl *bookingHandler) UpdateStatusBooking() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data iomodel.UpdateStatusBookingReq
-		if err := c.ShouldBind(&data); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err})
-			return
-		}
+		bookingID, _ := c.GetQuery("booking_id")
+		status, _ := c.GetQuery("status")
 
-		err := hdl.bookingUC.UpdateStatusBooking(c.Request.Context(), data.BookingID, data.Status)
+		bookingId, _ := strconv.Atoi(bookingID)
+		statusInt, _ := strconv.Atoi(status)
+
+		err := hdl.bookingUC.UpdateStatusBooking(c.Request.Context(), bookingId, statusInt)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return

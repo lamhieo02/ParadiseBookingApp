@@ -39,7 +39,7 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 			opts := []asynq.Option{
 				asynq.MaxRetry(10),
 				asynq.ProcessIn(10 * time.Second),
-				asynq.Queue(worker.QueueSendConfirmBooking),
+				asynq.Queue(worker.QueueSendVerifyEmail),
 			}
 
 			return uc.taskDistributor.DistributeTaskSendConfirmBooking(ctx, &taskPayload, opts...)
