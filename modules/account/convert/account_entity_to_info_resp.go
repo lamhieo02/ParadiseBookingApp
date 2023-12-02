@@ -6,6 +6,8 @@ import (
 )
 
 func ConvertAccountEntityToInfoResp(account *entities.Account) *iomodel.AccountInfoResp {
+	created := account.CreatedAt.Format("2006-01-02 15:04:05")
+	updated := account.UpdatedAt.Format("2006-01-02 15:04:05")
 	return &iomodel.AccountInfoResp{
 		Id:       account.Id,
 		Role:     account.Role,
@@ -16,5 +18,7 @@ func ConvertAccountEntityToInfoResp(account *entities.Account) *iomodel.AccountI
 		Phone:    account.Phone,
 		Dob:      account.Dob,
 		Avt:      account.Avatar,
+		Created:  created,
+		Updated:  updated,
 	}
 }

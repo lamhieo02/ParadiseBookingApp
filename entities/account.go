@@ -31,6 +31,10 @@ func (a *Account) GetEmail() string {
 	return a.Email
 }
 
+func (a *Account) GetID() int {
+	return a.Id
+}
+
 var MapRole map[int]string = map[int]string{
 	1: "User",
 	2: "Vendor",

@@ -8,6 +8,9 @@ import (
 func ConvertAccountEntityToInfoMangageForAdmin(accounts []entities.Account) []iomodel.AccountInfoToAdminManageResp {
 	var result []iomodel.AccountInfoToAdminManageResp
 	for _, v := range accounts {
+		created := v.CreatedAt.Format("2006-01-02 15:04:05")
+		updated := v.UpdatedAt.Format("2006-01-02 15:04:05")
+
 		result = append(result, iomodel.AccountInfoToAdminManageResp{
 			Id:       v.Id,
 			Email:    v.Email,
@@ -19,6 +22,8 @@ func ConvertAccountEntityToInfoMangageForAdmin(accounts []entities.Account) []io
 			Phone:    v.Phone,
 			Dob:      v.Dob,
 			Avt:      v.Avatar,
+			Created:  created,
+			Updated:  updated,
 		})
 	}
 	return result
