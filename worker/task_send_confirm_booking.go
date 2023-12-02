@@ -57,7 +57,7 @@ func (processor *redisTaskProcessor) ProcessTaskSendConfirmBooking(ctx context.C
 		return fmt.Errorf("error when get account by email: %w", err)
 	}
 
-	SendMailToVerifyBooking(processor, account, payload.BookingID)
+	sendMailToVerifyBooking(processor, account, payload.BookingID)
 	log.Info().Msg("send verify booking success")
 
 	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
@@ -66,9 +66,9 @@ func (processor *redisTaskProcessor) ProcessTaskSendConfirmBooking(ctx context.C
 	return nil
 }
 
-func SendMailToVerifyBooking(processor *redisTaskProcessor, account *entities.Account, bookingID int) error {
+func sendMailToVerifyBooking(processor *redisTaskProcessor, account *entities.Account, bookingID int) error {
 	subject := "Welcome to Paradise Booking"
-	verifyUrl := fmt.Sprintf("%s?booking_id=%d?status=%d",
+	verifyUrl := fmt.Sprintf("%s?booking_id=%d&status=%d",
 		UrlConfirmBooking, bookingID, constant.BookingStatusConfirmed)
 	content := fmt.Sprintf(`Hello %s,<br/>
 	Thank you for booking with us!<br/>
