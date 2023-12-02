@@ -148,7 +148,7 @@ func main() {
 	v1.GET("/places", placeHdl.ListAllPlace())
 
 	// booking
-	v1.POST("/bookings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole), bookingHdl.CreateBooking())
+	v1.POST("/bookings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.CreateBooking())
 	v1.GET("/confirm_booking", bookingHdl.UpdateStatusBooking())
 
 	// verify email
