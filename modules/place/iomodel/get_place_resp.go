@@ -14,4 +14,5 @@ type GetPlaceResp struct {
 	Country       string  `json:"country" form:"country"`
 	State         string  `json:"state" form:"state"`
 	City          string  `json:"city" form:"city"`
+	MaxGuest      int     `json:"max_guest" form:"max_guest"`
 }
