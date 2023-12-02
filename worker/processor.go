@@ -13,7 +13,6 @@ import (
 const (
 	QueueSendVerifyEmail       = "send_verify_email"
 	QueueSendResetCodePassword = "send_verify_reset_code_password"
-	QueueSendConfirmBooking    = "send_confirm_booking"
 	QueueDefault               = "default"
 )
 
@@ -65,9 +64,9 @@ func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountSto
 func (processor *redisTaskProcessor) Start() error {
 	mux := asynq.NewServeMux()
 
+	mux.HandleFunc(TaskSendConfirmBooking, processor.ProcessTaskSendConfirmBooking)
 	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
 	mux.HandleFunc(TaskSendResetCodePassword, processor.ProcessTaskSendVerifyResetCodePassword)
-	mux.HandleFunc(TaskSendConfirmBooking, processor.ProcessTaskSendConfirmBooking)
 
 	return processor.server.Start(mux)
 
