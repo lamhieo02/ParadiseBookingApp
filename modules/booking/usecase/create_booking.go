@@ -14,7 +14,7 @@ import (
 	"github.com/hibiken/asynq"
 )
 
-func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomodel.CreateBookingReq) error {
+func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomodel.CreateBookingReq) (*entities.Booking, error) {
 	// convert iomodel to entities
 	bookingEntity := convert.ConvertBookingModelToBookingEntity(bookingData)
 	bookingDetailEntity := convert.ConvertBookingModelToBookingDetail(bookingData)
@@ -22,7 +22,7 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 	bookingEntity.StatusId = constant.BookingStatusPending // default status is pending when create booking
 	// create booking
 	if err := uc.bookingSto.Create(ctx, bookingEntity); err != nil {
-		return common.ErrCannotCreateEntity(bookingEntity.TableName(), err)
+		return nil, common.ErrCannotCreateEntity(bookingEntity.TableName(), err)
 	}
 
 	bookingDetailEntity.BookingId = bookingEntity.Id
@@ -47,8 +47,8 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 	}
 
 	if err := uc.bookingDetailSto.CreateTx(ctx, paramCreateTx); err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return bookingEntity, nil
 }
