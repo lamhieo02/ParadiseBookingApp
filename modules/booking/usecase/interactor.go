@@ -23,6 +23,11 @@ type BookingDetailStorage interface {
 
 type AccountSto interface {
 	GetAccountByEmail(ctx context.Context, email string) (*entities.Account, error)
+	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
+}
+
+type PlaceSto interface {
+	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
 }
 
 type bookingUseCase struct {
@@ -31,8 +36,9 @@ type bookingUseCase struct {
 	AccountSto       AccountSto
 	cfg              *config.Config
 	taskDistributor  worker.TaskDistributor
+	PlaceSto         PlaceSto
 }
 
-func NewBookingUseCase(bookingStore BookingStorage, bookingDetailStorage BookingDetailStorage, config *config.Config, taskDistributor worker.TaskDistributor, accountSto AccountSto) *bookingUseCase {
-	return &bookingUseCase{bookingSto: bookingStore, bookingDetailSto: bookingDetailStorage, cfg: config, taskDistributor: taskDistributor, AccountSto: accountSto}
+func NewBookingUseCase(bookingStore BookingStorage, bookingDetailStorage BookingDetailStorage, config *config.Config, taskDistributor worker.TaskDistributor, accountSto AccountSto, placeSto PlaceSto) *bookingUseCase {
+	return &bookingUseCase{bookingSto: bookingStore, bookingDetailSto: bookingDetailStorage, cfg: config, taskDistributor: taskDistributor, AccountSto: accountSto, PlaceSto: placeSto}
 }
