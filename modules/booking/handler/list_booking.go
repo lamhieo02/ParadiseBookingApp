@@ -25,10 +25,11 @@ func (hdl *bookingHandler) ListBooking() gin.HandlerFunc {
 			panic(err)
 		}
 
-		bookings, err := hdl.bookingUC.ListBooking(ctx.Request.Context(), &paging, &filter, requester.GetID())
+		res, err := hdl.bookingUC.ListBooking(ctx.Request.Context(), &paging, &filter, requester.GetID())
 		if err != nil {
 			panic(err)
 		}
-		ctx.JSON(http.StatusOK, bookings)
+
+		ctx.JSON(http.StatusOK, res)
 	}
 }

@@ -98,7 +98,7 @@ func main() {
 
 	// prepare for booking
 	bookingSto := bookingstorage.NewBookingStorage(db)
-	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto)
+	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto, placeSto)
 	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
 	// upload file to s3
