@@ -15,18 +15,18 @@ func (uc *bookingUseCase) GetBookingByPlaceID(ctx context.Context, placeId int) 
 
 	var result []iomodel.GetBookingByPlaceResp
 
+	// get place by id
+	place, err := uc.PlaceSto.GetPlaceByID(ctx, placeId)
+	if err != nil {
+		return nil, common.ErrCannotGetEntity("place", err)
+	}
+
 	for _, booking := range bookings {
 
 		// get account by id
 		account, err := uc.AccountSto.GetProfileByID(ctx, booking.UserId)
 		if err != nil {
 			return nil, common.ErrCannotGetEntity("account", err)
-		}
-
-		// get place by id
-		place, err := uc.PlaceSto.GetPlaceByID(ctx, booking.PlaceId)
-		if err != nil {
-			return nil, common.ErrCannotGetEntity("place", err)
 		}
 
 		result = append(result, *convert.ConvertBookingModelToGetByPlaceResp(account, &booking, place))
