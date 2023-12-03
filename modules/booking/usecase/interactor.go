@@ -32,6 +32,7 @@ type AccountSto interface {
 type PlaceSto interface {
 	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
 	ListPlaceNotInIds(ctx context.Context, placeIds []int, vendorId int) ([]entities.Place, error)
+	ListPlaceInIds(ctx context.Context, placeIds []int, vendorId int) ([]entities.Place, error)
 }
 
 type bookingUseCase struct {
