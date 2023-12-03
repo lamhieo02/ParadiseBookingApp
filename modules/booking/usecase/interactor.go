@@ -15,7 +15,7 @@ type BookingStorage interface {
 	UpdateStatus(ctx context.Context, bookingID int, status int) error
 	ListByFilter(ctx context.Context, filter *iomodel.FilterListBooking, paging *common.Paging, userId int) ([]entities.Booking, error)
 	GetByID(ctx context.Context, id int) (*entities.Booking, error)
-	GetByPlaceID(ctx context.Context, placeId int) (*entities.Booking, error)
+	GetByPlaceID(ctx context.Context, placeId int) ([]entities.Booking, error)
 }
 
 type BookingDetailStorage interface {
