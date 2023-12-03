@@ -35,5 +35,6 @@ func ConvertPlaceUpdateModelToEntity(data *iomodel.UpdatePlaceReq) *entities.Pla
 		Country:       data.Country,
 		State:         data.State,
 		City:          data.City,
+		MaxGuest:      data.MaxGuest,
 	}
 }
