@@ -12,7 +12,7 @@ type BookingUseCase interface {
 	CreateBooking(ctx context.Context, bookingData *iomodel.CreateBookingReq) (*entities.Booking, error)
 	UpdateStatusBooking(ctx context.Context, bookingID, status int) error
 	GetBookingByID(ctx context.Context, id int) (*iomodel.GetBookingResp, error)
-	GetBookingByPlaceID(ctx context.Context, placeId int) (*iomodel.GetBookingResp, error)
+	GetBookingByPlaceID(ctx context.Context, placeId int) ([]iomodel.GetBookingByPlaceResp, error)
 }
 
 type bookingHandler struct {

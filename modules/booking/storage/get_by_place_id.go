@@ -8,17 +8,17 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *bookingStorage) GetByPlaceID(ctx context.Context, placeId int) (*entities.Booking, error) {
+func (s *bookingStorage) GetByPlaceID(ctx context.Context, placeId int) ([]entities.Booking, error) {
 	db := s.db
 
-	var data entities.Booking
+	var data []entities.Booking
 
-	if err := db.Where("place_id = ?", placeId).First(&data).Error; err != nil {
+	if err := db.Where("place_id = ?", placeId).Find(&data).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, nil
 		}
 		return nil, common.ErrorDB(err)
 	}
 
-	return &data, nil
+	return data, nil
 }
