@@ -16,6 +16,7 @@ type BookingStorage interface {
 	ListByFilter(ctx context.Context, filter *iomodel.FilterListBooking, paging *common.Paging, userId int) ([]entities.Booking, error)
 	GetByID(ctx context.Context, id int) (*entities.Booking, error)
 	GetByPlaceID(ctx context.Context, placeId int) ([]entities.Booking, error)
+	ListPlaceIds(ctx context.Context) ([]int, error)
 }
 
 type BookingDetailStorage interface {
@@ -30,6 +31,7 @@ type AccountSto interface {
 
 type PlaceSto interface {
 	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
+	ListPlaceNotInIds(ctx context.Context, placeIds []int, vendorId int) ([]entities.Place, error)
 }
 
 type bookingUseCase struct {
