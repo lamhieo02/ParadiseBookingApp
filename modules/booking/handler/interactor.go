@@ -13,6 +13,7 @@ type BookingUseCase interface {
 	UpdateStatusBooking(ctx context.Context, bookingID, status int) error
 	GetBookingByID(ctx context.Context, id int) (*iomodel.GetBookingResp, error)
 	GetBookingByPlaceID(ctx context.Context, placeId int) ([]iomodel.GetBookingByPlaceResp, error)
+	ListPlaceNotReservationByVendor(ctx context.Context, vendorId int) (res []entities.Place, err error)
 }
 
 type bookingHandler struct {
