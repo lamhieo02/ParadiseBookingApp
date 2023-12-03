@@ -153,7 +153,7 @@ func main() {
 	v1.POST("/booking_list", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.ListBooking())
 	v1.GET("/bookings/:id", middlewares.RequiredAuth(), bookingHdl.GetBookingByID())
 	v1.GET("/bookings", middlewares.RequiredAuth(), bookingHdl.GetBookingByPlaceID())
-	v1.GET("/bookings_list/not_reservation", middlewares.RequiredAuth(), bookingHdl.ListBookingNotReservation())
+	v1.GET("/bookings_list/manage_reservation", middlewares.RequiredAuth(), bookingHdl.ListBookingNotReservation())
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
 
