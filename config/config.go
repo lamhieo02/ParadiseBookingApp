@@ -7,12 +7,17 @@ import (
 )
 
 type Config struct {
-	App    AppConfig
-	Mysql  MysqlConfig
-	AWS    AWSConfig
-	Redis  RedisConfig
-	Google GoogleConfig
-	Email  EmailSenderConfig
+	App      AppConfig
+	Mysql    MysqlConfig
+	AWS      AWSConfig
+	Redis    RedisConfig
+	Google   GoogleConfig
+	Email    EmailSenderConfig
+	CronSpec CronSpec
+}
+
+type CronSpec struct {
+	UpdateStatusBooking string
 }
 
 type EmailSenderConfig struct {
