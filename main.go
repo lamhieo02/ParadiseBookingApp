@@ -17,11 +17,17 @@ import (
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
 	placeusecase "paradise-booking/modules/place/usecase"
+	placewishlisthandler "paradise-booking/modules/place_wishlist/handler"
+	placewishliststorage "paradise-booking/modules/place_wishlist/storage"
+	placewishlistusecase "paradise-booking/modules/place_wishlist/usecase"
 	uploadhandler "paradise-booking/modules/upload/handler"
 	uploadusecase "paradise-booking/modules/upload/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
+	wishlisthandler "paradise-booking/modules/wishlist/handler"
+	wishliststorage "paradise-booking/modules/wishlist/storage"
+	wishlistusecase "paradise-booking/modules/wishlist/usecase"
 	"paradise-booking/provider/cache"
 	mysqlprovider "paradise-booking/provider/mysql"
 	redisprovider "paradise-booking/provider/redis"
@@ -92,6 +98,16 @@ func main() {
 	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto, placeSto)
 	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
+	// prepare for wish list
+	wishListSto := wishliststorage.NewWishListStorage(db)
+	wishListUseCase := wishlistusecase.NewWishListUseCase(wishListSto)
+	wishListHdl := wishlisthandler.NewWishListHandler(wishListUseCase)
+
+	// prepare place wish list
+	placeWishListSto := placewishliststorage.NewPlaceWishListStorage(db)
+	placeWishListUseCase := placewishlistusecase.NewPlaceWishListUseCase(placeWishListSto, placeSto)
+	placeWishListHdl := placewishlisthandler.NewPlaceWishListHandler(placeWishListUseCase)
+
 	// upload file to s3
 	s3Provider := s3provider.NewS3Provider(cfg)
 	uploadUC := uploadusecase.NewUploadUseCase(cfg, s3Provider)
@@ -161,6 +177,16 @@ func main() {
 	v1.GET("/bookings", middlewares.RequiredAuth(), bookingHdl.GetBookingByPlaceID())
 	v1.GET("/bookings_list/manage_reservation", middlewares.RequiredAuth(), bookingHdl.ListBookingNotReservation())
 	v1.DELETE("/bookings/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.DeleteBookingByID())
+
+	// wish list
+	v1.POST("/wish_lists", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.CreateWishList())
+	v1.GET("/wish_lists/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.GetWishListByID())
+	v1.GET("/wish_lists/user/:user_id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.GetWishListByUserID())
+
+	// place wish list
+	v1.POST("/place_wish_lists", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.CreatePlaceWishList())
+	v1.DELETE("/place_wish_lists/:place_id/:wishlist_id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.DeletePlaceWishList())
+	v1.GET("/place_wish_lists/place", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.ListPlaceByWishListID())
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
 
