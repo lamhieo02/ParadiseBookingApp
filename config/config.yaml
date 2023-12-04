@@ -45,3 +45,6 @@ email:
   EmailSenderName: LamNguyen
   EmailSenderAddress: lamfan011@gmail.com
   EmailSenderPassword: earzqfmxxcxorlxz
+
+cronspec:
+  UpdateStatusBooking: 0 0 * * *

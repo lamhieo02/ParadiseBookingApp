@@ -2,6 +2,8 @@ package worker
 
 import (
 	"context"
+	"paradise-booking/common"
+	"paradise-booking/constant"
 	"paradise-booking/entities"
 	"paradise-booking/provider/mail"
 
@@ -27,6 +29,11 @@ type AccountStorage interface {
 	GetAccountByEmail(ctx context.Context, email string) (account *entities.Account, err error)
 }
 
+type BookingStorage interface {
+	UpdateStatus(ctx context.Context, bookingID int, status int) error
+	ListAllBookingWithCondition(ctx context.Context, condition []common.Condition) ([]entities.Booking, error)
+}
+
 type VerifyEmailsUseCase interface {
 	CreateVerifyEmails(ctx context.Context, email string) (*entities.VerifyEmail, error)
 	UpsertResetSetCodePassword(ctx context.Context, email string) (*entities.VerifyEmail, error)
@@ -36,10 +43,11 @@ type redisTaskProcessor struct {
 	server         *asynq.Server
 	accountSto     AccountStorage
 	verifyEmailsUC VerifyEmailsUseCase
+	bookingSto     BookingStorage
 	mailer         mail.EmailSender
 }
 
-func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, mailer mail.EmailSender) TaskProcessor {
+func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, mailer mail.EmailSender, bookingSto BookingStorage) TaskProcessor {
 
 	logger := NewLogger()
 	redis.SetLogger(logger)
@@ -58,7 +66,7 @@ func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountSto
 			}),
 			Logger: logger,
 		})
-	return &redisTaskProcessor{server: server, accountSto: accountSto, verifyEmailsUC: verifyEmailsUC, mailer: mailer}
+	return &redisTaskProcessor{server: server, accountSto: accountSto, verifyEmailsUC: verifyEmailsUC, mailer: mailer, bookingSto: bookingSto}
 }
 
 func (processor *redisTaskProcessor) Start() error {
@@ -67,6 +75,7 @@ func (processor *redisTaskProcessor) Start() error {
 	mux.HandleFunc(TaskSendConfirmBooking, processor.ProcessTaskSendConfirmBooking)
 	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
 	mux.HandleFunc(TaskSendResetCodePassword, processor.ProcessTaskSendVerifyResetCodePassword)
+	mux.HandleFunc(constant.TaskUpdateStatusBooking, processor.ProcessTaskUpdateStatusBooking)
 
 	return processor.server.Start(mux)
 

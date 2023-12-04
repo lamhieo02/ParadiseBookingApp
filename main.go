@@ -28,7 +28,6 @@ import (
 	s3provider "paradise-booking/provider/s3"
 	"paradise-booking/utils"
 	"paradise-booking/worker"
-	"sync"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -77,15 +76,6 @@ func main() {
 	accountUseCase := accountusecase.NewUserUseCase(cfg, accountSto, verifyEmailsUseCase, taskDistributor)
 	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
-	// run task processor
-	wg := new(sync.WaitGroup)
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		cmdworker.RunTaskProcessor(&redisOpt, accountstorage.NewAccountStorage(db), cfg, verifyEmailsUseCase)
-	}()
-	wg.Wait()
-
 	// declare dependencies
 
 	// prepare for place
@@ -105,6 +95,18 @@ func main() {
 	s3Provider := s3provider.NewS3Provider(cfg)
 	uploadUC := uploadusecase.NewUploadUseCase(cfg, s3Provider)
 	uploadHdl := uploadhandler.NewUploadHandler(cfg, uploadUC)
+
+	// run task processor
+	// wg := new(sync.WaitGroup)
+
+	//wg.Add(1)
+	//go func() {
+	//	defer wg.Done()
+	cmdworker.RunTaskProcessor(&redisOpt, accountSto, cfg, verifyEmailsUseCase, bookingSto)
+	//	}()
+	//	wg.Wait()
+
+	cmdworker.RunTaskScheduler(&redisOpt, cfg)
 
 	router := gin.Default()
 
