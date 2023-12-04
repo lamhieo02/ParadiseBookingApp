@@ -28,6 +28,7 @@ import (
 	s3provider "paradise-booking/provider/s3"
 	"paradise-booking/utils"
 	"paradise-booking/worker"
+	"sync"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -97,16 +98,19 @@ func main() {
 	uploadHdl := uploadhandler.NewUploadHandler(cfg, uploadUC)
 
 	// run task processor
-	// wg := new(sync.WaitGroup)
+	wg := new(sync.WaitGroup)
 
-	//wg.Add(1)
-	//go func() {
-	//	defer wg.Done()
-	cmdworker.RunTaskProcessor(&redisOpt, accountSto, cfg, verifyEmailsUseCase, bookingSto)
-	//	}()
-	//	wg.Wait()
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		cmdworker.RunTaskProcessor(&redisOpt, accountSto, cfg, verifyEmailsUseCase, bookingSto)
+	}()
 
-	cmdworker.RunTaskScheduler(&redisOpt, cfg)
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		cmdworker.RunTaskScheduler(&redisOpt, cfg)
+	}()
 
 	router := gin.Default()
 
@@ -168,6 +172,8 @@ func main() {
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
+	wg.Wait()
+
 }
 
 func setupCors() cors.Config {
