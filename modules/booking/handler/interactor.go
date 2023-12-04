@@ -15,6 +15,7 @@ type BookingUseCase interface {
 	GetBookingByPlaceID(ctx context.Context, placeId int) ([]iomodel.GetBookingByPlaceResp, error)
 	ListPlaceReservationByVendor(ctx context.Context, vendorId, typeManage int) (res []entities.Place, err error)
 	ListBookingByCondition(ctx context.Context) ([]entities.Booking, error)
+	DeleteBookingByID(ctx context.Context, id int) error
 }
 
 type bookingHandler struct {

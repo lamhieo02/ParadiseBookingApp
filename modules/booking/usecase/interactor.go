@@ -18,6 +18,7 @@ type BookingStorage interface {
 	GetByPlaceID(ctx context.Context, placeId int) ([]entities.Booking, error)
 	ListPlaceIds(ctx context.Context) ([]int, error)
 	ListAllBookingWithCondition(ctx context.Context, condition []common.Condition) ([]entities.Booking, error)
+	DeleteByID(ctx context.Context, id int) error
 }
 
 type BookingDetailStorage interface {

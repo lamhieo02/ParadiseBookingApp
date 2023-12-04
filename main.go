@@ -160,6 +160,7 @@ func main() {
 	v1.GET("/bookings/:id", middlewares.RequiredAuth(), bookingHdl.GetBookingByID())
 	v1.GET("/bookings", middlewares.RequiredAuth(), bookingHdl.GetBookingByPlaceID())
 	v1.GET("/bookings_list/manage_reservation", middlewares.RequiredAuth(), bookingHdl.ListBookingNotReservation())
+	v1.DELETE("/bookings/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.DeleteBookingByID())
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
 
