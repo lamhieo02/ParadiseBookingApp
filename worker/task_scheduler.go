@@ -25,7 +25,7 @@ type scheduler struct {
 func NewScheduler(cfg *config.Config, redisCl *asynq.RedisClientOpt) (Scheduler, error) {
 	logger := NewLogger()
 
-	loc, err := time.LoadLocation("Asia/Saigon")
+	loc, err := time.LoadLocation("Local")
 	if err != nil {
 		return nil, err
 	}
