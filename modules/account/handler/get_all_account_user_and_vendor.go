@@ -26,6 +26,6 @@ func (hdl *accountHandler) GetAllAccountUserAndVendor() gin.HandlerFunc {
 		}
 
 		res := convert.ConvertAccountEntityToInfoMangageForAdmin(result)
-		c.JSON(http.StatusOK, gin.H{"data": res})
+		c.JSON(http.StatusOK, gin.H{"data": res, "paging": paging})
 	}
 }
