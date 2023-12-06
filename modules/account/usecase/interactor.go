@@ -2,6 +2,7 @@ package accountusecase
 
 import (
 	"context"
+	"paradise-booking/common"
 	"paradise-booking/config"
 	"paradise-booking/entities"
 	accountstorage "paradise-booking/modules/account/storage"
@@ -14,7 +15,7 @@ type AccountStorage interface {
 	UpdateAccountById(ctx context.Context, id int, accountUpdate *entities.Account) error
 	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 	CreateTx(ctx context.Context, createUserTxParam accountstorage.CreateUserTxParam) error
-	GetAllAccountUserAndVendor(ctx context.Context) ([]entities.Account, error)
+	GetAllAccountUserAndVendor(ctx context.Context, paging *common.Paging) ([]entities.Account, error)
 }
 
 type VerifyEmailsUseCase interface {
