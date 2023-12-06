@@ -30,6 +30,6 @@ func (hdl *bookingHandler) ListBooking() gin.HandlerFunc {
 			panic(err)
 		}
 
-		ctx.JSON(http.StatusOK, res)
+		ctx.JSON(http.StatusOK, gin.H{"data": res, "paging": paging})
 	}
 }

@@ -31,6 +31,6 @@ func (hdl *bookingHandler) GetBookingByPlaceID() gin.HandlerFunc {
 			return
 		}
 
-		ctx.JSON(http.StatusOK, res)
+		ctx.JSON(http.StatusOK, gin.H{"data": res, "paging": paging})
 	}
 }

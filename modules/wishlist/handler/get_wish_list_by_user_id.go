@@ -30,7 +30,7 @@ func (hdl *wishListHandler) GetWishListByUserID() gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
-		ctx.JSON(http.StatusOK, gin.H{"data": res})
+		ctx.JSON(http.StatusOK, gin.H{"data": res, "paging": paging})
 
 	}
 }
