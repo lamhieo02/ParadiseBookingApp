@@ -2,6 +2,7 @@ package placewishlisthandler
 
 import (
 	"context"
+	"paradise-booking/common"
 	"paradise-booking/entities"
 	"paradise-booking/modules/place_wishlist/iomodel"
 )
@@ -9,7 +10,7 @@ import (
 type PlaceWishListUseCase interface {
 	CreatePlaceWishList(ctx context.Context, data *iomodel.CreatePlaceWishListReq) (*entities.PlaceWishList, error)
 	DeletePlaceWishList(ctx context.Context, placeId, wishListID int) error
-	GetPlaceByWishListID(ctx context.Context, wishListID int) ([]entities.Place, error)
+	GetPlaceByWishListID(ctx context.Context, wishListID int, paging *common.Paging) ([]entities.Place, error)
 }
 
 type placeWishListHandler struct {

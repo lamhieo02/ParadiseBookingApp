@@ -6,12 +6,18 @@ import (
 	"paradise-booking/entities"
 )
 
-func (s *wishListStorage) GetByUserID(ctx context.Context, userId int) ([]entities.WishList, error) {
+func (s *wishListStorage) GetByUserID(ctx context.Context, userId int, paging *common.Paging) ([]entities.WishList, error) {
 	db := s.db
 
 	var data []entities.WishList
 
-	if err := db.Where("user_id = ?", userId).Find(&data).Error; err != nil {
+	db = db.Where("user_id = ?", userId)
+
+	if err := db.Count(&paging.Total).Error; err != nil {
+		return nil, common.ErrorDB(err)
+	}
+
+	if err := db.Offset((paging.Page - 1) * paging.Limit).Limit(paging.Limit).Find(&data).Error; err != nil {
 		return nil, common.ErrorDB(err)
 	}
 

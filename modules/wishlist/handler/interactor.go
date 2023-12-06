@@ -2,6 +2,7 @@ package wishlisthandler
 
 import (
 	"context"
+	"paradise-booking/common"
 	"paradise-booking/entities"
 	wishlistiomodel "paradise-booking/modules/wishlist/iomodel"
 )
@@ -9,7 +10,7 @@ import (
 type wishListUseCase interface {
 	CreateWishList(ctx context.Context, data *wishlistiomodel.CreateWishListReq) (*entities.WishList, error)
 	GetWishListByID(ctx context.Context, id int) (*entities.WishList, error)
-	GetWishListByUserID(ctx context.Context, userId int) ([]entities.WishList, error)
+	GetWishListByUserID(ctx context.Context, userId int, paging *common.Paging) ([]entities.WishList, error)
 }
 
 type wishListHandler struct {
