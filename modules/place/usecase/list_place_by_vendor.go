@@ -15,8 +15,10 @@ func (uc *placeUseCase) ListPlaceByVendor(ctx context.Context, vendorEmail strin
 		return nil, common.ErrCannotGetEntity("account", err)
 	}
 
+	var paging common.Paging
+	paging.Process()
 	// get places by vendorID
-	places, err := uc.placeStorage.ListPlaceByVendorID(ctx, vendor.Id)
+	places, err := uc.placeStorage.ListPlaceByVendorID(ctx, vendor.Id, &paging)
 	if err != nil {
 		return nil, common.ErrCannotListEntity("place", err)
 	}

@@ -6,12 +6,17 @@ import (
 	"paradise-booking/entities"
 )
 
-func (s *placeStorage) ListPlaceByVendorID(ctx context.Context, vendorID int) ([]entities.Place, error) {
+func (s *placeStorage) ListPlaceByVendorID(ctx context.Context, vendorID int, paging *common.Paging) ([]entities.Place, error) {
 	db := s.db
 
 	var data []entities.Place
 
-	if err := db.Where("vendor_id = ?", vendorID).Find(&data).Error; err != nil {
+	db = db.Where("vendor_id = ?", vendorID)
+	if err := db.Count(&paging.Total).Error; err != nil {
+		return nil, common.ErrorDB(err)
+	}
+
+	if err := db.Offset((paging.Page - 1) * paging.Limit).Limit(paging.Limit).Find(&data).Error; err != nil {
 		return nil, common.ErrorDB(err)
 	}
 

@@ -2,6 +2,7 @@ package bookinghandler
 
 import (
 	"net/http"
+	"paradise-booking/common"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,15 @@ func (hdl *bookingHandler) GetBookingByPlaceID() gin.HandlerFunc {
 			return
 		}
 
-		res, err := hdl.bookingUC.GetBookingByPlaceID(ctx, id)
+		var paging common.Paging
+
+		page, _ := strconv.Atoi(ctx.Query("page"))
+		limit, _ := strconv.Atoi(ctx.Query("limit"))
+
+		paging.Page = page
+		paging.Limit = limit
+
+		res, err := hdl.bookingUC.GetBookingByPlaceID(ctx, id, &paging)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return

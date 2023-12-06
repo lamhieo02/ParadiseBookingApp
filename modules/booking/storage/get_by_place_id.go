@@ -4,19 +4,20 @@ import (
 	"context"
 	"paradise-booking/common"
 	"paradise-booking/entities"
-
-	"gorm.io/gorm"
 )
 
-func (s *bookingStorage) GetByPlaceID(ctx context.Context, placeId int) ([]entities.Booking, error) {
+func (s *bookingStorage) GetByPlaceID(ctx context.Context, placeId int, paging *common.Paging) ([]entities.Booking, error) {
 	db := s.db
 
 	var data []entities.Booking
 
-	if err := db.Where("place_id = ?", placeId).Find(&data).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return nil, nil
-		}
+	db = db.Where("place_id = ?", placeId)
+
+	if err := db.Count(&paging.Total).Error; err != nil {
+		return nil, common.ErrorDB(err)
+	}
+
+	if err := db.Offset((paging.Page - 1) * paging.Limit).Limit(paging.Limit).Find(&data).Error; err != nil {
 		return nil, common.ErrorDB(err)
 	}
 
