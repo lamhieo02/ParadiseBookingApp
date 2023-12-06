@@ -2,6 +2,7 @@ package accounthandler
 
 import (
 	"context"
+	"paradise-booking/common"
 	"paradise-booking/config"
 	"paradise-booking/entities"
 	"paradise-booking/modules/account/iomodel"
@@ -15,7 +16,7 @@ type accountUseCase interface {
 	GetAccountByEmail(ctx context.Context, email string) (account *iomodel.AccountInfoResp, err error)
 	GetAccountByID(ctx context.Context, id int) (account *iomodel.AccountInfoResp, err error)
 	UpdateAccountRoleByID(ctx context.Context, accountModel *iomodel.AccountChangeRole, id int) (err error)
-	GetAllAccountUserAndVendor(ctx context.Context) ([]entities.Account, error)
+	GetAllAccountUserAndVendor(ctx context.Context, paging *common.Paging) ([]entities.Account, error)
 	ChangePassword(ctx context.Context, email string, changePassModel *iomodel.ChangePassword) error
 	ChangeStatusAccount(ctx context.Context, accountID int, status int) error
 	ForgotPassword(ctx context.Context, email string) error
