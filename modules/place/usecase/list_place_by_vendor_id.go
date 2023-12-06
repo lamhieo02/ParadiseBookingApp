@@ -7,10 +7,11 @@ import (
 	"paradise-booking/modules/place/iomodel"
 )
 
-func (uc *placeUseCase) ListPlaceByVendorByID(ctx context.Context, vendorID int) (result []iomodel.GetPlaceResp, err error) {
+func (uc *placeUseCase) ListPlaceByVendorByID(ctx context.Context, vendorID int, paging *common.Paging) (result []iomodel.GetPlaceResp, err error) {
 
+	paging.Process()
 	// get places by vendorID
-	places, err := uc.placeStorage.ListPlaceByVendorID(ctx, vendorID)
+	places, err := uc.placeStorage.ListPlaceByVendorID(ctx, vendorID, paging)
 	if err != nil {
 		return nil, common.ErrCannotListEntity("place", err)
 	}

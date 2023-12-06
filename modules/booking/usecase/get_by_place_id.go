@@ -7,8 +7,10 @@ import (
 	"paradise-booking/modules/booking/iomodel"
 )
 
-func (uc *bookingUseCase) GetBookingByPlaceID(ctx context.Context, placeId int) ([]iomodel.GetBookingByPlaceResp, error) {
-	bookings, err := uc.bookingSto.GetByPlaceID(ctx, placeId)
+func (uc *bookingUseCase) GetBookingByPlaceID(ctx context.Context, placeId int, paging *common.Paging) ([]iomodel.GetBookingByPlaceResp, error) {
+
+	paging.Process()
+	bookings, err := uc.bookingSto.GetByPlaceID(ctx, placeId, paging)
 	if err != nil {
 		return nil, err
 	}

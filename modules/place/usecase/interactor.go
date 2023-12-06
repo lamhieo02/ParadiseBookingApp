@@ -12,7 +12,7 @@ type PlaceStorage interface {
 	Create(ctx context.Context, data *entities.Place) (err error)
 	DeleteByID(ctx context.Context, id int) error
 	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
-	ListPlaceByVendorID(ctx context.Context, vendorID int) ([]entities.Place, error)
+	ListPlaceByVendorID(ctx context.Context, vendorID int, paging *common.Paging) ([]entities.Place, error)
 	ListPlaces(ctx context.Context, paging *common.Paging, filter *iomodel.Filter) ([]entities.Place, error)
 	UpdateByID(ctx context.Context, id int, data *entities.Place) error
 }
