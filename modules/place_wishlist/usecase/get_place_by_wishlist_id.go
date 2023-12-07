@@ -6,11 +6,11 @@ import (
 	"paradise-booking/entities"
 )
 
-func (uc *placeWishListUsecase) GetPlaceByWishListID(ctx context.Context, wishListID int, paging *common.Paging) ([]entities.Place, error) {
+func (uc *placeWishListUsecase) GetPlaceByWishListID(ctx context.Context, wishListID int, paging *common.Paging, userID int) ([]entities.Place, error) {
 	paging.Process()
 
 	// get list placeIDS by wishListID
-	placeIDs, err := uc.placeWishListSto.GetPlaceIDs(ctx, wishListID, paging)
+	placeIDs, err := uc.placeWishListSto.GetPlaceIDs(ctx, wishListID, paging, userID)
 	if err != nil {
 		return nil, err
 	}

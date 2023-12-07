@@ -2,6 +2,7 @@ package placewishlisthandler
 
 import (
 	"net/http"
+	"paradise-booking/common"
 	"paradise-booking/modules/place_wishlist/iomodel"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,8 @@ func (hdl *placeWishListHandler) CreatePlaceWishList() gin.HandlerFunc {
 			return
 		}
 
-		res, err := hdl.placeWishListUC.CreatePlaceWishList(c.Request.Context(), &placeWishListBody)
+		requester := c.MustGet("Account").(common.Requester)
+		res, err := hdl.placeWishListUC.CreatePlaceWishList(c.Request.Context(), &placeWishListBody, requester.GetID())
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return

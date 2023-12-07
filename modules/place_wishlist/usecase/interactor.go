@@ -9,7 +9,7 @@ import (
 type PlaceWishListSto interface {
 	Create(ctx context.Context, data *entities.PlaceWishList) error
 	Delete(ctx context.Context, place_id, wish_list_id int) error
-	GetPlaceIDs(ctx context.Context, wish_list_id int, paging *common.Paging) ([]int, error)
+	GetPlaceIDs(ctx context.Context, wish_list_id int, paging *common.Paging, userID int) ([]int, error)
 }
 
 type PlaceSto interface {

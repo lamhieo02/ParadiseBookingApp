@@ -6,13 +6,13 @@ import (
 	"paradise-booking/entities"
 )
 
-func (s *placeWishListStorage) GetPlaceIDs(ctx context.Context, wish_list_id int, paging *common.Paging) ([]int, error) {
+func (s *placeWishListStorage) GetPlaceIDs(ctx context.Context, wish_list_id int, paging *common.Paging, userId int) ([]int, error) {
 	db := s.db
 	var res []int
 
 	db = db.Model(entities.PlaceWishList{})
 
-	db = db.Where("wishlist_id = ?", wish_list_id)
+	db = db.Where("wishlist_id = ? AND user_id = ?", wish_list_id, userId)
 
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)
