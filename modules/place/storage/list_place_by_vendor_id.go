@@ -11,7 +11,7 @@ func (s *placeStorage) ListPlaceByVendorID(ctx context.Context, vendorID int, pa
 
 	var data []entities.Place
 
-	db = db.Where("vendor_id = ?", vendorID)
+	db = db.Table(entities.Place{}.TableName()).Where("vendor_id = ?", vendorID)
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)
 	}

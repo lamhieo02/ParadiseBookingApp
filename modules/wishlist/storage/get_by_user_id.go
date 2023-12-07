@@ -11,7 +11,7 @@ func (s *wishListStorage) GetByUserID(ctx context.Context, userId int, paging *c
 
 	var data []entities.WishList
 
-	db = db.Where("user_id = ?", userId)
+	db = db.Table(entities.WishList{}.TableName()).Where("user_id = ?", userId)
 
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)

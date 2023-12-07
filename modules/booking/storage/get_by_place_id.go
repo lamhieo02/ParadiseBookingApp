@@ -11,7 +11,7 @@ func (s *bookingStorage) GetByPlaceID(ctx context.Context, placeId int, paging *
 
 	var data []entities.Booking
 
-	db = db.Where("place_id = ?", placeId)
+	db = db.Table(entities.Booking{}.TableName()).Where("place_id = ?", placeId)
 
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)
