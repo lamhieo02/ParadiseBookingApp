@@ -7,6 +7,7 @@ import (
 
 type BookingRatingSto interface {
 	Create(ctx context.Context, data *entities.BookingRating) (*entities.BookingRating, error)
+	GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.BookingRating, error)
 }
 
 type bookingRatingUsecase struct {
