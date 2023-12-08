@@ -14,6 +14,7 @@ func (u *bookingRatingUsecase) MakeComment(ctx context.Context, userID int, data
 		Title:     data.Title,
 		Content:   data.Content,
 		Rating:    int(data.Rating),
+		PlaceId:   data.PlaceID,
 	}
 
 	if _, err := u.BookingRatingSto.Create(ctx, &model); err != nil {
