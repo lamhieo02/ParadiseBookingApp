@@ -13,6 +13,9 @@ import (
 	bookingstorage "paradise-booking/modules/booking/storage"
 	bookingusecase "paradise-booking/modules/booking/usecase"
 	bookingdetailstorage "paradise-booking/modules/booking_detail/storage"
+	bookingratinghandler "paradise-booking/modules/booking_rating/handler"
+	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
+	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
 	"paradise-booking/modules/middleware"
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
@@ -108,6 +111,10 @@ func main() {
 	placeWishListUseCase := placewishlistusecase.NewPlaceWishListUseCase(placeWishListSto, placeSto)
 	placeWishListHdl := placewishlisthandler.NewPlaceWishListHandler(placeWishListUseCase)
 
+	// prepare for place rating
+	bookingRatingSto := bookingratingstorage.Newbookingratingstorage(db)
+	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto)
+	bookingRatingHdl := bookingratinghandler.Newbookingratinghandler(bookingRatingUC)
 	// upload file to s3
 	s3Provider := s3provider.NewS3Provider(cfg)
 	uploadUC := uploadusecase.NewUploadUseCase(cfg, s3Provider)
@@ -190,6 +197,10 @@ func main() {
 	v1.POST("/place_wish_lists", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.CreatePlaceWishList())
 	v1.DELETE("/place_wish_lists/:place_id/:wishlist_id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.DeletePlaceWishList())
 	v1.GET("/place_wish_lists/place", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.ListPlaceByWishListID())
+
+	// booking rating
+	v1.POST("/booking_ratings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingRatingHdl.MakeComment())
+
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
 
