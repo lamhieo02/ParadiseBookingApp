@@ -184,6 +184,7 @@ func main() {
 	v1.GET("/wish_lists/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.GetWishListByID())
 	v1.GET("/wish_lists/user/:user_id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.GetWishListByUserID())
 	v1.PUT("/wish_lists/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.UpdateWishListByID())
+	v1.DELETE("/wish_lists/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.DeleteWishListByID())
 
 	// place wish list
 	v1.POST("/place_wish_lists", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.CreatePlaceWishList())
