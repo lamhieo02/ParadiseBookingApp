@@ -11,6 +11,7 @@ type WishListSto interface {
 	GetByID(ctx context.Context, id int) (*entities.WishList, error)
 	GetByUserID(ctx context.Context, userId int, paging *common.Paging) ([]entities.WishList, error)
 	UpdateByID(ctx context.Context, id int, data *entities.WishList) error
+	DeleteByID(ctx context.Context, id int) error
 }
 
 type wishListUsecase struct {
