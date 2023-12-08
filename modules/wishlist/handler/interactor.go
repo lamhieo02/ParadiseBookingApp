@@ -11,6 +11,7 @@ type wishListUseCase interface {
 	CreateWishList(ctx context.Context, data *wishlistiomodel.CreateWishListReq) (*entities.WishList, error)
 	GetWishListByID(ctx context.Context, id int) (*entities.WishList, error)
 	GetWishListByUserID(ctx context.Context, userId int, paging *common.Paging) ([]entities.WishList, error)
+	UpdateByID(ctx context.Context, id int, title string) error
 }
 
 type wishListHandler struct {
