@@ -2,7 +2,9 @@ package accountusecase
 
 import (
 	"context"
+	"errors"
 	"paradise-booking/common"
+	"paradise-booking/constant"
 	"paradise-booking/modules/account/iomodel"
 	jwtprovider "paradise-booking/provider/jwt"
 	"paradise-booking/utils"
@@ -13,6 +15,11 @@ func (uc *accountUseCase) LoginAccount(ctx context.Context, accountModel *iomode
 	account, err := uc.accountStorage.GetAccountByEmail(ctx, accountModel.Email)
 	if err != nil {
 		return nil, common.ErrEmailNotExist(account.TableName(), err)
+	}
+
+	// check status account
+	if account.Status != constant.StatusActive {
+		return nil, common.ErrAccountIsNotActive(account.TableName(), errors.New("account is not active"))
 	}
 
 	// Compare password of user with hashed password in db
