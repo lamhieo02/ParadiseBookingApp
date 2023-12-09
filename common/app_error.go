@@ -111,3 +111,7 @@ func ErrExpiredResetCodePassword(entity string, cause error) *AppError {
 func ErrResetCodePasswordIsNotMatching(entity string, cause error) *AppError {
 	return NewCustomError(cause, fmt.Sprintf("%s reset code password is not matching", entity))
 }
+
+func ErrAccountIsNotActive(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("%s status is not active", entity))
+}
