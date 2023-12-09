@@ -10,10 +10,15 @@ type BookingRatingSto interface {
 	GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.BookingRating, error)
 }
 
-type bookingRatingUsecase struct {
-	BookingRatingSto BookingRatingSto
+type AccountSto interface {
+	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 }
 
-func Newbookingratingusecase(BookingRatingSto BookingRatingSto) *bookingRatingUsecase {
-	return &bookingRatingUsecase{BookingRatingSto}
+type bookingRatingUsecase struct {
+	BookingRatingSto BookingRatingSto
+	AccountSto       AccountSto
+}
+
+func Newbookingratingusecase(BookingRatingSto BookingRatingSto, accountSto AccountSto) *bookingRatingUsecase {
+	return &bookingRatingUsecase{BookingRatingSto, accountSto}
 }

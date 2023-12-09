@@ -8,8 +8,8 @@ import (
 
 type placeRatingUseCase interface {
 	MakeComment(ctx context.Context, userID int, data *iomodel.CreateBookingRatingReq) (*entities.BookingRating, error)
-	GetCommentByPlaceID(ctx context.Context, placeID int) ([]entities.BookingRating, error)
-	GetCommentByBookingID(ctx context.Context, bookingID int) ([]entities.BookingRating, error)
+	GetCommentByPlaceID(ctx context.Context, placeID int) ([]iomodel.GetCommentResp, error)
+	GetCommentByBookingID(ctx context.Context, bookingID int) ([]iomodel.GetCommentResp, error)
 }
 
 type bookingratinghandler struct {

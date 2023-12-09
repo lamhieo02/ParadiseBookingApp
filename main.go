@@ -113,7 +113,7 @@ func main() {
 
 	// prepare for place rating
 	bookingRatingSto := bookingratingstorage.Newbookingratingstorage(db)
-	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto)
+	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto)
 	bookingRatingHdl := bookingratinghandler.Newbookingratinghandler(bookingRatingUC)
 	// upload file to s3
 	s3Provider := s3provider.NewS3Provider(cfg)
