@@ -42,6 +42,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           sudo su
+          docker login -u AWS -p $(aws ecr get-login-password --region ap-southeast-1) https://492654507682.dkr.ecr.ap-southeast-1.amazonaws.com
           docker stop $(docker ps -a -q)
           docker rm $(docker ps -a -q)
           docker run --name AppBE -d -p 8081:8081 492654507682.dkr.ecr.ap-southeast-1.amazonaws.com/paradise-backend:latest
