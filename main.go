@@ -200,9 +200,9 @@ func main() {
 
 	// booking rating
 	v1.POST("/booking_ratings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingRatingHdl.MakeComment())
-	v1.GET("/booking_ratings/places/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingRatingHdl.GetCommentByPlaceID())
-	v1.GET("/booking_ratings/bookings/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingRatingHdl.GetCommentByBookingID())
-	v1.GET("/booking_ratings/users/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingRatingHdl.GetCommentByUserID())
+	v1.GET("/booking_ratings/places/:id", bookingRatingHdl.GetCommentByPlaceID())
+	v1.GET("/booking_ratings/bookings/:id", bookingRatingHdl.GetCommentByBookingID())
+	v1.GET("/booking_ratings/users/:id", bookingRatingHdl.GetCommentByUserID())
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())
 
