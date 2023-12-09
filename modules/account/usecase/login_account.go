@@ -22,6 +22,11 @@ func (uc *accountUseCase) LoginAccount(ctx context.Context, accountModel *iomode
 		return nil, common.ErrAccountIsNotActive(account.TableName(), errors.New("account is not active"))
 	}
 
+	// check verify account
+	if account.IsEmailVerified == 0 {
+		return nil, common.ErrAccountIsNotVerify(account.TableName(), errors.New("account is not verify"))
+	}
+
 	// Compare password of user with hashed password in db
 	if err := utils.Compare(account.Password, accountModel.Password); err != nil {
 		return nil, common.ErrEmailOrPasswordInvalid(account.TableName(), err)

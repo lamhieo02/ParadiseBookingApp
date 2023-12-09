@@ -115,3 +115,7 @@ func ErrResetCodePasswordIsNotMatching(entity string, cause error) *AppError {
 func ErrAccountIsNotActive(entity string, cause error) *AppError {
 	return NewCustomError(cause, fmt.Sprintf("%s status is not active", entity))
 }
+
+func ErrAccountIsNotVerify(entity string, cause error) *AppError {
+	return NewCustomError(cause, fmt.Sprintf("%s is not verify", entity))
+}
