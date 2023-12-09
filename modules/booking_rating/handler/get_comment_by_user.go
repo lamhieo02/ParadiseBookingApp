@@ -27,3 +27,5 @@ func (hdl *bookingratinghandler) GetCommentByUserID() gin.HandlerFunc {
 
 	}
 }
+
+// trigger cicd

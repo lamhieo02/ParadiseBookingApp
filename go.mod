@@ -1,6 +1,6 @@
 module paradise-booking
 
-go 1.21.3
+go 1.23
 
 require (
 	github.com/aws/aws-sdk-go v1.48.3
