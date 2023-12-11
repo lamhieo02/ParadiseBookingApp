@@ -15,8 +15,18 @@ func (uc *bookingRatingUsecase) GetCommentByUserID(ctx context.Context, usrID in
 	}
 
 	var result iomodel.GetCommentByUserResp
+	for _, bookingRate := range res {
+		place, err := uc.PlaceSto.GetPlaceByID(ctx, bookingRate.PlaceId)
+		if err != nil {
+			log.Printf("Error when get place by id: %v\n", err)
+			continue
+		}
+		result.ListRating = append(result.ListRating, iomodel.GetCommentRespByUser{
+			DataRating: &bookingRate,
+			DataPlace:  place,
+		})
+	}
 
-	result.DataRating = append(result.DataRating, res...)
 	user, err := uc.AccountSto.GetProfileByID(ctx, usrID)
 	if err != nil {
 		log.Printf("Error when get user profile by id: %v\n", err)

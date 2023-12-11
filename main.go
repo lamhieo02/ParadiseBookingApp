@@ -113,7 +113,7 @@ func main() {
 
 	// prepare for place rating
 	bookingRatingSto := bookingratingstorage.Newbookingratingstorage(db)
-	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto)
+	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto, placeSto)
 	bookingRatingHdl := bookingratinghandler.Newbookingratinghandler(bookingRatingUC)
 	// upload file to s3
 	s3Provider := s3provider.NewS3Provider(cfg)
@@ -177,7 +177,7 @@ func main() {
 	v1.GET("/places", placeHdl.ListAllPlace())
 
 	// booking
-	v1.POST("/bookings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.CreateBooking())
+	v1.POST("/bookings", bookingHdl.CreateBooking())
 	v1.GET("/confirm_booking", bookingHdl.UpdateStatusBooking())
 	v1.POST("/booking_list", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.ListBooking())
 	v1.GET("/bookings/:id", middlewares.RequiredAuth(), bookingHdl.GetBookingByID())

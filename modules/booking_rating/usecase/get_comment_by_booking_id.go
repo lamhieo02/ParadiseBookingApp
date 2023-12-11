@@ -22,9 +22,16 @@ func (uc *bookingRatingUsecase) GetCommentByBookingID(ctx context.Context, booki
 			log.Printf("Error when get user profile by id: %v\n", err)
 			continue
 		}
+
+		place, err := uc.PlaceSto.GetPlaceByID(ctx, bookingRate.PlaceId)
+		if err != nil {
+			log.Printf("Error when get place by id: %v\n", err)
+			continue
+		}
 		result = append(result, iomodel.GetCommentResp{
 			DataRating: bookingRate,
 			DataUser:   *user,
+			DataPlace:  *place,
 		})
 	}
 
