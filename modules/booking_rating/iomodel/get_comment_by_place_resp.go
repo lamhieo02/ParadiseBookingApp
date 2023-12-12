@@ -8,6 +8,6 @@ type GetCommentByPlaceResp struct {
 }
 
 type GetCommentRespByPlace struct {
-	DataRating *entities.BookingRating
-	DataUser   *entities.Account `json:"user"`
+	DataRating entities.BookingRating
+	DataUser   entities.Account `json:"user"`
 }
