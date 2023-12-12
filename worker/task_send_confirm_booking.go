@@ -13,7 +13,7 @@ import (
 
 const (
 	TaskSendConfirmBooking = "task:send_confirm_booking"
-	UrlConfirmBooking      = "https://paradisebookingapp.up.railway.app/api/v1/confirm_booking"
+	UrlConfirmBooking      = "https://paradisebooking.onrender.com/api/v1/confirm_booking"
 )
 
 type PayloadSendConfirmBooking struct {

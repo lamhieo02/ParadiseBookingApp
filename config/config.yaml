@@ -13,10 +13,10 @@ mysql:
   # User: root
   # Password: 109339Lam@
   # DBName: paradise
-  Host: viaduct.proxy.rlwy.net
-  Port: 13281
+  Host: roundhouse.proxy.rlwy.net
+  Port: 30663
   User: root
-  Password: ahf3hhDgEdBD1ea4cA-1G4AeDAd1hHE3
+  Password: aaCfeH12efF2-3Gfh-b6A--Aac1HH-4c
   DBName: railway
 
 aws:
@@ -28,11 +28,11 @@ aws:
   S3FolderImages: images
   
 redis:
-  Host: viaduct.proxy.rlwy.net
+  Host: monorail.proxy.rlwy.net
   #Host: localhost
-  Port: 54525
+  Port: 48457
   #Port: 6379
-  Password: fGPm2IKP2plNOJCLMoghBDkCBenpBD5b
+  Password: kLOhcmP1jLLdbDPkPpiJHbNdohjIbHc4
   #Password: ""
   DB: 0
 
