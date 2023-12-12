@@ -17,3 +17,5 @@ func (s *bookingratingstorage) GetByCondition(ctx context.Context, condition map
 
 	return data, nil
 }
+
+// trigger deploy
