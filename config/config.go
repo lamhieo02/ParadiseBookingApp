@@ -7,13 +7,14 @@ import (
 )
 
 type Config struct {
-	App      AppConfig
-	Mysql    MysqlConfig
-	AWS      AWSConfig
-	Redis    RedisConfig
-	Google   GoogleConfig
-	Email    EmailSenderConfig
-	CronSpec CronSpec
+	App       AppConfig
+	Mysql     MysqlConfig
+	AWS       AWSConfig
+	Redis     RedisConfig
+	Google    GoogleConfig
+	Email     EmailSenderConfig
+	CronSpec  CronSpec
+	GoogleMap GoogleMap
 }
 
 type CronSpec struct {
@@ -62,6 +63,10 @@ type RedisConfig struct {
 	Port     string
 	Password string
 	DB       int
+}
+
+type GoogleMap struct {
+	APIKey string
 }
 
 func LoadConfig() (*Config, error) {
