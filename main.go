@@ -9,6 +9,9 @@ import (
 	accounthandler "paradise-booking/modules/account/handler"
 	accountstorage "paradise-booking/modules/account/storage"
 	accountusecase "paradise-booking/modules/account/usecase"
+	amenityhandler "paradise-booking/modules/amenity/handler"
+	amenitystorage "paradise-booking/modules/amenity/storage"
+	amenityusecase "paradise-booking/modules/amenity/usecase"
 	bookinghandler "paradise-booking/modules/booking/handler"
 	bookingstorage "paradise-booking/modules/booking/storage"
 	bookingusecase "paradise-booking/modules/booking/usecase"
@@ -115,6 +118,12 @@ func main() {
 	bookingRatingSto := bookingratingstorage.Newbookingratingstorage(db)
 	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto, placeSto)
 	bookingRatingHdl := bookingratinghandler.Newbookingratinghandler(bookingRatingUC)
+
+	// prepare for amenities
+	amenitySto := amenitystorage.NewAmenityStorage(db)
+	amenityUC := amenityusecase.NewAmenityUseCase(amenitySto, cfg)
+	amenityHdl := amenityhandler.NewAmenityHandler(amenityUC)
+
 	// upload file to s3
 	s3Provider := s3provider.NewS3Provider(cfg)
 	uploadUC := uploadusecase.NewUploadUseCase(cfg, s3Provider)
@@ -213,6 +222,12 @@ func main() {
 
 	// upload file to s3
 	v1.POST("/upload", middlewares.RequiredAuth(), uploadHdl.UploadFile())
+
+	// amenities
+	v1.POST("/amenities", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.CreateAmenity())
+	v1.DELETE("/amenities/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.DeleteAmenityByID())
+	v1.GET("/amenities/config", amenityHdl.GetAllConfigAmenity())
+	v1.GET("/amenities/place/:place_id", amenityHdl.ListAmenityByPlaceID())
 
 	// google login
 	//v1.GET("/google/login")

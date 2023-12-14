@@ -15,9 +15,6 @@ func ConvertPlaceCreateModelToEntity(data *iomodel.CreatePlaceReq) *entities.Pla
 		Cover:         data.Cover,
 		Lat:           data.Lat,
 		Lng:           data.Lng,
-		Country:       data.Country,
-		State:         data.State,
-		City:          data.City,
 		MaxGuest:      data.MaxGuest,
 	}
 }

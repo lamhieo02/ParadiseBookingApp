@@ -48,3 +48,6 @@ email:
 
 cronspec:
   UpdateStatusBooking: 0 0 * * *
+
+googlemap:
+  APIKey: AIzaSyBl_YUvfFk0FebUS8NhhkP905AmTMCwjAw
