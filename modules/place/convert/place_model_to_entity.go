@@ -16,6 +16,7 @@ func ConvertPlaceCreateModelToEntity(data *iomodel.CreatePlaceReq) *entities.Pla
 		Lat:           data.Lat,
 		Lng:           data.Lng,
 		MaxGuest:      data.MaxGuest,
+		NumBed:        data.NumBed,
 	}
 }
 
@@ -33,5 +34,6 @@ func ConvertPlaceUpdateModelToEntity(data *iomodel.UpdatePlaceReq) *entities.Pla
 		State:         data.State,
 		City:          data.City,
 		MaxGuest:      data.MaxGuest,
+		NumBed:        data.NumBed,
 	}
 }

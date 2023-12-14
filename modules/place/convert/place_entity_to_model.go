@@ -21,5 +21,6 @@ func ConvertPlaceEntityToGetModel(data *entities.Place) *iomodel.GetPlaceResp {
 		State:         data.State,
 		City:          data.City,
 		MaxGuest:      data.MaxGuest,
+		Numbed:        data.NumBed,
 	}
 }
