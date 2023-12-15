@@ -228,6 +228,7 @@ func main() {
 	v1.DELETE("/amenities/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.DeleteAmenityByID())
 	v1.GET("/amenities/config", amenityHdl.GetAllConfigAmenity())
 	v1.GET("/amenities/place/:place_id", amenityHdl.ListAmenityByPlaceID())
+	v1.POST("/amenities/place/remove", amenityHdl.DeleteAmenityByListID())
 
 	// google login
 	//v1.GET("/google/login")

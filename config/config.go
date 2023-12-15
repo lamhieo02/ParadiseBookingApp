@@ -66,7 +66,8 @@ type RedisConfig struct {
 }
 
 type GoogleMap struct {
-	APIKey string
+	APIKey  string
+	BaseURL string
 }
 
 func LoadConfig() (*Config, error) {

@@ -11,6 +11,7 @@ type AmenityUseCase interface {
 	DeleteAmenityById(ctx context.Context, id int) error
 	GetAllConfigAmenity(ctx context.Context) (res []entities.ConfigAmenity, err error)
 	ListAmenityByPlaceID(ctx context.Context, placeID int) (res []entities.Amenity, err error)
+	DeleteAmenityByListId(ctx context.Context, req *iomodel.DeleteAmenityReq) error
 }
 
 type amenityHandler struct {
