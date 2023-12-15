@@ -26,6 +26,9 @@ import (
 	placewishlisthandler "paradise-booking/modules/place_wishlist/handler"
 	placewishliststorage "paradise-booking/modules/place_wishlist/storage"
 	placewishlistusecase "paradise-booking/modules/place_wishlist/usecase"
+	policieshandler "paradise-booking/modules/policy/handler"
+	policiesstorage "paradise-booking/modules/policy/storage"
+	policiesusecase "paradise-booking/modules/policy/usecase"
 	uploadhandler "paradise-booking/modules/upload/handler"
 	uploadusecase "paradise-booking/modules/upload/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
@@ -129,6 +132,11 @@ func main() {
 	uploadUC := uploadusecase.NewUploadUseCase(cfg, s3Provider)
 	uploadHdl := uploadhandler.NewUploadHandler(cfg, uploadUC)
 
+	// prepare for policy
+	policySto := policiesstorage.NewPolicyStorage(db)
+	policyUC := policiesusecase.NewPolicyUseCase(policySto)
+	policyHdl := policieshandler.NewPolicyHandler(policyUC)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -229,6 +237,10 @@ func main() {
 	v1.GET("/amenities/config", amenityHdl.GetAllConfigAmenity())
 	v1.GET("/amenities/place/:place_id", amenityHdl.ListAmenityByPlaceID())
 	v1.POST("/amenities/place/remove", amenityHdl.DeleteAmenityByListID())
+
+	// policies
+	v1.POST("/policies", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), policyHdl.UpsertPolicy())
+	v1.GET("/policies/:place_id", policyHdl.GetPolicyByPlaceId())
 
 	// google login
 	//v1.GET("/google/login")
