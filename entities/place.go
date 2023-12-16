@@ -15,7 +15,7 @@ type Place struct {
 	Lng           float32 `json:"lng" gorm:"column:lng"`
 	Country       string  `json:"country" gorm:"column:country"`
 	State         string  `json:"state" gorm:"column:state"`
-	City          string  `json:"city" gorm:"column:city"`
+	District      string  `json:"district" gorm:"column:district"`
 	MaxGuest      int     `json:"max_guest" gorm:"column:max_guest"`
 	NumBed        int     `json:"num_bed" gorm:"column:num_bed"`
 }

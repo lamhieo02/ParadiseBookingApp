@@ -38,6 +38,7 @@ import (
 	wishliststorage "paradise-booking/modules/wishlist/storage"
 	wishlistusecase "paradise-booking/modules/wishlist/usecase"
 	"paradise-booking/provider/cache"
+	googlemapprovider "paradise-booking/provider/googlemap"
 	mysqlprovider "paradise-booking/provider/mysql"
 	redisprovider "paradise-booking/provider/redis"
 	s3provider "paradise-booking/provider/s3"
@@ -80,6 +81,9 @@ func main() {
 	// declare task distributor
 	taskDistributor := worker.NewRedisTaskDistributor(&redisOpt)
 
+	// google map
+	googleMap := googlemapprovider.NewGoogleMap(cfg)
+
 	// declare dependencies account
 	accountSto := accountstorage.NewAccountStorage(db)
 	accountCache := cache.NewAuthUserCache(accountSto, cache.NewRedisCache(redis))
@@ -96,7 +100,7 @@ func main() {
 
 	// prepare for place
 	placeSto := placestorage.NewPlaceStorage(db)
-	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountSto)
+	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountSto, *googleMap)
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 
 	// prepare for booking detail
