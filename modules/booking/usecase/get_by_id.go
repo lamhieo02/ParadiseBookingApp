@@ -29,6 +29,12 @@ func (uc *bookingUseCase) GetBookingByID(ctx context.Context, id int) (*iomodel.
 		return nil, common.ErrCannotGetEntity("place", err)
 	}
 
-	result := convert.ConvertBookingModelToGetResp(account, booking, place)
+	// get booking detail by id
+	bookingDetail, err := uc.bookingDetailSto.GetByBookingID(ctx, booking.Id)
+	if err != nil {
+		return nil, common.ErrCannotGetEntity("booking detail", err)
+	}
+
+	result := convert.ConvertBookingModelToGetResp(account, booking, place, bookingDetail)
 	return result, nil
 }
