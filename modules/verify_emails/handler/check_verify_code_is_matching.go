@@ -18,6 +18,7 @@ func (hdl *verifyEmailsHandler) CheckVerifyCodeIsMatching() gin.HandlerFunc {
 		}
 
 		if err != nil {
+			c.Redirect(http.StatusMovedPermanently, constant.UrlVerifyEmailFail)
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
