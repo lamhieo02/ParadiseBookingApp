@@ -24,6 +24,7 @@ type BookingStorage interface {
 type BookingDetailStorage interface {
 	Create(ctx context.Context, data *entities.BookingDetail) (err error)
 	CreateTx(ctx context.Context, createBookingDetailTxParam bookingdetailstorage.CreateBookingDetailTxParam) error
+	GetByBookingID(ctx context.Context, bookingId int) (res *entities.BookingDetail, err error)
 }
 
 type AccountSto interface {
