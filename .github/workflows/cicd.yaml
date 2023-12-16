@@ -20,6 +20,9 @@ jobs:
     - name: Build
       run: go build -v ./...
 
+    - name: Test
+      run: go test -v ./...
+
     - name: Login to AWS ECR
       run: |
         aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
