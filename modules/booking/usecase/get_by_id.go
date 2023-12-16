@@ -3,6 +3,7 @@ package bookingusecase
 import (
 	"context"
 	"paradise-booking/common"
+	"paradise-booking/entities"
 	"paradise-booking/modules/booking/convert"
 	"paradise-booking/modules/booking/iomodel"
 )
@@ -17,22 +18,31 @@ func (uc *bookingUseCase) GetBookingByID(ctx context.Context, id int) (*iomodel.
 		return nil, common.ErrEntityNotFound("place", err)
 	}
 
+	// get booking detail by id
+	bookingDetail, err := uc.bookingDetailSto.GetByBookingID(ctx, booking.Id)
+	if err != nil {
+		return nil, common.ErrCannotGetEntity("booking detail", err)
+	}
+
 	// get account by id
 	account, err := uc.AccountSto.GetProfileByID(ctx, booking.UserId)
 	if err != nil {
-		return nil, common.ErrCannotGetEntity("account", err)
+		if err == common.RecordNotFound {
+			// case: booking when user not login
+			account = &entities.Account{
+				Email:    bookingDetail.Email,
+				Username: bookingDetail.FullName,
+				Phone:    bookingDetail.Phone,
+			}
+		} else {
+			return nil, common.ErrCannotGetEntity("account", err)
+		}
 	}
 
 	// get place by id
 	place, err := uc.PlaceSto.GetPlaceByID(ctx, booking.PlaceId)
 	if err != nil {
 		return nil, common.ErrCannotGetEntity("place", err)
-	}
-
-	// get booking detail by id
-	bookingDetail, err := uc.bookingDetailSto.GetByBookingID(ctx, booking.Id)
-	if err != nil {
-		return nil, common.ErrCannotGetEntity("booking detail", err)
 	}
 
 	result := convert.ConvertBookingModelToGetResp(account, booking, place, bookingDetail)
