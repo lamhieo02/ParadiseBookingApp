@@ -6,6 +6,7 @@ import (
 	"paradise-booking/config"
 	"paradise-booking/entities"
 	"paradise-booking/modules/place/iomodel"
+	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
 type PlaceStorage interface {
@@ -26,8 +27,9 @@ type placeUseCase struct {
 	placeStorage PlaceStorage
 	accountSto   AccountStorage
 	cfg          *config.Config
+	googleMap    googlemapprovider.GoogleMap
 }
 
-func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage) *placeUseCase {
-	return &placeUseCase{placeSto, accoutSto, cfg}
+func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap googlemapprovider.GoogleMap) *placeUseCase {
+	return &placeUseCase{placeSto, accoutSto, cfg, googleMap}
 }

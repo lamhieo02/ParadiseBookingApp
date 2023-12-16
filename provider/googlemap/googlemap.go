@@ -1,10 +1,11 @@
-package googlemap
+package googlemapprovider
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"paradise-booking/config"
 	"paradise-booking/utils"
@@ -12,13 +13,6 @@ import (
 
 	"moul.io/http2curl"
 )
-
-type GoogleMapAddress struct {
-	Country  string `json:"country"`
-	State    string `json:"state"`
-	City     string `json:"city"`
-	District string `json:"district"`
-}
 
 type GoogleMap struct {
 	cfg    *config.Config
@@ -34,27 +28,32 @@ func NewGoogleMap(cfg *config.Config) *GoogleMap {
 	}
 }
 
-func (g *GoogleMap) GetGeocodeMap(ctx context.Context, lat, lng float32) (*GoogleMapAddress, error) {
+func (g *GoogleMap) GetGeocodeMap(ctx context.Context, lat, lng float32) (*GoogleMapResponse, error) {
 	latLngValue := fmt.Sprintf("%f,%f", lat, lng)
-	var address *GoogleMapAddress
+	var resp *GoogleMapResponse
 	path := fmt.Sprintf("/json?latlng=%s&key=%s", latLngValue, g.cfg.GoogleMap.APIKey)
 	url := utils.JoinURL(g.cfg.GoogleMap.BaseURL, path)
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
 	if err != nil {
+		log.Println("err", err)
 		return nil, err
 	}
 
-	body, err := g.MakeRequest(ctx, g.client, req)
+	body, err := g.MakeRequest(context.Background(), g.client, req)
 	if err != nil {
+		log.Println("err", err)
 		return nil, err
 	}
 
-	if err := json.Unmarshal(body, &address); err != nil {
+	if err := json.Unmarshal(body, &resp); err != nil {
+		log.Println("err", err)
 		return nil, err
 	}
 
-	return address, nil
+	log.Println(body)
+
+	return resp, nil
 }
 
 func (g *GoogleMap) MakeRequest(ctx context.Context, httpClient *http.Client, req *http.Request) ([]byte, error) {

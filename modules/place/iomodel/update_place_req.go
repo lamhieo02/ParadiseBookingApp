@@ -11,7 +11,7 @@ type UpdatePlaceReq struct {
 	Lng           float32 `json:"lng" form:"lng"`
 	Country       string  `json:"country" form:"country"`
 	State         string  `json:"state" form:"state"`
-	City          string  `json:"city" form:"city"`
+	District      string  `json:"district" form:"district"`
 	MaxGuest      int     `json:"max_guest" form:"max_guest"`
 	NumBed        int     `json:"num_bed" form:"num_bed"`
 }

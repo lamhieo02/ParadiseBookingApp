@@ -17,6 +17,16 @@ func (uc *placeUseCase) CreatePlace(ctx context.Context, data *iomodel.CreatePla
 	}
 
 	placeEntity.VendorID = vendor.Id
+
+	// get geocode to fill country, state, district
+	adress, err := uc.googleMap.GetAddressFromLatLng(ctx, data.Lat, data.Lng)
+	if err != nil {
+		return err
+	}
+
+	placeEntity.Country = adress.Country
+	placeEntity.State = adress.State
+	placeEntity.District = adress.District
 	// create place
 	if err := uc.placeStorage.Create(ctx, placeEntity); err != nil {
 		return err

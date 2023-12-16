@@ -19,7 +19,7 @@ func ConvertPlaceEntityToGetModel(data *entities.Place) *iomodel.GetPlaceResp {
 		Lng:           data.Lng,
 		Country:       data.Country,
 		State:         data.State,
-		City:          data.City,
+		District:      data.District,
 		MaxGuest:      data.MaxGuest,
 		Numbed:        data.NumBed,
 	}
