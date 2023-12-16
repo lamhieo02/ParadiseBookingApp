@@ -2,6 +2,7 @@ package verifyemailshanlder
 
 import (
 	"net/http"
+	"paradise-booking/constant"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,12 +12,17 @@ func (hdl *verifyEmailsHandler) CheckVerifyCodeIsMatching() gin.HandlerFunc {
 		email := c.Query("email")
 		verifyCode := c.Query("secret_code")
 
-		err := hdl.verifyEmailsUC.CheckVerifyCodeIsMatching(c.Request.Context(), email, verifyCode)
+		isExpired, err := hdl.verifyEmailsUC.CheckVerifyCodeIsMatching(c.Request.Context(), email, verifyCode)
+		if isExpired {
+			c.Redirect(http.StatusMovedPermanently, constant.UrlVerifyEmailFail)
+		}
+
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"status": true})
+		c.Redirect(http.StatusMovedPermanently, constant.UrlVerifyEmailSuccess)
+		//c.JSON(http.StatusOK, gin.H{"status": true})
 	}
 }

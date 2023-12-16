@@ -9,19 +9,19 @@ import (
 	"gorm.io/gorm"
 )
 
-func (uc *verifyEmailsUseCase) CheckVerifyCodeIsMatching(ctx context.Context, email string, code string) error {
+func (uc *verifyEmailsUseCase) CheckVerifyCodeIsMatching(ctx context.Context, email string, code string) (bool, error) {
 	// check if verify code and email is matching
 	data, err := uc.verifyEmailsStore.Get(ctx, email, code, constant.TypeVerifyEmail)
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return common.ErrVerifyCodeIsNotMatching("verify code", nil)
+			return false, common.ErrVerifyCodeIsNotMatching("verify code", nil)
 		}
-		return err
+		return false, err
 	}
 
 	// check if verify code is expired
 	if data.IsExpired() {
-		return common.ErrExpiredVerifyCode("verify code", err)
+		return true, nil
 	}
 
 	// if all is ok => update status to verified
@@ -32,8 +32,8 @@ func (uc *verifyEmailsUseCase) CheckVerifyCodeIsMatching(ctx context.Context, em
 
 	err = uc.accountStore.UpdateIsVerifyEmailByEmail(ctx, account.Email)
 	if err != nil {
-		return common.ErrCannotUpdateEntity("account", err)
+		return false, common.ErrCannotUpdateEntity("account", err)
 	}
 
-	return nil
+	return false, nil
 }
