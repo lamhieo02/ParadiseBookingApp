@@ -13,13 +13,8 @@ func (hdl *verifyEmailsHandler) CheckVerifyCodeIsMatching() gin.HandlerFunc {
 		verifyCode := c.Query("secret_code")
 
 		isExpired, err := hdl.verifyEmailsUC.CheckVerifyCodeIsMatching(c.Request.Context(), email, verifyCode)
-		if isExpired {
+		if isExpired || err != nil {
 			c.Redirect(http.StatusMovedPermanently, constant.UrlVerifyEmailFail)
-		}
-
-		if err != nil {
-			c.Redirect(http.StatusMovedPermanently, constant.UrlVerifyEmailFail)
-			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
 
