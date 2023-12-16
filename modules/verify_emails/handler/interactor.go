@@ -5,7 +5,7 @@ import (
 )
 
 type verifyEmailsUseCase interface {
-	CheckVerifyCodeIsMatching(ctx context.Context, email string, code string) error
+	CheckVerifyCodeIsMatching(ctx context.Context, email string, code string) (bool, error)
 	CheckResetCodePasswordIsMatching(ctx context.Context, email string, code string) error
 }
 

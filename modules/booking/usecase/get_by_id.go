@@ -31,7 +31,7 @@ func (uc *bookingUseCase) GetBookingByID(ctx context.Context, id int) (*iomodel.
 			// case: booking when user not login
 			account = &entities.Account{
 				Email:    bookingDetail.Email,
-				Username: bookingDetail.FullName,
+				FullName: bookingDetail.FullName,
 				Phone:    bookingDetail.Phone,
 			}
 		} else {
