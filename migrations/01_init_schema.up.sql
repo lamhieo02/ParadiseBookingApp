@@ -173,7 +173,6 @@ CREATE TABLE `places` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
   `max_guest` int DEFAULT '1',
-  `capacity` int DEFAULT NULL,
   `num_bed` int DEFAULT NULL,
   `source_mapping_address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),

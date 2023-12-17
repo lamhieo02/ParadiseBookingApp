@@ -9,7 +9,6 @@ type Place struct {
 	Description   string  `json:"description" gorm:"column:description"`
 	PricePerNight float64 `json:"price_per_night" gorm:"column:price_per_night"`
 	Address       string  `json:"address" gorm:"column:address"`
-	Capacity      int     `json:"capacity" gorm:"column:capacity"`
 	Cover         string  `json:"cover" gorm:"column:cover"`
 	Lat           float64 `json:"lat" gorm:"column:lat"`
 	Lng           float64 `json:"lng" gorm:"column:lng"`
