@@ -9,8 +9,8 @@ type GetPlaceResp struct {
 	Address       string  `json:"address" form:"address"`
 	Capacity      int     `json:"capacity" form:"capacity"`
 	Cover         string  `json:"cover" form:"cover"`
-	Lat           float32 `json:"lat" form:"lat"`
-	Lng           float32 `json:"lng" form:"lng"`
+	Lat           float64 `json:"lat" form:"lat"`
+	Lng           float64 `json:"lng" form:"lng"`
 	Country       string  `json:"country" form:"country"`
 	State         string  `json:"state" form:"state"`
 	District      string  `json:"district" form:"district"`

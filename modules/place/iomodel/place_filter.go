@@ -1,8 +1,8 @@
 package iomodel
 
 type Filter struct {
-	Lat      *float32 `json:"lat"`
-	Lng      *float32 `json:"lng"`
+	Lat      *float64 `json:"lat"`
+	Lng      *float64 `json:"lng"`
 	VendorID *int     `json:"vendor_id"`
 	//DateFrom  *string  `json:"date_from"`
 	//DateTo    *string  `json:"date_to"`

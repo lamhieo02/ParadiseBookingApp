@@ -21,9 +21,37 @@ func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 		paging.Page = page
 		paging.Limit = limit
 
-		err := ctx.ShouldBind(&filter)
-		if err != nil {
-			panic(err)
+		lat := ctx.Query("lat")
+		lng := ctx.Query("lng")
+		if lat != "" && lng != "" {
+			lat, _ := strconv.ParseFloat(lat, 64)
+			lng, _ := strconv.ParseFloat(lng, 64)
+			filter.Lat = &lat
+			filter.Lng = &lng
+		}
+
+		guest := ctx.Query("guest")
+		if guest != "" {
+			guest, _ := strconv.Atoi(guest)
+			filter.Guest = &guest
+		}
+
+		numBed := ctx.Query("num_bed")
+		if numBed != "" {
+			numBed, _ := strconv.Atoi(numBed)
+			filter.NumBed = &numBed
+		}
+
+		priceFrom := ctx.Query("price_from")
+		if priceFrom != "" {
+			priceFrom, _ := strconv.Atoi(priceFrom)
+			filter.PriceFrom = &priceFrom
+		}
+
+		priceTo := ctx.Query("price_to")
+		if priceTo != "" {
+			priceTo, _ := strconv.Atoi(priceTo)
+			filter.PriceTo = &priceTo
 		}
 
 		places, err := hdl.placeUC.ListAllPlace(ctx.Request.Context(), &paging, &filter)
