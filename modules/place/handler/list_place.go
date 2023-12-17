@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"paradise-booking/common"
 	"paradise-booking/modules/place/convert"
+	"paradise-booking/modules/place/iomodel"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,7 @@ import (
 func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var paging common.Paging
+		var filter iomodel.Filter
 
 		page, _ := strconv.Atoi(ctx.Query("page"))
 		limit, _ := strconv.Atoi(ctx.Query("limit"))
@@ -19,7 +21,12 @@ func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 		paging.Page = page
 		paging.Limit = limit
 
-		places, err := hdl.placeUC.ListAllPlace(ctx.Request.Context(), &paging, nil)
+		err := ctx.ShouldBind(&filter)
+		if err != nil {
+			panic(err)
+		}
+
+		places, err := hdl.placeUC.ListAllPlace(ctx.Request.Context(), &paging, &filter)
 		if err != nil {
 			panic(err)
 		}
