@@ -31,7 +31,7 @@ func findAddress(lstAdressComponent []AddressComponent, res *GoogleMapAddress) {
 	}
 }
 
-func (g *GoogleMap) GetAddressFromLatLng(ctx context.Context, lat, lng float32) (res *GoogleMapAddress, err error) {
+func (g *GoogleMap) GetAddressFromLatLng(ctx context.Context, lat, lng float64) (res *GoogleMapAddress, err error) {
 
 	res = &GoogleMapAddress{}
 	addressResp, err := g.GetGeocodeMap(ctx, lat, lng)

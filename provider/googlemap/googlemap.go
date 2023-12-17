@@ -28,7 +28,7 @@ func NewGoogleMap(cfg *config.Config) *GoogleMap {
 	}
 }
 
-func (g *GoogleMap) GetGeocodeMap(ctx context.Context, lat, lng float32) (*GoogleMapResponse, error) {
+func (g *GoogleMap) GetGeocodeMap(ctx context.Context, lat, lng float64) (*GoogleMapResponse, error) {
 	latLngValue := fmt.Sprintf("%f,%f", lat, lng)
 	var resp *GoogleMapResponse
 	path := fmt.Sprintf("/json?latlng=%s&key=%s", latLngValue, g.cfg.GoogleMap.APIKey)
