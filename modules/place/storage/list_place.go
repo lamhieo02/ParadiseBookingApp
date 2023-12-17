@@ -5,9 +5,10 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/entities"
 	"paradise-booking/modules/place/iomodel"
+	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
-func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, filter *iomodel.Filter) ([]entities.Place, error) {
+func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, address *googlemapprovider.GoogleMapAddress) ([]entities.Place, error) {
 	db := s.db
 
 	var data []entities.Place
@@ -18,6 +19,30 @@ func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, fi
 		if v.VendorID != nil {
 			db = db.Where("vendor_id = ?", v.VendorID)
 		}
+
+		if v.Lat != nil && v.Lng != nil {
+			if address.Country != "" {
+				db = db.Where("country = ?", address.Country)
+			}
+			if address.State != "" {
+				db = db.Where("state = ?", address.State)
+			}
+			if address.District != "" {
+				db = db.Where("district = ?", address.District)
+			}
+		}
+
+		if v.Guest != nil {
+			db = db.Where("max_guest >= ?", v.Guest)
+		}
+
+		if v.PriceFrom != nil {
+			db = db.Where("price_per_night >= ?", v.PriceFrom)
+		}
+		if v.PriceTo != nil {
+			db = db.Where("price_per_night <= ?", v.PriceTo)
+		}
+
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {

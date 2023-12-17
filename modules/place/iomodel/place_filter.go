@@ -1,8 +1,14 @@
 package iomodel
 
 type Filter struct {
-	VendorID *int    `json:"vendor_id" form:"vendor_id"`
-	Country  *string `json:"country" form:"country"`
-	State    *string `json:"state" form:"state"`
-	District *string `json:"district" form:"district"`
+	Lat      *float32 `json:"lat"`
+	Lng      *float32 `json:"lng"`
+	VendorID *int     `json:"vendor_id"`
+	//DateFrom  *string  `json:"date_from"`
+	//DateTo    *string  `json:"date_to"`
+	Guest *int `json:"guest"`
+	//Bedroom   *int     `json:"bedroom"`
+	NumBed    *int `json:"num_bed"`
+	PriceFrom *int `json:"price_from"`
+	PriceTo   *int `json:"price_to"`
 }

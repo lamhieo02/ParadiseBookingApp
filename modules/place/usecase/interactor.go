@@ -14,7 +14,7 @@ type PlaceStorage interface {
 	DeleteByID(ctx context.Context, id int) error
 	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
 	ListPlaceByVendorID(ctx context.Context, vendorID int, paging *common.Paging) ([]entities.Place, error)
-	ListPlaces(ctx context.Context, paging *common.Paging, filter *iomodel.Filter) ([]entities.Place, error)
+	ListPlaces(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, address *googlemapprovider.GoogleMapAddress) ([]entities.Place, error)
 	UpdateByID(ctx context.Context, id int, data *entities.Place) error
 }
 
@@ -27,9 +27,9 @@ type placeUseCase struct {
 	placeStorage PlaceStorage
 	accountSto   AccountStorage
 	cfg          *config.Config
-	googleMap    googlemapprovider.GoogleMap
+	googleMap    *googlemapprovider.GoogleMap
 }
 
-func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap googlemapprovider.GoogleMap) *placeUseCase {
+func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap) *placeUseCase {
 	return &placeUseCase{placeSto, accoutSto, cfg, googleMap}
 }
