@@ -1,6 +1,6 @@
 app:
   Version: 1.0.0
-  Port: 8081
+  Port: 8080
   Mode: development
   Secret: 109339Lam
   MigrationURL:  file://migrations
