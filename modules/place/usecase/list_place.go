@@ -12,13 +12,13 @@ import (
 
 func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging, filter *iomodel.Filter) (result []iomodel.GetPlaceResp, err error) {
 
-	address := &googlemapprovider.GoogleMapAddress{}
+	address := googlemapprovider.GoogleMapAddress{}
 
 	// get geocode to fill country, state, district
 	if filter.Lat != nil && filter.Lng != nil {
 		lat := *filter.Lat
 		lng := *filter.Lng
-		address, err = uc.googleMap.GetAddressFromLatLng(ctx, lat, lng)
+		address1, err := uc.googleMap.GetAddressFromLatLng(ctx, lat, lng)
 		if err != nil {
 			log.Printf("Error when get address from lat lng: %v", err)
 			addr, err := uc.placeStorage.GetPlaceByCondition(ctx, map[string]interface{}{"lat": lat, "lng": lng})
@@ -35,11 +35,13 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 				address.State = addr[0].State
 				address.District = addr[0].District
 			}
+		} else {
+			address = *address1
 		}
 	}
 
 	paging.Process()
-	places, err := uc.placeStorage.ListPlaces(ctx, paging, filter, address)
+	places, err := uc.placeStorage.ListPlaces(ctx, paging, filter, &address)
 	if err != nil {
 		return nil, common.ErrCannotListEntity("place", err)
 	}
