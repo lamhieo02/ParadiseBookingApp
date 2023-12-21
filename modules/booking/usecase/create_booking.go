@@ -16,6 +16,7 @@ import (
 
 func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomodel.CreateBookingReq) (*iomodel.CreateBookingResp, error) {
 	// convert iomodel to entities
+	var err error
 	bookingEntity := convert.ConvertBookingModelToBookingEntity(bookingData)
 	bookingDetailEntity := convert.ConvertBookingModelToBookingDetail(bookingData)
 
@@ -51,9 +52,12 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 	}
 
 	// if payment method is momo, we will create payment
-	orderId, requestId, paymentUrl, err := uc.MomoProvider.CreatePayment(bookingDetailEntity)
-	if err != nil {
-		return nil, err
+	var requestId, orderId, paymentUrl string
+	if bookingData.PaymentMethod == constant.PaymentMethodMomo {
+		orderId, requestId, paymentUrl, err = uc.MomoProvider.CreatePayment(bookingDetailEntity)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// create data payment
