@@ -64,3 +64,5 @@ func TestGetGeocodeMap(t *testing.T) {
 
 	log.Println(body)
 }
+
+// trigger cicd
