@@ -7,6 +7,7 @@ import (
 	"paradise-booking/entities"
 	"paradise-booking/modules/booking/iomodel"
 	bookingdetailstorage "paradise-booking/modules/booking_detail/storage"
+	momoprovider "paradise-booking/provider/momo"
 	"paradise-booking/worker"
 )
 
@@ -38,15 +39,21 @@ type PlaceSto interface {
 	ListPlaceInIds(ctx context.Context, placeIds []int, vendorId int) ([]entities.Place, error)
 }
 
+type PaymentSto interface {
+	CreatePayment(ctx context.Context, payment *entities.Payment) error
+}
+
 type bookingUseCase struct {
 	bookingSto       BookingStorage
 	bookingDetailSto BookingDetailStorage
 	AccountSto       AccountSto
+	paymentSto       PaymentSto
 	cfg              *config.Config
 	taskDistributor  worker.TaskDistributor
 	PlaceSto         PlaceSto
+	MomoProvider     *momoprovider.Momo
 }
 
-func NewBookingUseCase(bookingStore BookingStorage, bookingDetailStorage BookingDetailStorage, config *config.Config, taskDistributor worker.TaskDistributor, accountSto AccountSto, placeSto PlaceSto) *bookingUseCase {
-	return &bookingUseCase{bookingSto: bookingStore, bookingDetailSto: bookingDetailStorage, cfg: config, taskDistributor: taskDistributor, AccountSto: accountSto, PlaceSto: placeSto}
+func NewBookingUseCase(bookingStore BookingStorage, bookingDetailStorage BookingDetailStorage, config *config.Config, taskDistributor worker.TaskDistributor, accountSto AccountSto, placeSto PlaceSto, momo *momoprovider.Momo, paymentSto PaymentSto) *bookingUseCase {
+	return &bookingUseCase{bookingSto: bookingStore, bookingDetailSto: bookingDetailStorage, cfg: config, taskDistributor: taskDistributor, AccountSto: accountSto, PlaceSto: placeSto, MomoProvider: momo, paymentSto: paymentSto}
 }

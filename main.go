@@ -20,6 +20,7 @@ import (
 	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
 	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
 	"paradise-booking/modules/middleware"
+	paymentstorage "paradise-booking/modules/payment/store"
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
 	placeusecase "paradise-booking/modules/place/usecase"
@@ -39,6 +40,7 @@ import (
 	wishlistusecase "paradise-booking/modules/wishlist/usecase"
 	"paradise-booking/provider/cache"
 	googlemapprovider "paradise-booking/provider/googlemap"
+	momoprovider "paradise-booking/provider/momo"
 	mysqlprovider "paradise-booking/provider/mysql"
 	redisprovider "paradise-booking/provider/redis"
 	s3provider "paradise-booking/provider/s3"
@@ -84,6 +86,9 @@ func main() {
 	// google map
 	googleMap := googlemapprovider.NewGoogleMap(cfg)
 
+	// momo
+	momo := momoprovider.NewMomo(cfg)
+
 	// declare dependencies account
 	accountSto := accountstorage.NewAccountStorage(db)
 	accountCache := cache.NewAuthUserCache(accountSto, cache.NewRedisCache(redis))
@@ -98,6 +103,9 @@ func main() {
 
 	// declare dependencies
 
+	// prepare for payment
+	paymentSto := paymentstorage.NewPaymentStorage(db)
+
 	// prepare for place
 	placeSto := placestorage.NewPlaceStorage(db)
 	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountSto, googleMap)
@@ -108,7 +116,7 @@ func main() {
 
 	// prepare for booking
 	bookingSto := bookingstorage.NewBookingStorage(db)
-	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto, placeSto)
+	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto, placeSto, momo, paymentSto)
 	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
 	// prepare for wish list
