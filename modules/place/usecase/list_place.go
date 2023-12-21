@@ -2,6 +2,8 @@ package placeusecase
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"paradise-booking/common"
 	"paradise-booking/modules/place/convert"
 	"paradise-booking/modules/place/iomodel"
@@ -18,7 +20,21 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 		lng := *filter.Lng
 		address, err = uc.googleMap.GetAddressFromLatLng(ctx, lat, lng)
 		if err != nil {
-			return nil, err
+			log.Printf("Error when get address from lat lng: %v", err)
+			addr, err := uc.placeStorage.GetPlaceByCondition(ctx, map[string]interface{}{"lat": lat, "lng": lng})
+			if err != nil {
+				return nil, err
+			}
+
+			if len(addr) == 0 {
+				return nil, fmt.Errorf("Cannot get address from lat %v lng %v", lat, lng)
+			}
+
+			if len(addr) > 0 {
+				address.Country = addr[0].Country
+				address.State = addr[0].State
+				address.District = addr[0].District
+			}
 		}
 	}
 

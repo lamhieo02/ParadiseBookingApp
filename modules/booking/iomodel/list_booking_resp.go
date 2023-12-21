@@ -24,4 +24,5 @@ type DataListBooking struct {
 	TotalPrice      float64        `json:"total_price"`
 	ContentToVendor string         `json:"content_to_vendor"`
 	NumberOfGuest   int            `json:"number_of_guest"`
+	PaymentMethod   int            `json:"payment_method"`
 }

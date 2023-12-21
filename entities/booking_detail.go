@@ -15,6 +15,7 @@ type BookingDetail struct {
 	TimeTo          string  `json:"time_to" gorm:"column:time_to"`
 	TimeFrom        string  `json:"time_from" gorm:"column:time_from"`
 	NumberOfGuest   int     `json:"number_of_guest" gorm:"column:number_of_guest"`
+	PaymentMethod   int     `json:"payment_method" gorm:"column:payment_method"`
 }
 
 func (BookingDetail) TableName() string {
