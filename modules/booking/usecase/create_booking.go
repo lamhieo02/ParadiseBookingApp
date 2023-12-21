@@ -14,7 +14,7 @@ import (
 	"github.com/hibiken/asynq"
 )
 
-func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomodel.CreateBookingReq) (*entities.Booking, error) {
+func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomodel.CreateBookingReq) (*iomodel.CreateBookingResp, error) {
 	// convert iomodel to entities
 	bookingEntity := convert.ConvertBookingModelToBookingEntity(bookingData)
 	bookingDetailEntity := convert.ConvertBookingModelToBookingDetail(bookingData)
@@ -50,5 +50,35 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 		return nil, err
 	}
 
-	return bookingEntity, nil
+	// if payment method is momo, we will create payment
+	orderId, requestId, paymentUrl, err := uc.MomoProvider.CreatePayment(bookingDetailEntity)
+	if err != nil {
+		return nil, err
+	}
+
+	// create data payment
+	status := constant.PaymentStatusUnpaid
+	if bookingData.PaymentMethod == constant.PaymentMethodMomo {
+		status = constant.PaymentStatusPaid
+	}
+
+	paymentEntity := &entities.Payment{
+		BookingID: bookingEntity.Id,
+		MethodID:  bookingData.PaymentMethod,
+		StatusID:  status,
+		Amount:    int(bookingDetailEntity.TotalPrice),
+		RequestID: requestId,
+		OrderID:   orderId,
+	}
+
+	err = uc.paymentSto.CreatePayment(ctx, paymentEntity)
+	if err != nil {
+		return nil, err
+	}
+
+	return &iomodel.CreateBookingResp{
+		BookingData: *bookingEntity,
+		PaymentUrl:  paymentUrl,
+	}, nil
+
 }

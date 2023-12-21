@@ -15,6 +15,7 @@ type Config struct {
 	Email     EmailSenderConfig
 	CronSpec  CronSpec
 	GoogleMap GoogleMap
+	Momo      Momo
 }
 
 type CronSpec struct {
@@ -68,6 +69,20 @@ type RedisConfig struct {
 type GoogleMap struct {
 	APIKey  string
 	BaseURL string
+}
+
+type Momo struct {
+	EndPoint    string
+	AccessKey   string
+	SecretKey   string
+	PartnerCode string
+	RedirectURL string
+	IpURL       string
+	Lang        string
+	PartnerName string
+	StoreId     string
+	AutoCapture bool
+	RequestType string
 }
 
 func LoadConfig() (*Config, error) {

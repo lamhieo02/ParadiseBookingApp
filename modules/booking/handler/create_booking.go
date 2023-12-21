@@ -17,7 +17,7 @@ func (hdl *bookingHandler) CreateBooking() gin.HandlerFunc {
 
 		res, err := hdl.bookingUC.CreateBooking(c.Request.Context(), &data)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err})
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"data": res})
