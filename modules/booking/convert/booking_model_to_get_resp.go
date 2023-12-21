@@ -22,6 +22,7 @@ func ConvertBookingModelToGetResp(user *entities.Account, dataBooking *entities.
 			TotalPrice:      bookingDetail.TotalPrice,
 			ContentToVendor: bookingDetail.ContentToVendor,
 			NumberOfGuest:   bookingDetail.NumberOfGuest,
+			PaymentMethod:   bookingDetail.PaymentMethod,
 		},
 	}
 }

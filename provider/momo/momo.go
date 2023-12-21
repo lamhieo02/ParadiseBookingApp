@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"paradise-booking/config"
+	"paradise-booking/constant"
 	"paradise-booking/entities"
 	"strconv"
 
@@ -61,6 +62,8 @@ func (momo *Momo) CreatePayment(bookingDetail *entities.BookingDetail) (orderId,
 	totalPrice := int(bookingDetail.TotalPrice)
 	orderInfo := "Booking ID: " + strconv.Itoa(bookingDetail.BookingId) + " - " + bookingDetail.Email
 
+	redirect := constant.RedirectURLMomo + strconv.Itoa(bookingDetail.BookingId)
+	momo.config.Momo.RedirectURL = redirect
 	//build raw signature
 	var rawSignature bytes.Buffer
 	rawSignature.WriteString("accessKey=")

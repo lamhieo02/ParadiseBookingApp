@@ -16,6 +16,7 @@ type PlaceStorage interface {
 	ListPlaceByVendorID(ctx context.Context, vendorID int, paging *common.Paging) ([]entities.Place, error)
 	ListPlaces(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, address *googlemapprovider.GoogleMapAddress) ([]entities.Place, error)
 	UpdateByID(ctx context.Context, id int, data *entities.Place) error
+	GetPlaceByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.Place, error)
 }
 
 type AccountStorage interface {

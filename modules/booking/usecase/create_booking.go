@@ -27,6 +27,7 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 	}
 
 	bookingDetailEntity.BookingId = bookingEntity.Id
+	bookingDetailEntity.PaymentMethod = bookingData.PaymentMethod
 
 	// create booking detail and send mail to customer to confirm booking in 1 transaction
 	paramCreateTx := bookingdetailstorage.CreateBookingDetailTxParam{
