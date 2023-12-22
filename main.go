@@ -20,7 +20,9 @@ import (
 	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
 	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
 	"paradise-booking/modules/middleware"
+	paymenthandler "paradise-booking/modules/payment/handler"
 	paymentstorage "paradise-booking/modules/payment/store"
+	paymentusecase "paradise-booking/modules/payment/usecase"
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
 	placeusecase "paradise-booking/modules/place/usecase"
@@ -105,7 +107,8 @@ func main() {
 
 	// prepare for payment
 	paymentSto := paymentstorage.NewPaymentStorage(db)
-
+	paymentUC := paymentusecase.NewPaymentUseCase(paymentSto)
+	paymentHdl := paymenthandler.NewPaymentHandler(paymentUC)
 	// prepare for place
 	placeSto := placestorage.NewPlaceStorage(db)
 	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountSto, googleMap)
@@ -253,6 +256,9 @@ func main() {
 	// policies
 	v1.POST("/policies", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), policyHdl.UpsertPolicy())
 	v1.GET("/policies/:place_id", policyHdl.GetPolicyByPlaceId())
+
+	// payment
+	v1.POST("/payments/list_by_vendor", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), paymentHdl.ListPaymentByVendorID())
 
 	// google login
 	//v1.GET("/google/login")
