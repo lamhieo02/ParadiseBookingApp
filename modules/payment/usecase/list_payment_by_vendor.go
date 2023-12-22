@@ -10,6 +10,7 @@ import (
 
 func (uc *paymentUseCase) ListPaymentByVendorID(ctx context.Context, paging *common.Paging, vendorID int, bookingId int) ([]entities.Payment, error) {
 
+	paging.Process()
 	payments, err := uc.paymentSto.GetPaymentByVendor(ctx, int(vendorID), paging)
 	if err != nil {
 		return nil, err

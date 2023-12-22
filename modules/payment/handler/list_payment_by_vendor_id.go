@@ -30,6 +30,12 @@ func (hdl *paymentHandler) ListPaymentByVendorID() gin.HandlerFunc {
 			return
 		}
 
-		ctx.JSON(http.StatusOK, gin.H{"data": payments})
+		if bookingIDInt != 0 {
+			paging.Page = 1
+			paging.Limit = 1
+			paging.Total = 1
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{"data": payments, "paging": paging})
 	}
 }
