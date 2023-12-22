@@ -6,7 +6,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -131,10 +130,7 @@ func (momo *Momo) CreatePayment(bookingDetail *entities.BookingDetail) (orderId,
 		return "", "", "", err
 	}
 
-	if resp.StatusCode != http.StatusOK {
-		log.Println("Error when request to Momo: ", resp.StatusCode)
-		return "", "", "", errors.New("Error when request to Momo have status code: " + strconv.Itoa(resp.StatusCode))
-	}
+	log.Println("Response: ", resp)
 
 	//result
 	var result map[string]interface{}
