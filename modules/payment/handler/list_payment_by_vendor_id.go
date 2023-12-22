@@ -21,7 +21,10 @@ func (hdl *paymentHandler) ListPaymentByVendorID() gin.HandlerFunc {
 		vendorID := ctx.Query("vendor_id")
 		id, _ := strconv.Atoi(vendorID)
 
-		payments, err := hdl.paymentUC.ListPaymentByVendorID(ctx, &paging, id)
+		bookingID := ctx.Query("booking_id")
+		bookingIDInt, _ := strconv.Atoi(bookingID)
+
+		payments, err := hdl.paymentUC.ListPaymentByVendorID(ctx, &paging, id, bookingIDInt)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return

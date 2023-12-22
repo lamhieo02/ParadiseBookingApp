@@ -7,7 +7,7 @@ import (
 )
 
 type PaymentUseCase interface {
-	ListPaymentByVendorID(ctx context.Context, paging *common.Paging, vendorID int) ([]entities.Payment, error)
+	ListPaymentByVendorID(ctx context.Context, paging *common.Paging, vendorID int, bookingID int) ([]entities.Payment, error)
 }
 
 type paymentHandler struct {
