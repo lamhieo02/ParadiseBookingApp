@@ -108,3 +108,5 @@ func LoadConfig() (*Config, error) {
 
 	return &c, nil
 }
+
+// trigger cicd
