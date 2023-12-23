@@ -30,9 +30,9 @@ aws:
 redis:
   Host: monorail.proxy.rlwy.net
   #Host: localhost
-  Port: 48457
+  Port: 15872
   #Port: 6379
-  Password: kLOhcmP1jLLdbDPkPpiJHbNdohjIbHc4
+  Password: ObPpf42D6pJJ43eLnoHkegEKoLI4OD4G
   #Password: ""
   DB: 0
 
