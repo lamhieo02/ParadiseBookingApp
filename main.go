@@ -82,6 +82,9 @@ func main() {
 		Password: cfg.Redis.Password,
 	}
 
+	// cache residis
+	cacheRedis := cache.NewRedisCache(redis)
+
 	// declare task distributor
 	taskDistributor := worker.NewRedisTaskDistributor(&redisOpt)
 
@@ -93,7 +96,7 @@ func main() {
 
 	// declare dependencies account
 	accountSto := accountstorage.NewAccountStorage(db)
-	accountCache := cache.NewAuthUserCache(accountSto, cache.NewRedisCache(redis))
+	accountCache := cache.NewAuthUserCache(accountSto, cacheRedis)
 
 	// declare verify email usecase
 	verifyEmailsSto := verifyemailsstorage.NewVerifyEmailsStorage(db)
@@ -132,7 +135,7 @@ func main() {
 	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
 	// prepare place wish list
-	placeWishListUseCase := placewishlistusecase.NewPlaceWishListUseCase(placeWishListSto, placeSto)
+	placeWishListUseCase := placewishlistusecase.NewPlaceWishListUseCase(placeWishListSto, placeSto, cacheRedis)
 	placeWishListHdl := placewishlisthandler.NewPlaceWishListHandler(placeWishListUseCase)
 
 	// prepare for place rating

@@ -5,7 +5,6 @@ import (
 	"log"
 	"paradise-booking/common"
 	"paradise-booking/entities"
-	"strconv"
 	"time"
 )
 
@@ -25,15 +24,29 @@ func NewPlaceWishListCache(store PlaceWishListSto, cacheStore Cache) *placeWishL
 func (c *placeWishListCache) GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.PlaceWishList, error) {
 	var placeWishList []entities.PlaceWishList
 
-	key := "placeWishList:"
+	placeId := condition["place_id"].(int)
+	userId := condition["user_id"].(int)
 
-	for _, v := range condition {
+	for k, v := range condition {
 		// parse interface{} to int
-		val := v.(int)
-		strVal := strconv.Itoa(val)
-		key += strVal // key store in redis
+		if k == "place_id" {
+			val := v.(int)
+			placeId = val
+		} else if k == "user_id" {
+			val := v.(int)
+			userId = val
+		}
+		// val := v.(int)
+		// strVal := strconv.Itoa(val)
+		// key += strVal // key store in redis
 	}
 
+	entityPlaceWishList := entities.PlaceWishList{
+		PlaceId: placeId,
+		UserId:  userId,
+	}
+
+	key := entityPlaceWishList.CacheKey()             // key store in redis
 	err := c.cacheStore.Get(ctx, key, &placeWishList) // get data from redis
 	if err != nil {
 		log.Printf("Error when cache.Get() data: %v", err)

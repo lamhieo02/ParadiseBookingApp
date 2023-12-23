@@ -1,6 +1,9 @@
 package entities
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 type PlaceWishList struct {
 	CreatedAt  *time.Time `json:"created_at" gorm:"column:created_at"`
@@ -12,4 +15,10 @@ type PlaceWishList struct {
 
 func (PlaceWishList) TableName() string {
 	return "place_wishlist"
+}
+
+func (placeWishList *PlaceWishList) CacheKey() string {
+	placeId := strconv.Itoa(placeWishList.PlaceId)
+	userId := strconv.Itoa(placeWishList.UserId)
+	return "placeWishList:" + placeId + userId
 }
