@@ -5,7 +5,7 @@ import (
 	"paradise-booking/modules/place/iomodel"
 )
 
-func ConvertPlaceEntityToGetModel(data *entities.Place) *iomodel.GetPlaceResp {
+func ConvertPlaceEntityToGetModel(data *entities.Place, isFree bool) *iomodel.GetPlaceResp {
 	return &iomodel.GetPlaceResp{
 		ID:            data.Id,
 		VendorID:      data.VendorID,
@@ -21,5 +21,6 @@ func ConvertPlaceEntityToGetModel(data *entities.Place) *iomodel.GetPlaceResp {
 		District:      data.District,
 		MaxGuest:      data.MaxGuest,
 		Numbed:        data.NumBed,
+		IsFree:        isFree,
 	}
 }

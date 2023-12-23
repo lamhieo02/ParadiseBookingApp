@@ -10,7 +10,7 @@ import (
 	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
-func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging, filter *iomodel.Filter) (result []iomodel.GetPlaceResp, err error) {
+func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, userEmail string) (result []iomodel.GetPlaceResp, err error) {
 
 	address := googlemapprovider.GoogleMapAddress{}
 
@@ -46,9 +46,31 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 		return nil, common.ErrCannotListEntity("place", err)
 	}
 
+	userID := 0
+	if userEmail != "" {
+		user, err := uc.accountSto.GetAccountByEmail(ctx, userEmail)
+		if err != nil {
+			return nil, err
+		}
+		userID = user.Id
+	}
+
 	// convert data to iomodel
 	for _, place := range places {
-		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place))
+		isFree := true
+
+		if userID != 0 {
+			placeWishList, err := uc.placeWishSto.GetByCondition(ctx, map[string]interface{}{"user_id": userID, "place_id": place.Id})
+			if err != nil {
+				return nil, err
+			}
+
+			if len(placeWishList) > 0 {
+				isFree = false
+			}
+		}
+
+		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, isFree))
 	}
 	return result, nil
 }

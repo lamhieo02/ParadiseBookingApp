@@ -24,12 +24,12 @@ func (uc *placeUseCase) ListPlaceByVendor(ctx context.Context, vendorEmail strin
 	}
 
 	if len(places) == 0 {
-		return nil, common.ErrEntityNotFound("place", err)
+		return []iomodel.GetPlaceResp{}, nil
 	}
 
 	// convert data to iomodel
 	for _, place := range places {
-		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place))
+		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false))
 	}
 	return result, nil
 }

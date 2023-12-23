@@ -104,6 +104,15 @@ func main() {
 	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
 	// declare dependencies
+	// prepare for wish list
+	wishListSto := wishliststorage.NewWishListStorage(db)
+	wishListUseCase := wishlistusecase.NewWishListUseCase(wishListSto)
+	wishListHdl := wishlisthandler.NewWishListHandler(wishListUseCase)
+
+	// prepare for placewishlist storeage
+	placeWishListSto := placewishliststorage.NewPlaceWishListStorage(db)
+	// declare cache for place_wishlist
+	placeWishListCache := cache.NewPlaceWishListCache(placeWishListSto, cache.NewRedisCache(redis))
 
 	// prepare for payment
 	paymentSto := paymentstorage.NewPaymentStorage(db)
@@ -111,7 +120,7 @@ func main() {
 	paymentHdl := paymenthandler.NewPaymentHandler(paymentUC)
 	// prepare for place
 	placeSto := placestorage.NewPlaceStorage(db)
-	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountSto, googleMap)
+	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountCache, googleMap, placeWishListCache)
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 
 	// prepare for booking detail
@@ -122,13 +131,7 @@ func main() {
 	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto, placeSto, momo, paymentSto)
 	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
-	// prepare for wish list
-	wishListSto := wishliststorage.NewWishListStorage(db)
-	wishListUseCase := wishlistusecase.NewWishListUseCase(wishListSto)
-	wishListHdl := wishlisthandler.NewWishListHandler(wishListUseCase)
-
 	// prepare place wish list
-	placeWishListSto := placewishliststorage.NewPlaceWishListStorage(db)
 	placeWishListUseCase := placewishlistusecase.NewPlaceWishListUseCase(placeWishListSto, placeSto)
 	placeWishListHdl := placewishlisthandler.NewPlaceWishListHandler(placeWishListUseCase)
 

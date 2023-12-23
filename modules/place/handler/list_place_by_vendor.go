@@ -15,6 +15,6 @@ func (hdl *placeHandler) ListPlaceByVendor() gin.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-		ctx.JSON(http.StatusOK, places)
+		ctx.JSON(http.StatusOK, gin.H{"data": places})
 	}
 }

@@ -2,6 +2,7 @@ package placeusecase
 
 import (
 	"context"
+	"log"
 	"paradise-booking/common"
 	"paradise-booking/modules/place/convert"
 	"paradise-booking/modules/place/iomodel"
@@ -17,12 +18,16 @@ func (uc *placeUseCase) ListPlaceByVendorByID(ctx context.Context, vendorID int,
 	}
 
 	if len(places) == 0 {
-		return nil, common.ErrEntityNotFound("place", err)
+		log.Printf("Not found any place by vendorID: %d", vendorID)
 	}
 
 	// convert data to iomodel
+	if len(places) == 0 {
+		return []iomodel.GetPlaceResp{}, nil
+	}
+
 	for _, place := range places {
-		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place))
+		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false))
 	}
 	return result, nil
 }

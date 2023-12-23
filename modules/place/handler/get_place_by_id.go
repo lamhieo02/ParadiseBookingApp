@@ -16,7 +16,9 @@ func (hdl *placeHandler) GetPlaceByID() gin.HandlerFunc {
 			return
 		}
 
-		place, err := hdl.placeUC.GetPlaceByID(ctx.Request.Context(), id)
+		emailUser := ctx.Query("user_email")
+
+		place, err := hdl.placeUC.GetPlaceByID(ctx.Request.Context(), id, emailUser)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return

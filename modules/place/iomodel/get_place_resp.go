@@ -15,4 +15,5 @@ type GetPlaceResp struct {
 	District      string  `json:"district" form:"district"`
 	MaxGuest      int     `json:"max_guest" form:"max_guest"`
 	Numbed        int     `json:"num_bed" form:"num_bed"`
+	IsFree        bool    `json:"is_free" form:"is_free"`
 }

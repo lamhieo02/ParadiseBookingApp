@@ -20,17 +20,21 @@ type PlaceStorage interface {
 }
 
 type AccountStorage interface {
-	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 	GetAccountByEmail(ctx context.Context, email string) (*entities.Account, error)
+}
+
+type PlaceWishListSto interface {
+	GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.PlaceWishList, error)
 }
 
 type placeUseCase struct {
 	placeStorage PlaceStorage
 	accountSto   AccountStorage
+	placeWishSto PlaceWishListSto
 	cfg          *config.Config
 	googleMap    *googlemapprovider.GoogleMap
 }
 
-func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap) *placeUseCase {
-	return &placeUseCase{placeSto, accoutSto, cfg, googleMap}
+func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap, placeWishSto PlaceWishListSto) *placeUseCase {
+	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap}
 }
