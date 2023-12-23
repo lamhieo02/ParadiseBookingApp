@@ -50,7 +50,7 @@ cronspec:
   UpdateStatusBooking: 0 0 * * *
 
 googlemap:
-  APIKey: AIzaSyCwu-BGNg2H6YhNH7Fbug0ZxTcl5_Nb65E
+  APIKey: AIzaSyBKDNvOslZCBC8CSXzaYV9zjwjBCBpzH8A
   BaseURL: https://maps.googleapis.com/maps/api/geocode
 
 momo:
