@@ -20,5 +20,6 @@ func ConvertAccountEntityToInfoResp(account *entities.Account) *iomodel.AccountI
 		Avt:      account.Avatar,
 		Created:  created,
 		Updated:  updated,
+		Bio:      account.Bio,
 	}
 }

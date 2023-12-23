@@ -54,9 +54,13 @@ func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 			filter.PriceTo = &priceTo
 		}
 
-		emailUser := ctx.Query("user_email")
+		var listPlaceReq iomodel.ListPlaceReq
+		if err := ctx.ShouldBind(&listPlaceReq); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
+			return
+		}
 
-		places, err := hdl.placeUC.ListAllPlace(ctx.Request.Context(), &paging, &filter, emailUser)
+		places, err := hdl.placeUC.ListAllPlace(ctx.Request.Context(), &paging, &filter, listPlaceReq.UserEmail)
 		if err != nil {
 			panic(err)
 		}
