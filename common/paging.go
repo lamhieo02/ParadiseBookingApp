@@ -14,7 +14,7 @@ func (p *Paging) Process() {
 	}
 
 	if p.Limit <= 0 {
-		p.Limit = 5
+		p.Limit = 10
 	}
 
 	if p.Limit >= 100 {

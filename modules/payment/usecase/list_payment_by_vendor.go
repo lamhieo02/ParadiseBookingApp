@@ -3,6 +3,7 @@ package paymentusecase
 import (
 	"context"
 	"paradise-booking/common"
+	"paradise-booking/constant"
 	"paradise-booking/entities"
 
 	"github.com/samber/lo"
@@ -10,7 +11,11 @@ import (
 
 func (uc *paymentUseCase) ListPaymentByVendorID(ctx context.Context, paging *common.Paging, vendorID int, bookingId int) ([]entities.Payment, error) {
 
-	paging.Process()
+	if paging.Limit == 0 {
+		paging.Limit = constant.PaymentPagingLimitMax
+		paging.Page = constant.PaymentPagingPageDefault
+	}
+
 	payments, err := uc.paymentSto.GetPaymentByVendor(ctx, int(vendorID), paging)
 	if err != nil {
 		return nil, err

@@ -9,3 +9,8 @@ const (
 	PaymentStatusUnpaid = iota + 1
 	PaymentStatusPaid
 )
+
+const (
+	PaymentPagingLimitMax    = 200
+	PaymentPagingPageDefault = 1
+)
