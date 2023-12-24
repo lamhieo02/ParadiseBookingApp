@@ -13,16 +13,16 @@ mysql:
   # User: root
   # Password: 109339Lam@
   # DBName: paradise
-  # Host: roundhouse.proxy.rlwy.net
-  # Port: 30663
-  # User: root
-  # Password: aaCfeH12efF2-3Gfh-b6A--Aac1HH-4c
-  # DBName: railway
-  Host: paradise.cdoiqcyjepa6.ap-southeast-1.rds.amazonaws.com
-  Port: 3306
+  Host: roundhouse.proxy.rlwy.net
+  Port: 30663
   User: root
-  Password: 109339Lam
-  DBName: paradise
+  Password: aaCfeH12efF2-3Gfh-b6A--Aac1HH-4c
+  DBName: railway
+  # Host: paradise.cdoiqcyjepa6.ap-southeast-1.rds.amazonaws.com
+  # Port: 3306
+  # User: root
+  # Password: 109339Lam
+  # DBName: paradise
 
 aws:
   Region: ap-southeast-1
