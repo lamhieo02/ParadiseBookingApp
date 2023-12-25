@@ -243,6 +243,7 @@ func main() {
 	v1.GET("/booking_ratings/bookings/:id", bookingRatingHdl.GetCommentByBookingID())
 	v1.GET("/booking_ratings/users/:id", bookingRatingHdl.GetCommentByUserID())
 	v1.GET("/booking_ratings/vendors/:id", bookingRatingHdl.GetCommentByVendorID())
+	v1.GET("/booking_ratings/statistics/:place_id", bookingRatingHdl.GetStatisTicsByPlaceId())
 
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())

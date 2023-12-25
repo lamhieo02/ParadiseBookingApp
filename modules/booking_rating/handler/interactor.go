@@ -12,6 +12,7 @@ type placeRatingUseCase interface {
 	GetCommentByBookingID(ctx context.Context, bookingID int) ([]iomodel.GetCommentResp, error)
 	GetCommentByUserID(ctx context.Context, usrID int) (*iomodel.GetCommentByUserResp, error)
 	GetCommentByVendorID(ctx context.Context, vendorID int) (*iomodel.GetCommentByVendorResp, error)
+	GetStatisticByPlaceID(ctx context.Context, placeId int) ([]entities.StatisticResp, error)
 }
 
 type bookingratinghandler struct {
