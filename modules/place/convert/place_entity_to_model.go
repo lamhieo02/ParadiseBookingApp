@@ -5,7 +5,7 @@ import (
 	"paradise-booking/modules/place/iomodel"
 )
 
-func ConvertPlaceEntityToGetModel(data *entities.Place, isFree bool) *iomodel.GetPlaceResp {
+func ConvertPlaceEntityToGetModel(data *entities.Place, isFree bool, ratingAverage *float64) *iomodel.GetPlaceResp {
 	return &iomodel.GetPlaceResp{
 		ID:            data.Id,
 		VendorID:      data.VendorID,
@@ -22,5 +22,6 @@ func ConvertPlaceEntityToGetModel(data *entities.Place, isFree bool) *iomodel.Ge
 		MaxGuest:      data.MaxGuest,
 		Numbed:        data.NumBed,
 		IsFree:        isFree,
+		RatingAverage: *ratingAverage,
 	}
 }

@@ -26,8 +26,9 @@ func (uc *placeUseCase) ListPlaceByVendorByID(ctx context.Context, vendorID int,
 		return []iomodel.GetPlaceResp{}, nil
 	}
 
+	defaulRating := 0.0
 	for _, place := range places {
-		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false))
+		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false, &defaulRating))
 	}
 	return result, nil
 }

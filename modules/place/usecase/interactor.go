@@ -17,10 +17,15 @@ type PlaceStorage interface {
 	ListPlaces(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, address *googlemapprovider.GoogleMapAddress) ([]entities.Place, error)
 	UpdateByID(ctx context.Context, id int, data *entities.Place) error
 	GetPlaceByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.Place, error)
+	GetRatingAverageByPlaceId(ctx context.Context, placeId int64) (*float64, error)
 }
 
 type AccountStorage interface {
 	GetAccountByEmail(ctx context.Context, email string) (*entities.Account, error)
+}
+
+type PlaceStoCache interface {
+	GetRatingAverageByPlaceId(ctx context.Context, placeId int64) (*float64, error)
 }
 
 type PlaceWishListSto interface {
@@ -28,13 +33,14 @@ type PlaceWishListSto interface {
 }
 
 type placeUseCase struct {
-	placeStorage PlaceStorage
-	accountSto   AccountStorage
-	placeWishSto PlaceWishListSto
-	cfg          *config.Config
-	googleMap    *googlemapprovider.GoogleMap
+	placeStorage  PlaceStorage
+	accountSto    AccountStorage
+	placeWishSto  PlaceWishListSto
+	cfg           *config.Config
+	googleMap     *googlemapprovider.GoogleMap
+	placeStoCache PlaceStoCache
 }
 
-func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap, placeWishSto PlaceWishListSto) *placeUseCase {
-	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap}
+func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap, placeWishSto PlaceWishListSto, placeStoCache PlaceStoCache) *placeUseCase {
+	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap, placeStoCache}
 }

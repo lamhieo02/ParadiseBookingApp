@@ -28,8 +28,10 @@ func (uc *placeUseCase) ListPlaceByVendor(ctx context.Context, vendorEmail strin
 	}
 
 	// convert data to iomodel
+	defaulRating := 0.0
+
 	for _, place := range places {
-		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false))
+		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false, &defaulRating))
 	}
 	return result, nil
 }

@@ -70,7 +70,18 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 			}
 		}
 
-		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, isFree))
+		// get rating average
+		ratingAverage, err := uc.placeStoCache.GetRatingAverageByPlaceId(ctx, int64(place.Id))
+		if err != nil {
+			return nil, err
+		}
+
+		if ratingAverage == nil {
+			defaulRating := 0.0
+			ratingAverage = &defaulRating
+		}
+
+		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, isFree, ratingAverage))
 	}
 	return result, nil
 }

@@ -19,12 +19,17 @@ type PlaceSto interface {
 	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
 }
 
+type Cache interface {
+	Delete(ctx context.Context, key string)
+}
+
 type bookingRatingUsecase struct {
 	BookingRatingSto BookingRatingSto
 	AccountSto       AccountSto
 	PlaceSto         PlaceSto
+	cache            Cache
 }
 
-func Newbookingratingusecase(BookingRatingSto BookingRatingSto, accountSto AccountSto, placeSto PlaceSto) *bookingRatingUsecase {
-	return &bookingRatingUsecase{BookingRatingSto, accountSto, placeSto}
+func Newbookingratingusecase(BookingRatingSto BookingRatingSto, accountSto AccountSto, placeSto PlaceSto, cache Cache) *bookingRatingUsecase {
+	return &bookingRatingUsecase{BookingRatingSto, accountSto, placeSto, cache}
 }

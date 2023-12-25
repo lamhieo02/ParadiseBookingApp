@@ -21,5 +21,11 @@ func (u *bookingRatingUsecase) MakeComment(ctx context.Context, userID int, data
 		return nil, err
 	}
 
+	// delete rating of place in cache
+	place := entities.Place{}
+	place.Id = int(data.PlaceID)
+	key := place.CacheKeyPlaceRating()
+	u.cache.Delete(ctx, key)
+
 	return &model, nil
 }

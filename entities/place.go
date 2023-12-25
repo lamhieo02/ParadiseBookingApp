@@ -1,6 +1,9 @@
 package entities
 
-import "paradise-booking/common"
+import (
+	"paradise-booking/common"
+	"strconv"
+)
 
 type Place struct {
 	common.SQLModel
@@ -21,4 +24,8 @@ type Place struct {
 
 func (Place) TableName() string {
 	return "places"
+}
+
+func (p Place) CacheKeyPlaceRating() string {
+	return "place_rating:" + strconv.Itoa(p.Id)
 }
