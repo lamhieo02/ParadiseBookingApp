@@ -6,3 +6,5 @@ const (
 	LocationType_GeometricCenter   = "GEOMETRIC_CENTER"
 	LocationType_Approximate       = "APPROXIMATE"
 )
+
+// trigger cicd
