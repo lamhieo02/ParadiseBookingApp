@@ -26,9 +26,18 @@ func (uc *placeUseCase) ListPlaceByVendorByID(ctx context.Context, vendorID int,
 		return []iomodel.GetPlaceResp{}, nil
 	}
 
-	defaulRating := 0.0
 	for _, place := range places {
-		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false, &defaulRating))
+		ratingAverage, err := uc.placeStoCache.GetRatingAverageByPlaceId(ctx, int64(place.Id))
+		if err != nil {
+			return nil, err
+		}
+
+		if ratingAverage == nil {
+			defaulRating := 0.0
+			ratingAverage = &defaulRating
+		}
+
+		result = append(result, *convert.ConvertPlaceEntityToGetModel(&place, false, ratingAverage))
 	}
 	return result, nil
 }
