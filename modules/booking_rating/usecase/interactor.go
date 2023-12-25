@@ -9,6 +9,7 @@ type BookingRatingSto interface {
 	Create(ctx context.Context, data *entities.BookingRating) (*entities.BookingRating, error)
 	GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.BookingRating, error)
 	GetByVendorID(ctx context.Context, vendorID int) ([]entities.BookingRating, error)
+	GetStatisticByPlaceID(ctx context.Context, placeId int64) ([]entities.StatisticResp, error)
 }
 
 type AccountSto interface {
