@@ -41,6 +41,17 @@ func (uc *placeUseCase) GetPlaceByID(ctx context.Context, placeID int, userEmail
 		}
 	}
 
-	result = convert.ConvertPlaceEntityToGetModel(place, isFree)
+	// get rating average
+	ratingAverage, err := uc.placeStorage.GetRatingAverageByPlaceId(ctx, int64(placeID))
+	if err != nil {
+		return nil, err
+	}
+
+	if ratingAverage == nil {
+		defaulRating := 0.0
+		ratingAverage = &defaulRating
+	}
+
+	result = convert.ConvertPlaceEntityToGetModel(place, isFree, ratingAverage)
 	return result, nil
 }

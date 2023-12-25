@@ -115,7 +115,7 @@ func main() {
 	// prepare for placewishlist storeage
 	placeWishListSto := placewishliststorage.NewPlaceWishListStorage(db)
 	// declare cache for place_wishlist
-	placeWishListCache := cache.NewPlaceWishListCache(placeWishListSto, cache.NewRedisCache(redis))
+	placeWishListCache := cache.NewPlaceWishListCache(placeWishListSto, cacheRedis)
 
 	// prepare for payment
 	paymentSto := paymentstorage.NewPaymentStorage(db)
@@ -123,7 +123,8 @@ func main() {
 	paymentHdl := paymenthandler.NewPaymentHandler(paymentUC)
 	// prepare for place
 	placeSto := placestorage.NewPlaceStorage(db)
-	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountCache, googleMap, placeWishListCache)
+	placeCache := cache.NewPlaceStoCache(placeSto, cacheRedis)
+	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountCache, googleMap, placeWishListCache, placeCache)
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 
 	// prepare for booking detail
@@ -140,7 +141,7 @@ func main() {
 
 	// prepare for place rating
 	bookingRatingSto := bookingratingstorage.Newbookingratingstorage(db)
-	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto, placeSto)
+	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto, placeSto, cacheRedis)
 	bookingRatingHdl := bookingratinghandler.Newbookingratinghandler(bookingRatingUC)
 
 	// prepare for amenities
