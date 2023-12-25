@@ -275,6 +275,7 @@ func main() {
 
 func setupCors() cors.Config {
 	configCORS := cors.DefaultConfig()
+	configCORS.AllowCredentials = true
 	configCORS.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
 	configCORS.AllowHeaders = []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
 	//configCORS.AllowOrigins = []string{"http://localhost:3000"}
