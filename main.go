@@ -122,16 +122,17 @@ func main() {
 	paymentUC := paymentusecase.NewPaymentUseCase(paymentSto)
 	paymentHdl := paymenthandler.NewPaymentHandler(paymentUC)
 	// prepare for place
+	bookingSto := bookingstorage.NewBookingStorage(db)
+
 	placeSto := placestorage.NewPlaceStorage(db)
 	placeCache := cache.NewPlaceStoCache(placeSto, cacheRedis)
-	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountCache, googleMap, placeWishListCache, placeCache)
+	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountCache, googleMap, placeWishListCache, placeCache, bookingSto)
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 
 	// prepare for booking detail
 	bookingDetailSto := bookingdetailstorage.NewBookingDetailStorage(db)
 
 	// prepare for booking
-	bookingSto := bookingstorage.NewBookingStorage(db)
 	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto, placeSto, momo, paymentSto)
 	bookingHdl := bookinghandler.NewBookingHandler(bookingUseCase)
 
@@ -214,6 +215,7 @@ func main() {
 	v1.GET("/places/owner/:vendor_id", placeHdl.ListPlaceByVendorID())
 	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
 	v1.POST("/places/list", placeHdl.ListAllPlace())
+	v1.GET("/places/dates_booked", placeHdl.GetDatesBookedPlace())
 
 	// booking
 	v1.POST("/bookings", bookingHdl.CreateBooking())
