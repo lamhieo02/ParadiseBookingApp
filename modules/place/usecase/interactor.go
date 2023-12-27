@@ -32,6 +32,10 @@ type PlaceWishListSto interface {
 	GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.PlaceWishList, error)
 }
 
+type BookingSto interface {
+	ListAllBookingWithCondition(ctx context.Context, condition []common.Condition) ([]entities.Booking, error)
+}
+
 type placeUseCase struct {
 	placeStorage  PlaceStorage
 	accountSto    AccountStorage
@@ -39,8 +43,9 @@ type placeUseCase struct {
 	cfg           *config.Config
 	googleMap     *googlemapprovider.GoogleMap
 	placeStoCache PlaceStoCache
+	bookingSto    BookingSto
 }
 
-func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap, placeWishSto PlaceWishListSto, placeStoCache PlaceStoCache) *placeUseCase {
-	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap, placeStoCache}
+func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap, placeWishSto PlaceWishListSto, placeStoCache PlaceStoCache, bookingSto BookingSto) *placeUseCase {
+	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap, placeStoCache, bookingSto}
 }
