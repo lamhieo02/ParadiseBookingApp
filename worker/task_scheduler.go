@@ -105,7 +105,7 @@ func (processor *redisTaskProcessor) ProcessTaskUpdateStatusBooking(ctx context.
 
 	// update status booking to cancel
 	for _, booking := range bookings {
-		if err := processor.bookingSto.UpdateStatus(ctx, booking.Id, constant.BookingStatusCancel); err != nil {
+		if err := processor.bookingUC.UpdateStatusBooking(ctx, booking.Id, constant.BookingStatusCancel); err != nil {
 			log.Error().Err(err).Msg("error when update status booking")
 			return err
 		}

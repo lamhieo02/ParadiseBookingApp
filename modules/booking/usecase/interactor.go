@@ -37,6 +37,8 @@ type PlaceSto interface {
 	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
 	ListPlaceNotInIds(ctx context.Context, placeIds []int, vendorId int) ([]entities.Place, error)
 	ListPlaceInIds(ctx context.Context, placeIds []int, vendorId int) ([]entities.Place, error)
+	UpdateWithMap(ctx context.Context, place *entities.Place, props map[string]interface{}) error
+	ListPlaceByCondition(ctx context.Context, condition []common.Condition) ([]entities.Place, error)
 }
 
 type PaymentSto interface {

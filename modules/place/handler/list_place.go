@@ -42,6 +42,12 @@ func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 			filter.NumBed = &numBed
 		}
 
+		bedRoom := ctx.Query("bed_room")
+		if bedRoom != "" {
+			bedRoom, _ := strconv.Atoi(bedRoom)
+			filter.Bedroom = &bedRoom
+		}
+
 		priceFrom := ctx.Query("price_from")
 		if priceFrom != "" {
 			priceFrom, _ := strconv.Atoi(priceFrom)
@@ -52,6 +58,15 @@ func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 		if priceTo != "" {
 			priceTo, _ := strconv.Atoi(priceTo)
 			filter.PriceTo = &priceTo
+		}
+
+		dateFrom := ctx.Query("date_from")
+		if dateFrom != "" {
+			filter.DateFrom = &dateFrom
+		}
+		dateTo := ctx.Query("date_to")
+		if dateTo != "" {
+			filter.DateTo = &dateTo
 		}
 
 		var listPlaceReq iomodel.ListPlaceReq

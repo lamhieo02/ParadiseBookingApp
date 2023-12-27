@@ -15,12 +15,18 @@ func (hdl *bookingHandler) ListBookingNotReservation() gin.HandlerFunc {
 			return
 		}
 
+		placeID, err := strconv.Atoi(ctx.Query("place_id"))
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
+			return
+		}
+
 		typeManage, err := strconv.Atoi(ctx.Query("type_manage"))
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
-		res, err := hdl.bookingUC.ListPlaceReservationByVendor(ctx.Request.Context(), vendorID, typeManage)
+		res, err := hdl.bookingUC.ListPlaceReservationByVendor(ctx.Request.Context(), vendorID, typeManage, placeID)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
