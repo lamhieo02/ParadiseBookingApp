@@ -43,6 +43,13 @@ func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, fi
 			db = db.Where("price_per_night <= ?", v.PriceTo)
 		}
 
+		if v.NumBed != nil {
+			db = db.Where("num_bed >= ?", v.NumBed)
+		}
+
+		if v.Bedroom != nil {
+			db = db.Where("bed_room >= ?", v.Bedroom)
+		}
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {

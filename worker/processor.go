@@ -30,8 +30,11 @@ type AccountStorage interface {
 }
 
 type BookingStorage interface {
-	UpdateStatus(ctx context.Context, bookingID int, status int) error
 	ListAllBookingWithCondition(ctx context.Context, condition []common.Condition) ([]entities.Booking, error)
+}
+
+type BookingUseCase interface {
+	UpdateStatusBooking(ctx context.Context, bookingID, status int) error
 }
 
 type VerifyEmailsUseCase interface {
@@ -44,10 +47,11 @@ type redisTaskProcessor struct {
 	accountSto     AccountStorage
 	verifyEmailsUC VerifyEmailsUseCase
 	bookingSto     BookingStorage
+	bookingUC      BookingUseCase
 	mailer         mail.EmailSender
 }
 
-func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, mailer mail.EmailSender, bookingSto BookingStorage) TaskProcessor {
+func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, mailer mail.EmailSender, bookingSto BookingStorage, bookingUC BookingUseCase) TaskProcessor {
 
 	logger := NewLogger()
 	redis.SetLogger(logger)
@@ -66,7 +70,7 @@ func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountSto
 			}),
 			Logger: logger,
 		})
-	return &redisTaskProcessor{server: server, accountSto: accountSto, verifyEmailsUC: verifyEmailsUC, mailer: mailer, bookingSto: bookingSto}
+	return &redisTaskProcessor{server: server, accountSto: accountSto, verifyEmailsUC: verifyEmailsUC, mailer: mailer, bookingSto: bookingSto, bookingUC: bookingUC}
 }
 
 func (processor *redisTaskProcessor) Start() error {

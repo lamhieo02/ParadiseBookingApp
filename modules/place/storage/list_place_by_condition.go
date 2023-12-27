@@ -1,4 +1,4 @@
-package bookingstorage
+package placestorage
 
 import (
 	"context"
@@ -6,11 +6,11 @@ import (
 	"paradise-booking/entities"
 )
 
-func (s *bookingStorage) ListAllBookingWithCondition(ctx context.Context, condition []common.Condition) ([]entities.Booking, error) {
-	var data []entities.Booking
+func (s *placeStorage) ListPlaceByCondition(ctx context.Context, condition []common.Condition) ([]entities.Place, error) {
+	var data []entities.Place
 
 	db := s.db
-	db = db.Table(entities.Booking{}.TableName())
+	db = db.Table(entities.Place{}.TableName())
 
 	for _, v := range condition {
 		query := v.BuildQuery()
