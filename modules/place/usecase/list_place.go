@@ -27,7 +27,7 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 			}
 
 			if len(addr) == 0 {
-				return nil, fmt.Errorf("Cannot get address from lat %v lng %v", lat, lng)
+				return nil, fmt.Errorf("cannot get address from lat %v lng %v", lat, lng)
 			}
 
 			if len(addr) > 0 {
@@ -45,6 +45,9 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 	if err != nil {
 		return nil, common.ErrCannotListEntity("place", err)
 	}
+
+	// filter by date range
+	// datesBooked, err := uc.bookingSto.ListAllBookingWithCondition(ctx, )
 
 	userID := 0
 	if userEmail != "" {
