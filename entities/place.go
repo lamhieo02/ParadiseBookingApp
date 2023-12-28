@@ -22,6 +22,7 @@ type Place struct {
 	NumBed            int     `json:"num_bed" gorm:"column:num_bed"`
 	BedRoom           int     `json:"bed_room" gorm:"column:bed_room"`
 	NumPlaceAvailable int     `json:"num_place_available" gorm:"column:num_place_available"`
+	NumPlaceOriginal  int     `json:"num_place_original" gorm:"column:num_place_original"`
 }
 
 func (Place) TableName() string {
