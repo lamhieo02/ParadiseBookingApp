@@ -2,9 +2,11 @@ package placeusecase
 
 import (
 	"context"
+	"log"
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
+	"time"
 
 	"github.com/samber/lo"
 )
@@ -32,8 +34,18 @@ func (uc *placeUseCase) GetDatesBookedPlace(ctx context.Context, placeId int) ([
 		return nil, err
 	}
 
-	dates := lo.Map(bookings, func(item entities.Booking, _ int) []string {
-		return []string{item.CheckInDate, item.ChekoutDate}
+	timeNow := time.Now()
+	layout := "02-01-2006"
+
+	dates := lo.FilterMap(bookings, func(item entities.Booking, _ int) ([]string, bool) {
+		t, err := time.Parse(layout, item.CheckInDate)
+		if err != nil {
+			log.Printf("Error parse time: %v", err)
+		}
+		if t.After(timeNow) {
+			return []string{item.CheckInDate, item.ChekoutDate}, true
+		}
+		return []string{}, false
 	})
 	return dates, nil
 }
