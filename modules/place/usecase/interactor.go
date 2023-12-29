@@ -7,6 +7,7 @@ import (
 	"paradise-booking/entities"
 	"paradise-booking/modules/place/iomodel"
 	googlemapprovider "paradise-booking/provider/googlemap"
+	"time"
 )
 
 type PlaceStorage interface {
@@ -34,6 +35,7 @@ type PlaceWishListSto interface {
 
 type BookingSto interface {
 	ListAllBookingWithCondition(ctx context.Context, condition []common.Condition) ([]entities.Booking, error)
+	GetBookingsWithinDateRange(ctx context.Context, dateFrom, dateTo *time.Time) ([]entities.Booking, error)
 }
 
 type placeUseCase struct {

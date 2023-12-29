@@ -3,9 +3,12 @@ package convert
 import (
 	"paradise-booking/entities"
 	"paradise-booking/modules/booking/iomodel"
+	"paradise-booking/utils"
 )
 
 func ConvertBookingModelToGetResp(user *entities.Account, dataBooking *entities.Booking, place *entities.Place, bookingDetail *entities.BookingDetail) *iomodel.GetBookingResp {
+	checkInTime := utils.ParseTimeToString(dataBooking.CheckInDate)
+	checkOutTime := utils.ParseTimeToString(dataBooking.ChekoutDate)
 	return &iomodel.GetBookingResp{
 		UserId: user.Id,
 		User:   *user,
@@ -16,8 +19,8 @@ func ConvertBookingModelToGetResp(user *entities.Account, dataBooking *entities.
 			PlaceId:         dataBooking.PlaceId,
 			Place:           *place,
 			StatusId:        dataBooking.StatusId,
-			CheckInDate:     dataBooking.CheckInDate,
-			ChekoutDate:     dataBooking.ChekoutDate,
+			CheckInDate:     checkInTime,
+			ChekoutDate:     checkOutTime,
 			GuestName:       bookingDetail.GuestName,
 			TotalPrice:      bookingDetail.TotalPrice,
 			ContentToVendor: bookingDetail.ContentToVendor,

@@ -9,6 +9,7 @@ import (
 	bookingdetailstorage "paradise-booking/modules/booking_detail/storage"
 	momoprovider "paradise-booking/provider/momo"
 	"paradise-booking/worker"
+	"time"
 )
 
 type BookingStorage interface {
@@ -20,6 +21,7 @@ type BookingStorage interface {
 	ListPlaceIds(ctx context.Context) ([]int, error)
 	ListAllBookingWithCondition(ctx context.Context, condition []common.Condition) ([]entities.Booking, error)
 	DeleteByID(ctx context.Context, id int) error
+	GetBookingsWithinDateRange(ctx context.Context, dateFrom, dateTo *time.Time) ([]entities.Booking, error)
 }
 
 type BookingDetailStorage interface {
