@@ -5,9 +5,14 @@ import (
 	"fmt"
 	"log"
 	"paradise-booking/common"
+	"paradise-booking/constant"
+	"paradise-booking/entities"
 	"paradise-booking/modules/place/convert"
 	"paradise-booking/modules/place/iomodel"
 	googlemapprovider "paradise-booking/provider/googlemap"
+	"paradise-booking/utils"
+
+	"github.com/samber/lo"
 )
 
 func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, userEmail string) (result []iomodel.GetPlaceResp, err error) {
@@ -46,9 +51,28 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 		return nil, common.ErrCannotListEntity("place", err)
 	}
 
-	// filter by date range
-	// datesBooked, err := uc.bookingSto.ListAllBookingWithCondition(ctx, )
+	if filter.DateFrom != nil && filter.DateTo != nil {
+		// filter by date range
+		timeFrom, _ := utils.ParseStringToTime(*filter.DateFrom)
+		timeTo, _ := utils.ParseStringToTime(*filter.DateTo)
+		bookeds, err := uc.bookingSto.GetBookingsWithinDateRange(ctx, timeFrom, timeTo)
+		if err != nil {
+			return nil, err
+		}
 
+		mapNumPlaceWithPlaceID := make(map[int]int)
+		for _, booked := range bookeds {
+			if booked.StatusId == constant.BookingStatusCancel || booked.StatusId == constant.BookingStatusCompleted {
+				continue
+			}
+			mapNumPlaceWithPlaceID[booked.PlaceId] += 1
+		}
+
+		places = lo.Filter(places, func(item entities.Place, index int) bool {
+			return item.NumPlaceOriginal-mapNumPlaceWithPlaceID[item.Id] > 0
+		})
+
+	}
 	userID := 0
 	if userEmail != "" {
 		user, err := uc.accountSto.GetAccountByEmail(ctx, userEmail)
