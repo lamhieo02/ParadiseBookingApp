@@ -72,7 +72,9 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 			return item.NumPlaceOriginal-mapNumPlaceWithPlaceID[item.Id] > 0
 		})
 
+		paging.Total = int64(len(places))
 	}
+
 	userID := 0
 	if userEmail != "" {
 		user, err := uc.accountSto.GetAccountByEmail(ctx, userEmail)
