@@ -15,6 +15,7 @@ type placeUseCase interface {
 	DeletePlaceByID(ctx context.Context, placeID int, vendorEmail string) (err error)
 	ListAllPlace(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, userEmail string) (result []iomodel.GetPlaceResp, err error)
 	GetDatesBookedPlace(ctx context.Context, placeId int) ([][]string, error)
+	CheckDateBookingAvailable(ctx context.Context, placeId int64, dateFrom string, dateTo string) (isValid *bool, err error)
 }
 
 type placeHandler struct {

@@ -216,6 +216,7 @@ func main() {
 	v1.DELETE("/places", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), placeHdl.DeletePlaceByID())
 	v1.POST("/places/list", placeHdl.ListAllPlace())
 	v1.GET("/places/dates_booked", placeHdl.GetDatesBookedPlace())
+	v1.GET("/places/check_date_available", placeHdl.CheckDateBookingAvailable())
 
 	// booking
 	v1.POST("/bookings", bookingHdl.CreateBooking())
