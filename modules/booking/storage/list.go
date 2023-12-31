@@ -5,7 +5,7 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/entities"
 	"paradise-booking/modules/booking/iomodel"
-	"time"
+	"paradise-booking/utils"
 )
 
 func (s *bookingStorage) ListByFilter(ctx context.Context, filter *iomodel.FilterListBooking, paging *common.Paging, userId int) ([]entities.Booking, error) {
@@ -17,25 +17,17 @@ func (s *bookingStorage) ListByFilter(ctx context.Context, filter *iomodel.Filte
 
 	db = db.Where("user_id = ?", userId)
 	if v := filter; v != nil {
-		if len(v.Statuses) > 0 {
+		if len(v.Statuses) > 0 && v.Statuses[0] != 0 {
 			db = db.Where("status_id in (?) ", v.Statuses)
 		}
 
 		if v.DateFrom != "" {
-			dateTime := v.DateFrom + " 00:00:00"
-			timeFrom, err := time.Parse("2006-01-02 15:04:05", dateTime)
-			if err != nil {
-				return nil, err
-			}
-			db = db.Where("created_at >= ?", timeFrom)
+			dateTime, _ := utils.ParseStringToTime(v.DateFrom)
+			db = db.Where("created_at >= ?", dateTime)
 		}
 		if v.DateTo != "" {
-			dateTime := v.DateTo + " 00:00:00"
-			timeTo, err := time.Parse("2006-01-02 15:04:05", dateTime)
-			if err != nil {
-				return nil, err
-			}
-			db = db.Where("created_at <= ?", timeTo)
+			dateTime, _ := utils.ParseStringToTime(v.DateTo)
+			db = db.Where("created_at <= ?", dateTime)
 		}
 	}
 
