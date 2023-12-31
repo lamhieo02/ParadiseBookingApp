@@ -26,10 +26,10 @@ mysql:
 
 aws:
   Region: ap-southeast-1
-  APIKey: AKIAXFND7G2RAL4ME35U
-  SecretKey: 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
-  S3Domain: d1dblnjcawoqkg.cloudfront.net
-  S3Bucket: paradisebooking
+  APIKey: AKIAXFND7G2RLREZOOP5
+  SecretKey: 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
+  S3Domain: d1c6814z4iseiw.cloudfront.net
+  S3Bucket: paradisebookings3
   S3FolderImages: images
   
 redis:
