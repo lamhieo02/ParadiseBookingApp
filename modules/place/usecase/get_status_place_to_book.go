@@ -24,6 +24,10 @@ func (uc *placeUseCase) GetStatusPlaceToBook(ctx context.Context, placeId int, d
 
 	cntNumIsBooking := 0
 	for _, booked := range bookeds {
+		if booked.PlaceId != placeId {
+			continue
+		}
+
 		if booked.StatusId != constant.BookingStatusCancel && booked.StatusId != constant.BookingStatusCompleted {
 			cntNumIsBooking += 1
 		}
