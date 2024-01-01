@@ -22,7 +22,7 @@ func (uc *bookingRatingUsecase) GetCommentByVendorID(ctx context.Context, vendor
 			continue
 		}
 
-		user, err := uc.AccountSto.GetProfileByID(ctx, vendorID)
+		user, err := uc.AccountSto.GetProfileByID(ctx, bookingRate.UserId)
 		if err != nil {
 			log.Printf("Error when get user profile by id: %v\n", err)
 			return nil, common.ErrCannotGetEntity(entities.Account{}.TableName(), err)
@@ -34,6 +34,13 @@ func (uc *bookingRatingUsecase) GetCommentByVendorID(ctx context.Context, vendor
 			DataUser:   *user,
 		})
 	}
+
+	// dataVendor, err := uc.AccountSto.GetProfileByID(ctx, vendorID)
+	// if err != nil {
+	// 	return nil, common.ErrCannotGetEntity(entities.Account{}.TableName(), err)
+	// }
+
+	// result.DataVendor = dataVendor
 
 	return &result, nil
 }
