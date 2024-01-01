@@ -5,5 +5,5 @@ const (
 )
 
 const (
-	RedirectURLMomo = "https://paradise-booking.vercel.app/reservations/"
+	RedirectURLMomo = "http://localhost:3000/reservations/"
 )
