@@ -71,7 +71,7 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 		BookingID: bookingEntity.Id,
 		MethodID:  bookingData.PaymentMethod,
 		StatusID:  status,
-		Amount:    int(bookingDetailEntity.TotalPrice),
+		Amount:    (bookingDetailEntity.TotalPrice),
 		RequestID: requestId,
 		OrderID:   orderId,
 	}
