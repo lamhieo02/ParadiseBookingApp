@@ -4,6 +4,7 @@ import "paradise-booking/entities"
 
 type GetCommentByVendorResp struct {
 	ListRating []GetCommentUserByVendor
+	// DataVendor *entities.Account `json:"vendor"`
 }
 
 type GetCommentUserByVendor struct {
