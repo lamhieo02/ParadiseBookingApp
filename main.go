@@ -217,6 +217,7 @@ func main() {
 	v1.POST("/places/list", placeHdl.ListAllPlace())
 	v1.GET("/places/dates_booked", placeHdl.GetDatesBookedPlace())
 	v1.GET("/places/check_date_available", placeHdl.CheckDateBookingAvailable())
+	v1.GET("/places/status_booking", placeHdl.GetStatusPlaceToBook())
 
 	// booking
 	v1.POST("/bookings", bookingHdl.CreateBooking())

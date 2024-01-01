@@ -16,6 +16,7 @@ type placeUseCase interface {
 	ListAllPlace(ctx context.Context, paging *common.Paging, filter *iomodel.Filter, userEmail string) (result []iomodel.GetPlaceResp, err error)
 	GetDatesBookedPlace(ctx context.Context, placeId int) ([][]string, error)
 	CheckDateBookingAvailable(ctx context.Context, placeId int64, dateFrom string, dateTo string) (isValid *bool, err error)
+	GetStatusPlaceToBook(ctx context.Context, placeId int, dateFrom, dateTo string) (*iomodel.GetStatusPlaceToBookResp, error)
 }
 
 type placeHandler struct {
