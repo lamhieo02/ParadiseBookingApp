@@ -17,7 +17,6 @@ func (uc *placeUseCase) CreatePlace(ctx context.Context, data *iomodel.CreatePla
 	}
 
 	placeEntity.VendorID = vendor.Id
-	placeEntity.NumPlaceAvailable = data.NumPlaceOriginal
 
 	// get geocode to fill country, state, district
 	adress, err := uc.googleMap.GetAddressFromLatLng(ctx, data.Lat, data.Lng)

@@ -52,18 +52,6 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 		return nil, err
 	}
 
-	// update num available of place -= 1
-	placeEntity, err := uc.PlaceSto.GetPlaceByID(ctx, bookingData.PlaceID)
-	if err != nil {
-		return nil, err
-	}
-
-	newNumPlace := placeEntity.NumPlaceAvailable - 1
-
-	if err := uc.PlaceSto.UpdateWithMap(ctx, placeEntity, map[string]interface{}{"num_place_available": newNumPlace}); err != nil {
-		return nil, err
-	}
-
 	// if payment method is momo, we will create payment
 	var requestId, orderId, paymentUrl string
 	if bookingData.PaymentMethod == constant.PaymentMethodMomo {
