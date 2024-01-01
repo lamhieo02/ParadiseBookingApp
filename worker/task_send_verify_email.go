@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"paradise-booking/constant"
 	"paradise-booking/entities"
 
 	"github.com/hibiken/asynq"
@@ -12,7 +13,7 @@ import (
 
 const (
 	TaskSendVerifyEmail = "task:send_verify_email"
-	UrlVerifyEmail      = "https://paradisebooking.onrender.com/api/v1/verify_email"
+	UrlVerifyEmail      = constant.URL_HOST_EC2 + "/verify_email"
 )
 
 type PayloadSendVerifyEmail struct {

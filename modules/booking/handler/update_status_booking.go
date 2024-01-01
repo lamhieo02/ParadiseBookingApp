@@ -2,6 +2,7 @@ package bookinghandler
 
 import (
 	"net/http"
+	"paradise-booking/constant"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -17,9 +18,11 @@ func (hdl *bookingHandler) UpdateStatusBooking() gin.HandlerFunc {
 
 		err := hdl.bookingUC.UpdateStatusBooking(c.Request.Context(), bookingId, statusInt)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err})
+			c.Redirect(http.StatusMovedPermanently, constant.UrlConfirmBookingFail)
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"data": true})
+		c.Redirect(http.StatusMovedPermanently, constant.UrlConfirmBookingSuccess)
+
+		// c.JSON(http.StatusOK, gin.H{"data": true})
 	}
 }
