@@ -13,7 +13,7 @@ type BookingUseCase interface {
 	UpdateStatusBooking(ctx context.Context, bookingID, status int) error
 	GetBookingByID(ctx context.Context, id int) (*iomodel.GetBookingResp, error)
 	GetBookingByPlaceID(ctx context.Context, placeId int, paging *common.Paging) ([]iomodel.GetBookingByPlaceResp, error)
-	ListPlaceReservationByVendor(ctx context.Context, vendorId, placeId int) ([]entities.Place, error)
+	ListPlaceReservationByVendor(ctx context.Context, vendorId, placeId int) (*iomodel.ListBookingPlaceReservationResp, error)
 	ListBookingByCondition(ctx context.Context) ([]entities.Booking, error)
 	DeleteBookingByID(ctx context.Context, id int) error
 	CancelBooking(ctx context.Context, bookingID int) error
