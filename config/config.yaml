@@ -33,11 +33,11 @@ aws:
   S3FolderImages: images
   
 redis:
-  Host: monorail.proxy.rlwy.net
+  Host: roundhouse.proxy.rlwy.net
   #Host: localhost
-  Port: 15872
+  Port: 31002
   #Port: 6379
-  Password: ObPpf42D6pJJ43eLnoHkegEKoLI4OD4G
+  Password: FLn5DhEbgfciBNIlK2Jp3PICeJo6cMHN
   #Password: ""
   DB: 0
 
