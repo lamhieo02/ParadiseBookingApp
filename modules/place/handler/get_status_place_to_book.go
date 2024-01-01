@@ -9,20 +9,22 @@ import (
 
 func (hdl *placeHandler) GetStatusPlaceToBook() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		placeID := ctx.Param("id")
+		dateFrom := ctx.Query("date_from")
+		dateTo := ctx.Query("date_to")
+
+		placeID := ctx.Query("place_id")
 		id, err := strconv.Atoi(placeID)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
 
-		emailUser := ctx.Query("user_email")
-
-		place, err := hdl.placeUC.GetPlaceByID(ctx.Request.Context(), id, emailUser)
+		res, err := hdl.placeUC.GetStatusPlaceToBook(ctx, id, dateFrom, dateTo)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
-		ctx.JSON(http.StatusOK, gin.H{"data": place})
+		ctx.JSON(http.StatusOK, gin.H{"data": res})
+
 	}
 }
