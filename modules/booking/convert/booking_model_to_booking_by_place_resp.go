@@ -25,5 +25,6 @@ func ConvertBookingModelToGetByPlaceResp(user *entities.Account, dataBooking *en
 		TotalPrice:      bookingDetail.TotalPrice,
 		NumberOfGuest:   bookingDetail.NumberOfGuest,
 		ContentToVendor: bookingDetail.ContentToVendor,
+		PaymentMethod:   bookingDetail.PaymentMethod,
 	}
 }
