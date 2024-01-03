@@ -22,6 +22,7 @@ type Cache interface {
 
 type PlaceWishListSto interface {
 	GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.PlaceWishList, error)
+	DeleteByCondition(ctx context.Context, condition []common.Condition) error
 }
 
 type wishListUsecase struct {

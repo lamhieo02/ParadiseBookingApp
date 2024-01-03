@@ -34,5 +34,16 @@ func (uc *wishListUsecase) DeleteByID(ctx context.Context, id int) error {
 		uc.cacheStore.Delete(ctx, key)
 	}
 
+	// delete all place in this wishlist
+	conditions := []common.Condition{}
+	conditions = append(conditions, common.Condition{
+		Field:    "wishlist_id",
+		Operator: common.OperatorEqual,
+		Value:    id,
+	})
+	if err := uc.placeWishListSto.DeleteByCondition(ctx, conditions); err != nil {
+		return common.ErrCannotDeleteEntity(entities.PlaceWishList{}.TableName(), err)
+	}
+
 	return nil
 }
