@@ -106,16 +106,16 @@ func main() {
 	accountUseCase := accountusecase.NewUserUseCase(cfg, accountSto, verifyEmailsUseCase, taskDistributor)
 	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
-	// declare dependencies
-	// prepare for wish list
-	wishListSto := wishliststorage.NewWishListStorage(db)
-	wishListUseCase := wishlistusecase.NewWishListUseCase(wishListSto)
-	wishListHdl := wishlisthandler.NewWishListHandler(wishListUseCase)
-
 	// prepare for placewishlist storeage
 	placeWishListSto := placewishliststorage.NewPlaceWishListStorage(db)
 	// declare cache for place_wishlist
 	placeWishListCache := cache.NewPlaceWishListCache(placeWishListSto, cacheRedis)
+
+	// declare dependencies
+	// prepare for wish list
+	wishListSto := wishliststorage.NewWishListStorage(db)
+	wishListUseCase := wishlistusecase.NewWishListUseCase(wishListSto, placeWishListSto, cacheRedis)
+	wishListHdl := wishlisthandler.NewWishListHandler(wishListUseCase)
 
 	// prepare for payment
 	paymentSto := paymentstorage.NewPaymentStorage(db)
