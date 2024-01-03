@@ -4,6 +4,7 @@ import (
 	"context"
 	"paradise-booking/common"
 	"paradise-booking/entities"
+	"time"
 )
 
 type WishListSto interface {
@@ -13,11 +14,22 @@ type WishListSto interface {
 	UpdateByID(ctx context.Context, id int, data *entities.WishList) error
 	DeleteByID(ctx context.Context, id int) error
 }
-
-type wishListUsecase struct {
-	wishListSto WishListSto
+type Cache interface {
+	Set(ctx context.Context, key string, value any, ttl time.Duration) error
+	Get(ctx context.Context, key string, value any) error
+	Delete(ctx context.Context, key string)
 }
 
-func NewWishListUseCase(wishListSto WishListSto) *wishListUsecase {
-	return &wishListUsecase{wishListSto: wishListSto}
+type PlaceWishListSto interface {
+	GetByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.PlaceWishList, error)
+}
+
+type wishListUsecase struct {
+	wishListSto      WishListSto
+	placeWishListSto PlaceWishListSto
+	cacheStore       Cache
+}
+
+func NewWishListUseCase(wishListSto WishListSto, placeWishListSto PlaceWishListSto, cache Cache) *wishListUsecase {
+	return &wishListUsecase{wishListSto: wishListSto, placeWishListSto: placeWishListSto, cacheStore: cache}
 }
