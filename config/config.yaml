@@ -6,23 +6,23 @@ app:
   MigrationURL:  file://migrations
 
 mysql:
-  #Host: paradise-mysql
-  # Host: localhost
-  # ContainerName: paradise_mysql
-  # Port: 3306
-  # User: root
-  # Password: 109339Lam@
-  # DBName: paradise
+  # Host: paradise_mysql
+  Host: localhost
+  ContainerName: paradise_mysql
+  Port: 3306
+  User: root
+  Password: 109339Lam@
+  DBName: paradise
   # Host: roundhouse.proxy.rlwy.net
   # Port: 30663
   # User: root
   # Password: aaCfeH12efF2-3Gfh-b6A--Aac1HH-4c
   # DBName: railway
-  Host: paradise.cxs0mgue8763.ap-southeast-1.rds.amazonaws.com
-  Port: 3306
-  User: admin
-  Password: 109339Lam
-  DBName: paradise
+  # Host: paradise.cxs0mgue8763.ap-southeast-1.rds.amazonaws.com
+  # Port: 3306
+  # User: admin
+  # Password: 109339Lam
+  # DBName: paradise
 
 aws:
   Region: ap-southeast-1
@@ -33,12 +33,13 @@ aws:
   S3FolderImages: images
   
 redis:
-  Host: roundhouse.proxy.rlwy.net
-  #Host: localhost
-  Port: 31002
-  #Port: 6379
-  Password: FLn5DhEbgfciBNIlK2Jp3PICeJo6cMHN
-  #Password: ""
+  # Host: roundhouse.proxy.rlwy.net
+  # Host: localhost
+  Host: redis
+  # Port: 31002
+  Port: 6379
+  # Password: FLn5DhEbgfciBNIlK2Jp3PICeJo6cMHN
+  Password: ""
   DB: 0
 
 google:
