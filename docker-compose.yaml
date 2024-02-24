@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     container_name: paradise-app-api
     ports:
-      - "8080:8080"
+      - "10040:8080"
     networks:
       - paradise_network
     depends_on:
