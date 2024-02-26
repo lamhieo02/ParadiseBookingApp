@@ -270,6 +270,65 @@ CREATE TABLE `wishlists` (
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE DEFINER=`root`@`%` PROCEDURE `GetAverageRatingByPlaceId`(IN placeId INT)
+BEGIN
+SELECT AVG(rating) AS average_rating
+FROM booking_rating
+WHERE place_id = placeId;
+END;
+
+CREATE DEFINER=`root`@`%` PROCEDURE `GetBookingsWithinRange`(IN date_from DATETIME, IN date_to DATETIME)
+BEGIN
+    SELECT * FROM bookings
+    WHERE (checkin_date BETWEEN date_from AND date_to)
+       OR (checkout_date BETWEEN date_from AND date_to)
+       OR (checkin_date <= date_from AND checkout_date >= date_to);
+END;
+
+CREATE DEFINER=`root`@`%` PROCEDURE `GetCommentsAndRatingsByVendorId`(IN vendorId INT)
+BEGIN
+    SELECT *
+    FROM booking_rating 
+    WHERE place_id IN (SELECT id FROM places WHERE vendor_id = vendorId);
+END;
+
+CREATE DEFINER=`root`@`%` PROCEDURE `GetPaymentsForVendor`(IN p_vendor_id INT, IN p_page INT, IN p_limit INT)
+BEGIN 
+
+    DECLARE offset_value INT DEFAULT (p_page - 1) * p_limit;
+
+    SELECT payments.* 
+    FROM bookings 
+    INNER JOIN places ON bookings.place_id = places.id 
+    INNER JOIN payments ON payments.booking_id = bookings.id 
+    WHERE places.vendor_id = p_vendor_id
+    LIMIT p_limit OFFSET offset_value;
+END;
+
+CREATE DEFINER=`root`@`%` PROCEDURE `GetPaymentsSizeOfVendor`(IN p_vendor_id INT)
+BEGIN 
+    SELECT count(1)
+    FROM bookings 
+    INNER JOIN places ON bookings.place_id = places.id 
+    INNER JOIN payments ON payments.booking_id = bookings.id 
+    WHERE places.vendor_id = p_vendor_id;
+END;
+
+CREATE DEFINER=`root`@`%` PROCEDURE `GetRatingStatisticByPlaceId`(IN placeId INT)
+BEGIN
+  SELECT
+    r.rating,
+    COUNT(br.rating) AS count
+  FROM
+    (SELECT 1 AS rating UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5) r
+  LEFT JOIN
+    booking_rating br ON r.rating = br.rating AND br.place_id = placeId
+  WHERE
+    br.place_id IS NULL OR br.place_id = placeId
+  GROUP BY
+    r.rating;
+END;
+
 INSERT INTO `accounts` (`id`, `username`, `email`, `full_name`, `role`, `status`, `password`, `address`, `phone`, `dob`, `avatar`, `created_at`, `updated_at`, `deleted_at`, `is_email_verified`, `bio`) VALUES
 (100, '', 'lamlklk2002@gmail.com', '', 2, 2, '$2a$10$XmSVEplY82T6qwTSJ37mgOV2IuchlaFKPOaFFBWphY1WHXXXPu6iG', '', '', '', '', '2024-01-01 14:57:28', '2024-01-01 15:51:56', NULL, 1, '');
 INSERT INTO `accounts` (`id`, `username`, `email`, `full_name`, `role`, `status`, `password`, `address`, `phone`, `dob`, `avatar`, `created_at`, `updated_at`, `deleted_at`, `is_email_verified`, `bio`) VALUES
@@ -466,6 +525,9 @@ INSERT INTO `verify_emails` (`id`, `email`, `scret_code`, `created_at`, `expired
 (61, 'mt09122002@gmail.com', '1RCvr2NI', '2024-01-01 16:36:31', '2024-01-01 16:41:31', 1),
 (62, '20110668@student.hcmute.edu.vn', '3TZcrZOO', '2024-01-01 16:45:34', '2024-01-01 16:50:34', 1),
 (63, 'hoanglen5@gmail.com', 'qL1HpQE5', '2024-02-15 10:21:57', '2024-02-15 10:26:57', 1);
+
+
+
 
 
 
