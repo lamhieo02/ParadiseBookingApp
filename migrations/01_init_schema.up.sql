@@ -270,14 +270,14 @@ CREATE TABLE `wishlists` (
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE DEFINER=`root`@`%` PROCEDURE `GetAverageRatingByPlaceId`(IN placeId INT)
+CREATE PROCEDURE `GetAverageRatingByPlaceId`(IN placeId INT)
 BEGIN
 SELECT AVG(rating) AS average_rating
 FROM booking_rating
 WHERE place_id = placeId;
 END;
 
-CREATE DEFINER=`root`@`%` PROCEDURE `GetBookingsWithinRange`(IN date_from DATETIME, IN date_to DATETIME)
+CREATE PROCEDURE `GetBookingsWithinRange`(IN date_from DATETIME, IN date_to DATETIME)
 BEGIN
     SELECT * FROM bookings
     WHERE (checkin_date BETWEEN date_from AND date_to)
@@ -285,14 +285,14 @@ BEGIN
        OR (checkin_date <= date_from AND checkout_date >= date_to);
 END;
 
-CREATE DEFINER=`root`@`%` PROCEDURE `GetCommentsAndRatingsByVendorId`(IN vendorId INT)
+CREATE PROCEDURE `GetCommentsAndRatingsByVendorId`(IN vendorId INT)
 BEGIN
     SELECT *
     FROM booking_rating 
     WHERE place_id IN (SELECT id FROM places WHERE vendor_id = vendorId);
 END;
 
-CREATE DEFINER=`root`@`%` PROCEDURE `GetPaymentsForVendor`(IN p_vendor_id INT, IN p_page INT, IN p_limit INT)
+CREATE PROCEDURE `GetPaymentsForVendor`(IN p_vendor_id INT, IN p_page INT, IN p_limit INT)
 BEGIN 
 
     DECLARE offset_value INT DEFAULT (p_page - 1) * p_limit;
@@ -305,7 +305,7 @@ BEGIN
     LIMIT p_limit OFFSET offset_value;
 END;
 
-CREATE DEFINER=`root`@`%` PROCEDURE `GetPaymentsSizeOfVendor`(IN p_vendor_id INT)
+CREATE PROCEDURE `GetPaymentsSizeOfVendor`(IN p_vendor_id INT)
 BEGIN 
     SELECT count(1)
     FROM bookings 
@@ -314,7 +314,7 @@ BEGIN
     WHERE places.vendor_id = p_vendor_id;
 END;
 
-CREATE DEFINER=`root`@`%` PROCEDURE `GetRatingStatisticByPlaceId`(IN placeId INT)
+CREATE PROCEDURE `GetRatingStatisticByPlaceId`(IN placeId INT)
 BEGIN
   SELECT
     r.rating,
