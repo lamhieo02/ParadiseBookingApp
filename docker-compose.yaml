@@ -28,11 +28,11 @@ services:
       dockerfile: Dockerfile
     container_name: paradise-app-api
     ports:
-      - "10040:8080"
+      - "8080:8080"
     networks:
       - paradise_network
     depends_on:
-      #- paradise_mysql
+      - paradise_mysql
       - redis
     #command: ["/app/wait-for-it.sh", "paradise-mysql:3306", "--", "/app/start.sh"]
 volumes:
