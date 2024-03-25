@@ -19,6 +19,8 @@ import (
 	bookingratinghandler "paradise-booking/modules/booking_rating/handler"
 	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
 	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
+	mediahandler "paradise-booking/modules/media/handler"
+	mediausecase "paradise-booking/modules/media/usecase"
 	"paradise-booking/modules/middleware"
 	paymenthandler "paradise-booking/modules/payment/handler"
 	paymentstorage "paradise-booking/modules/payment/store"
@@ -32,8 +34,6 @@ import (
 	policieshandler "paradise-booking/modules/policy/handler"
 	policiesstorage "paradise-booking/modules/policy/storage"
 	policiesusecase "paradise-booking/modules/policy/usecase"
-	uploadhandler "paradise-booking/modules/upload/handler"
-	uploadusecase "paradise-booking/modules/upload/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
@@ -42,10 +42,10 @@ import (
 	wishlistusecase "paradise-booking/modules/wishlist/usecase"
 	"paradise-booking/provider/cache"
 	googlemapprovider "paradise-booking/provider/googlemap"
+	mediaprovider "paradise-booking/provider/media"
 	momoprovider "paradise-booking/provider/momo"
 	mysqlprovider "paradise-booking/provider/mysql"
 	redisprovider "paradise-booking/provider/redis"
-	s3provider "paradise-booking/provider/s3"
 	"paradise-booking/utils"
 	"paradise-booking/worker"
 	"sync"
@@ -93,6 +93,9 @@ func main() {
 
 	// momo
 	momo := momoprovider.NewMomo(cfg)
+
+	// media
+	mediaProvider := mediaprovider.NewMediaProvider(cfg)
 
 	// declare dependencies account
 	accountSto := accountstorage.NewAccountStorage(db)
@@ -150,10 +153,9 @@ func main() {
 	amenityUC := amenityusecase.NewAmenityUseCase(amenitySto, cfg)
 	amenityHdl := amenityhandler.NewAmenityHandler(amenityUC)
 
-	// upload file to s3
-	s3Provider := s3provider.NewS3Provider(cfg)
-	uploadUC := uploadusecase.NewUploadUseCase(cfg, s3Provider)
-	uploadHdl := uploadhandler.NewUploadHandler(cfg, uploadUC)
+	// upload file
+	mediaUC := mediausecase.NewMediaUseCase(cfg, mediaProvider)
+	mediaHdl := mediahandler.NewMediaHandler(cfg, mediaUC)
 
 	// prepare for policy
 	policySto := policiesstorage.NewPolicyStorage(db)
@@ -256,7 +258,8 @@ func main() {
 	v1.GET("/verify_reset_password", verifyEmailsHdl.CheckResetCodePasswordIsMatching())
 
 	// upload file to s3
-	v1.POST("/upload", middlewares.RequiredAuth(), uploadHdl.UploadFile())
+	v1.POST("/upload", middlewares.RequiredAuth(), mediaHdl.UploadFile())
+	v1.GET("/images/:path", mediaHdl.GetImage())
 
 	// amenities
 	v1.POST("/amenities", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.CreateAmenity())

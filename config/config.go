@@ -16,6 +16,7 @@ type Config struct {
 	CronSpec  CronSpec
 	GoogleMap GoogleMap
 	Momo      Momo
+	Image     Image
 }
 
 type CronSpec struct {
@@ -83,6 +84,10 @@ type Momo struct {
 	StoreId     string
 	AutoCapture bool
 	RequestType string
+}
+
+type Image struct {
+	ImageFolder string
 }
 
 func LoadConfig() (*Config, error) {

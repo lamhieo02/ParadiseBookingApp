@@ -24,6 +24,9 @@ mysql:
   # Password: 109339Lam
   # DBName: paradise
 
+image:
+  ImageFolder: images
+
 aws:
   Region: ap-southeast-1
   APIKey: AKIAZQ3DTRXKD62FEZCQ
