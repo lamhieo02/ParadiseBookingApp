@@ -23,5 +23,8 @@ COPY --from=builder /app/go-airbnb .
 COPY config/config.yaml ./config/
 #copy migrations
 COPY migrations migrations
+
+#copy images
+COPY images images
 #CMD ["make migrate_up"]
 CMD ["/app/go-airbnb"]
