@@ -33,6 +33,8 @@ import (
 // 	return img, nil
 // }
 
+const PREFIX_URL_IMAGE = "https://booking.workon.space/api/v1/images/"
+
 func (uc *mediaUseCase) UploadFile(ctx context.Context, fileHeader *multipart.FileHeader) (*common.Image, error) {
 	fileName := strconv.Itoa(time.Now().Nanosecond()) + fileHeader.Filename
 
@@ -54,5 +56,5 @@ func (uc *mediaUseCase) UploadFile(ctx context.Context, fileHeader *multipart.Fi
 		panic(common.ErrBadRequest(err))
 	}
 
-	return &common.Image{Url: fileName}, nil
+	return &common.Image{Url: PREFIX_URL_IMAGE + fileName}, nil
 }
