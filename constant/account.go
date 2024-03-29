@@ -17,3 +17,7 @@ const (
 	StatusActive   = 2
 	StatusInactive = 1
 )
+
+const (
+	LoginWithGoogle = 2
+)
