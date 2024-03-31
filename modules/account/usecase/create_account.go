@@ -2,6 +2,7 @@ package accountusecase
 
 import (
 	"context"
+	"errors"
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
@@ -27,7 +28,7 @@ func (uc *accountUseCase) CreateAccount(ctx context.Context, accountModel *iomod
 	}
 
 	if ac != nil {
-		return nil, common.ErrEntityExisted(entities.Account{}.TableName(), nil)
+		return nil, errors.New("email is existed")
 	}
 	// convert from iomodel to entity
 	accountEntity := convert.ConvertAccountRegisModelToEntity(accountModel)
