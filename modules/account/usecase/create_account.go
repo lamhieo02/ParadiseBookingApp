@@ -13,10 +13,22 @@ import (
 	"time"
 
 	"github.com/hibiken/asynq"
+	"gorm.io/gorm"
 )
 
 func (uc *accountUseCase) CreateAccount(ctx context.Context, accountModel *iomodel.AccountRegister) (result *string, err error) {
 
+	// check if email is existed in db
+	ac, err := uc.accountStorage.GetAccountByEmail(ctx, accountModel.Email)
+	if err != nil {
+		if err != gorm.ErrRecordNotFound {
+			return nil, err
+		}
+	}
+
+	if ac != nil {
+		return nil, common.ErrEntityExisted(entities.Account{}.TableName(), nil)
+	}
 	// convert from iomodel to entity
 	accountEntity := convert.ConvertAccountRegisModelToEntity(accountModel)
 	accountEntity.Status = int(constant.StatusActive)
