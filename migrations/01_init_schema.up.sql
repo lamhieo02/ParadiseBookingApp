@@ -270,6 +270,21 @@ CREATE TABLE `wishlists` (
   KEY `user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DROP TABLE IF EXISTS `post_review`;
+CREATE TABLE post_review (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_owner_id INT,
+    title VARCHAR(255),
+    topic VARCHAR(255),
+    content TEXT,
+    img VARCHAR(255),
+    videos VARCHAR(255),
+    lat INT,
+    lng INT,
+    created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
+
 CREATE PROCEDURE `GetAverageRatingByPlaceId`(IN placeId INT)
 BEGIN
 SELECT AVG(rating) AS average_rating
@@ -328,6 +343,8 @@ BEGIN
   GROUP BY
     r.rating;
 END;
+
+
 
 INSERT INTO `accounts` (`id`, `username`, `email`, `full_name`, `role`, `status`, `password`, `address`, `phone`, `dob`, `avatar`, `created_at`, `updated_at`, `deleted_at`, `is_email_verified`, `bio`) VALUES
 (100, '', 'lamlklk2002@gmail.com', '', 2, 2, '$2a$10$XmSVEplY82T6qwTSJ37mgOV2IuchlaFKPOaFFBWphY1WHXXXPu6iG', '', '', '', '', '2024-01-01 14:57:28', '2024-01-01 15:51:56', NULL, 1, '');
