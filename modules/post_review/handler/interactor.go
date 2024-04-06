@@ -12,6 +12,7 @@ type PostReviewUseCase interface {
 	UpdatePostReview(ctx context.Context, data *postreviewiomodel.UpdatePostReviewReq) error
 	ListPostReviewByAccountID(ctx context.Context, accountID int, paging *common.Paging) ([]*entities.PostReview, error)
 	DeletePostReviewByID(ctx context.Context, postReviewID int) error
+	GetPostReviewByID(ctx context.Context, postReviewID int) (*entities.PostReview, error)
 }
 
 type postReviewHandler struct {

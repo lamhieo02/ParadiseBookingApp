@@ -287,6 +287,7 @@ func main() {
 	v1.PUT("/post_reviews", middlewares.RequiredAuth(), postReviewHdl.UpdatePostReview())
 	v1.POST("/post_reviews/list/:account_id", postReviewHdl.ListPostReviewByAccountID())
 	v1.DELETE("/post_reviews/:post_review_id", middlewares.RequiredAuth(), postReviewHdl.DeletePostReviewByID())
+	v1.GET("/post_reviews/:post_review_id", postReviewHdl.GetPostReviewByID())
 
 	// google login
 	//v1.GET("/google/login")
