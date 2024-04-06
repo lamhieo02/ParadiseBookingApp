@@ -49,7 +49,6 @@ import (
 	momoprovider "paradise-booking/provider/momo"
 	mysqlprovider "paradise-booking/provider/mysql"
 	redisprovider "paradise-booking/provider/redis"
-	"paradise-booking/utils"
 	"paradise-booking/worker"
 	"sync"
 
@@ -71,7 +70,7 @@ func main() {
 		log.Fatalln("Can not connect mysql: ", err)
 	}
 
-	utils.RunDBMigration(cfg)
+	// utils.RunDBMigration(cfg)
 
 	// Declare redis
 	redis, err := redisprovider.NewRedisClient(cfg)
@@ -285,6 +284,9 @@ func main() {
 
 	// post review
 	v1.POST("/post_reviews", middlewares.RequiredAuth(), postReviewHdl.CreatePostReview())
+	v1.PUT("/post_reviews", middlewares.RequiredAuth(), postReviewHdl.UpdatePostReview())
+	v1.POST("/post_reviews/list/:account_id", postReviewHdl.ListPostReviewByAccountID())
+	v1.DELETE("/post_reviews/:post_review_id", middlewares.RequiredAuth(), postReviewHdl.DeletePostReviewByID())
 
 	// google login
 	//v1.GET("/google/login")
