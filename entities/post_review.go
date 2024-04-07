@@ -8,7 +8,7 @@ type PostReview struct {
 	Title       string  `json:"title" gorm:"column:title"`
 	Topic       string  `json:"topic" gorm:"column:topic"`
 	Content     string  `json:"content" gorm:"column:content"`
-	Img         string  `json:"img" gorm:"column:img"`
+	Image       string  `json:"image" gorm:"column:img"`
 	Lat         float64 `json:"lat" gorm:"column:lat"`
 	Lng         float64 `json:"lng" gorm:"column:lng"`
 }
