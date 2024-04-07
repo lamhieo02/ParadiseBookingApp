@@ -15,10 +15,23 @@ type PostReviewStore interface {
 	DeleteByID(ctx context.Context, postReviewID int) error
 }
 
-type postReviewUsecase struct {
-	postReviewStore PostReviewStore
+type CommentStorage interface {
+	Create(ctx context.Context, data *entities.Comment) error
+	UpdateByID(ctx context.Context, id int, data *entities.Comment) error
+	DeleteByID(ctx context.Context, id int) error
+	GetByPostReviewID(ctx context.Context, postReviewID int) ([]*entities.Comment, error)
 }
 
-func NewPostReviewUseCase(PostReviewStore PostReviewStore) *postReviewUsecase {
-	return &postReviewUsecase{postReviewStore: PostReviewStore}
+type AccountStorage interface {
+	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
+}
+
+type postReviewUsecase struct {
+	postReviewStore PostReviewStore
+	accountSto      AccountStorage
+	commentStore    CommentStorage
+}
+
+func NewPostReviewUseCase(PostReviewStore PostReviewStore, commentSto CommentStorage, accountSto AccountStorage) *postReviewUsecase {
+	return &postReviewUsecase{postReviewStore: PostReviewStore, accountSto: accountSto, commentStore: commentSto}
 }

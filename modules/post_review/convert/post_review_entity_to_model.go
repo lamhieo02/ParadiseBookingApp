@@ -31,3 +31,30 @@ func ConvertListPostReviewToModel(listPostReview []*entities.PostReview, paging 
 		Paging: paging,
 	}
 }
+
+func ConvertPostReviewEntityToModelDetail(postReviewEntity *entities.PostReview, comments []*entities.Comment) *postreviewiomodel.PostReviewResp {
+	data := postreviewiomodel.PostReviewResp{
+		ID:          int64(postReviewEntity.Id),
+		Title:       postReviewEntity.Title,
+		Topic:       postReviewEntity.Topic,
+		PostOwnerID: int64(postReviewEntity.PostOwnerId),
+		Content:     postReviewEntity.Content,
+		Image:       postReviewEntity.Image,
+		Lat:         postReviewEntity.Lat,
+		Lng:         postReviewEntity.Lng,
+		CreatedAt:   postReviewEntity.CreatedAt,
+		UpdatedAt:   postReviewEntity.UpdatedAt,
+	}
+
+	for _, comment := range comments {
+		data.Comments = append(data.Comments, postreviewiomodel.CommentResp{
+			ID:        int64(comment.Id),
+			Content:   comment.Content,
+			Image:     comment.Image,
+			Videos:    comment.Videos,
+			AccountID: comment.AccountID,
+		})
+	}
+
+	return &data
+}

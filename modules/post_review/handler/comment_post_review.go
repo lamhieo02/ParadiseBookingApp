@@ -1,4 +1,4 @@
-package postreviewratinghandler
+package postreviewhandler
 
 import (
 	"net/http"
@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (hdl *postReviewRatingHandler) CommentPostReview() gin.HandlerFunc {
+func (hdl *postReviewHandler) CommentPostReview() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var postReviewRatingBody postreviewratingiomodel.CommentPostReviewRatingReq
 		if err := c.ShouldBind(&postReviewRatingBody); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		}
 
-		err := hdl.postReviewRatingUC.CommentPostReview(c.Request.Context(), &postReviewRatingBody)
+		err := hdl.postReviewUC.CommentPostReview(c.Request.Context(), &postReviewRatingBody)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return

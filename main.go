@@ -41,9 +41,6 @@ import (
 	postreviewhandler "paradise-booking/modules/post_review/handler"
 	postreviewstorage "paradise-booking/modules/post_review/storage"
 	postreviewusecase "paradise-booking/modules/post_review/usecase"
-	postreviewratinghandler "paradise-booking/modules/post_review_rating/handler"
-	postreviewratingstorage "paradise-booking/modules/post_review_rating/storage"
-	postreviewratingusecase "paradise-booking/modules/post_review_rating/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
@@ -171,18 +168,13 @@ func main() {
 	policyUC := policiesusecase.NewPolicyUseCase(policySto)
 	policyHdl := policieshandler.NewPolicyHandler(policyUC)
 
-	// prepare for post review
-	postReviewSto := postreviewstorage.NewPostReviewStorage(db)
-	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto)
-	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
-
 	// prepare for comment
 	commentSto := commentstorage.NewCommentStorage(db)
 
-	// prepare for post review rating
-	postReviewRatingSto := postreviewratingstorage.NewPostReviewRatingStorage(db)
-	postReviewRatingUC := postreviewratingusecase.NewPostReviewRatingUseCase(postReviewRatingSto, commentSto, accountSto)
-	postReviewRatingHdl := postreviewratinghandler.NewPostReviewRatingHandler(postReviewRatingUC)
+	// prepare for post review
+	postReviewSto := postreviewstorage.NewPostReviewStorage(db)
+	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto, commentSto, accountSto)
+	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
 
 	// prepare for like post review
 	likePostReviewSto := likepostreviewstorage.NewLikePostReviewStorage(db)
@@ -310,7 +302,7 @@ func main() {
 	v1.GET("/post_reviews/:post_review_id", postReviewHdl.GetPostReviewByID())
 
 	// post review rating
-	v1.POST("/post_review_ratings/comment", middlewares.RequiredAuth(), postReviewRatingHdl.CommentPostReview())
+	v1.POST("/post_review/comment", middlewares.RequiredAuth(), postReviewHdl.CommentPostReview())
 
 	// like post review
 	v1.POST("/like_post_reviews", middlewares.RequiredAuth(), likePostReviewHdl.LikePostReview())

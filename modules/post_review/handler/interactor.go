@@ -5,6 +5,7 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/entities"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
+	postreviewratingiomodel "paradise-booking/modules/post_review_rating/iomodel"
 )
 
 type PostReviewUseCase interface {
@@ -12,7 +13,8 @@ type PostReviewUseCase interface {
 	UpdatePostReview(ctx context.Context, data *postreviewiomodel.UpdatePostReviewReq) error
 	ListPostReviewByAccountID(ctx context.Context, accountID int, paging *common.Paging) ([]*entities.PostReview, error)
 	DeletePostReviewByID(ctx context.Context, postReviewID int) error
-	GetPostReviewByID(ctx context.Context, postReviewID int) (*entities.PostReview, error)
+	GetPostReviewByID(ctx context.Context, postReviewID int) (*postreviewiomodel.PostReviewResp, error)
+	CommentPostReview(ctx context.Context, data *postreviewratingiomodel.CommentPostReviewRatingReq) error
 }
 
 type postReviewHandler struct {
