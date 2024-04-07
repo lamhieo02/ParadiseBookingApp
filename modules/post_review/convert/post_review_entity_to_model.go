@@ -8,15 +8,16 @@ import (
 
 func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *postreviewiomodel.PostReviewResp {
 	return &postreviewiomodel.PostReviewResp{
-		ID:        int64(postReviewEntity.Id),
-		Title:     postReviewEntity.Title,
-		Topic:     postReviewEntity.Topic,
-		Content:   postReviewEntity.Content,
-		Image:     postReviewEntity.Img,
-		Lat:       postReviewEntity.Lat,
-		Lng:       postReviewEntity.Lng,
-		CreatedAt: postReviewEntity.CreatedAt,
-		UpdatedAt: postReviewEntity.UpdatedAt,
+		ID:          int64(postReviewEntity.Id),
+		Title:       postReviewEntity.Title,
+		Topic:       postReviewEntity.Topic,
+		PostOwnerID: int64(postReviewEntity.PostOwnerId),
+		Content:     postReviewEntity.Content,
+		Image:       postReviewEntity.Img,
+		Lat:         postReviewEntity.Lat,
+		Lng:         postReviewEntity.Lng,
+		CreatedAt:   postReviewEntity.CreatedAt,
+		UpdatedAt:   postReviewEntity.UpdatedAt,
 	}
 }
 
