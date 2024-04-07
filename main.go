@@ -19,6 +19,10 @@ import (
 	bookingratinghandler "paradise-booking/modules/booking_rating/handler"
 	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
 	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
+	commentstorage "paradise-booking/modules/comment/storage"
+	likepostreviewhandler "paradise-booking/modules/like_post_review/handler"
+	likepostreviewstorage "paradise-booking/modules/like_post_review/storage"
+	likepostreviewusecase "paradise-booking/modules/like_post_review/usecase"
 	mediahandler "paradise-booking/modules/media/handler"
 	mediausecase "paradise-booking/modules/media/usecase"
 	"paradise-booking/modules/middleware"
@@ -37,6 +41,9 @@ import (
 	postreviewhandler "paradise-booking/modules/post_review/handler"
 	postreviewstorage "paradise-booking/modules/post_review/storage"
 	postreviewusecase "paradise-booking/modules/post_review/usecase"
+	postreviewratinghandler "paradise-booking/modules/post_review_rating/handler"
+	postreviewratingstorage "paradise-booking/modules/post_review_rating/storage"
+	postreviewratingusecase "paradise-booking/modules/post_review_rating/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
@@ -169,6 +176,19 @@ func main() {
 	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto)
 	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
 
+	// prepare for comment
+	commentSto := commentstorage.NewCommentStorage(db)
+
+	// prepare for post review rating
+	postReviewRatingSto := postreviewratingstorage.NewPostReviewRatingStorage(db)
+	postReviewRatingUC := postreviewratingusecase.NewPostReviewRatingUseCase(postReviewRatingSto, commentSto, accountSto)
+	postReviewRatingHdl := postreviewratinghandler.NewPostReviewRatingHandler(postReviewRatingUC)
+
+	// prepare for like post review
+	likePostReviewSto := likepostreviewstorage.NewLikePostReviewStorage(db)
+	likePostReviewUC := likepostreviewusecase.NewLikePostReviewUseCase(likePostReviewSto)
+	likePostReviewHdl := likepostreviewhandler.NewLikePostReviewHandler(likePostReviewUC)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -288,6 +308,12 @@ func main() {
 	v1.POST("/post_reviews/list/:account_id", postReviewHdl.ListPostReviewByAccountID())
 	v1.DELETE("/post_reviews/:post_review_id", middlewares.RequiredAuth(), postReviewHdl.DeletePostReviewByID())
 	v1.GET("/post_reviews/:post_review_id", postReviewHdl.GetPostReviewByID())
+
+	// post review rating
+	v1.POST("/post_review_ratings/comment", middlewares.RequiredAuth(), postReviewRatingHdl.CommentPostReview())
+
+	// like post review
+	v1.POST("/like_post_reviews", middlewares.RequiredAuth(), likePostReviewHdl.LikePostReview())
 
 	// google login
 	//v1.GET("/google/login")

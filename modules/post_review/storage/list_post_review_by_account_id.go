@@ -11,7 +11,7 @@ func (s *postReviewStorage) ListPostReviewByAccountID(ctx context.Context, accou
 
 	var data []*entities.PostReview
 
-	db = db.Table(entities.PostReview{}.TableName()).Where("post_owner_id = ?", accountID)
+	db = db.Table(entities.PostReview{}.TableName()).Where("post_owner_id = ?", accountID).Order("id desc")
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)
 	}
