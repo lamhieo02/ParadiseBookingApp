@@ -21,6 +21,7 @@ func (hdl *postReviewHandler) GetPostReviewByID() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+
 		c.JSON(http.StatusOK, gin.H{"data": data})
 	}
 }
