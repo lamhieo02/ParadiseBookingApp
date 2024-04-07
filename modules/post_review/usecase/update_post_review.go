@@ -18,7 +18,7 @@ func (postReviewUsecase *postReviewUsecase) UpdatePostReview(ctx context.Context
 		Title:   data.Title,
 		Topic:   data.Topic,
 		Content: data.Content,
-		Img:     data.Image,
+		Image:   data.Image,
 		Lat:     data.Lat,
 		Lng:     data.Lng,
 	}

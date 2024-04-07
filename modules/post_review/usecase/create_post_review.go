@@ -14,7 +14,7 @@ func (postReviewUsecase *postReviewUsecase) CreatePostReview(ctx context.Context
 		Content:     data.Content,
 		Lat:         data.Lat,
 		Lng:         data.Lng,
-		Img:         data.Image,
+		Image:       data.Image,
 	}
 
 	if err := postReviewUsecase.postReviewStore.Create(ctx, &models); err != nil {

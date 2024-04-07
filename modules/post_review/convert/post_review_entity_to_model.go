@@ -13,7 +13,7 @@ func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *post
 		Topic:       postReviewEntity.Topic,
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
-		Image:       postReviewEntity.Img,
+		Image:       postReviewEntity.Image,
 		Lat:         postReviewEntity.Lat,
 		Lng:         postReviewEntity.Lng,
 		CreatedAt:   postReviewEntity.CreatedAt,
