@@ -41,6 +41,9 @@ import (
 	postreviewhandler "paradise-booking/modules/post_review/handler"
 	postreviewstorage "paradise-booking/modules/post_review/storage"
 	postreviewusecase "paradise-booking/modules/post_review/usecase"
+	replycommenthandler "paradise-booking/modules/reply_comment/handler"
+	replycommentstorage "paradise-booking/modules/reply_comment/storage"
+	replycommentusecase "paradise-booking/modules/reply_comment/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
@@ -181,6 +184,11 @@ func main() {
 	likePostReviewUC := likepostreviewusecase.NewLikePostReviewUseCase(likePostReviewSto)
 	likePostReviewHdl := likepostreviewhandler.NewLikePostReviewHandler(likePostReviewUC)
 
+	// prepare reply comment
+	replyCommentSto := replycommentstorage.NewReplyCommentStorage(db)
+	replyCommentUC := replycommentusecase.NewReplyCommentUsecase(replyCommentSto, commentSto)
+	replyCommentHdl := replycommenthandler.NewReplyCommentHandler(replyCommentUC)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -306,6 +314,9 @@ func main() {
 
 	// like post review
 	v1.POST("/like_post_reviews", middlewares.RequiredAuth(), likePostReviewHdl.LikePostReview())
+
+	// reply comment
+	v1.POST("/reply_comments", middlewares.RequiredAuth(), replyCommentHdl.ReplySourceComment())
 
 	// google login
 	//v1.GET("/google/login")
