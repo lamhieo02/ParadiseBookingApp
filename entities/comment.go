@@ -1,6 +1,9 @@
 package entities
 
-import "paradise-booking/common"
+import (
+	"paradise-booking/common"
+	"strconv"
+)
 
 type Comment struct {
 	common.SQLModel
@@ -13,4 +16,8 @@ type Comment struct {
 
 func (Comment) TableName() string {
 	return "comments"
+}
+
+func (c *Comment) CacheKeyNumCommentByPostReview() string {
+	return "num_cmt" + strconv.Itoa(int(c.PostReviewID))
 }

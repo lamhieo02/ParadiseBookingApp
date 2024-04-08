@@ -3,7 +3,6 @@ package postreviewhandler
 import (
 	"net/http"
 	"paradise-booking/common"
-	"paradise-booking/modules/post_review/convert"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -25,13 +24,12 @@ func (hdl *postReviewHandler) ListPostReviewByAccountID() gin.HandlerFunc {
 			return
 		}
 
-		data, err := hdl.postReviewUC.ListPostReviewByAccountID(c.Request.Context(), accId, &paging)
+		result, err := hdl.postReviewUC.ListPostReviewByAccountID(c.Request.Context(), accId, &paging)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 
-		result := convert.ConvertListPostReviewToModel(data, &paging)
 		c.JSON(http.StatusOK, gin.H{"data": result})
 	}
 }
