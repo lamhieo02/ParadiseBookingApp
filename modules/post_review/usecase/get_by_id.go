@@ -2,11 +2,12 @@ package postreviewusecase
 
 import (
 	"context"
+	"paradise-booking/constant"
 	"paradise-booking/modules/post_review/convert"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
 )
 
-func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Context, postReviewID int) (*postreviewiomodel.PostReviewResp, error) {
+func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Context, postReviewID int, accountID int) (*postreviewiomodel.PostReviewResp, error) {
 	postReview, err := postReviewUsecase.postReviewStore.GetByID(ctx, postReviewID)
 	if err != nil {
 		return nil, err
@@ -51,6 +52,21 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 		}
 
 		result.Comments[i].ReplyComments = tmpReplyComments
+	}
+
+	likePostReview, err := postReviewUsecase.likePostReviewSto.FindDataByCondition(ctx, map[string]interface{}{
+		"account_id":     accountID,
+		"post_review_id": postReviewID,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if len(likePostReview) == 0 || likePostReview[0].Status == constant.UNLIKE_POST_REVIEW {
+		result.IsLiked = false
+	} else {
+		result.IsLiked = true
 	}
 
 	return result, nil

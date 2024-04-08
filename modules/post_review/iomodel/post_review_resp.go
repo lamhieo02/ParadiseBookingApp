@@ -16,6 +16,7 @@ type PostReviewResp struct {
 	Comments     []CommentResp `json:"comments"`
 	LikeCount    int64         `json:"like_count"`
 	CommentCount int64         `json:"comment_count"`
+	IsLiked      bool          `json:"is_liked"`
 }
 
 type CommentResp struct {

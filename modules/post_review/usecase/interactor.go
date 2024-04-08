@@ -29,6 +29,7 @@ type AccountStorage interface {
 
 type LikePostReviewStorage interface {
 	CountLikeByPostReview(ctx context.Context, postReviewID int) (*int64, error)
+	FindDataByCondition(ctx context.Context, condition map[string]interface{}) ([]*entities.LikePostReview, error)
 }
 
 type ReplyCommentStorage interface {

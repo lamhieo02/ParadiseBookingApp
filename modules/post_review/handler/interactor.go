@@ -11,7 +11,7 @@ type PostReviewUseCase interface {
 	CreatePostReview(ctx context.Context, data *postreviewiomodel.CreatePostReviewReq) error
 	UpdatePostReview(ctx context.Context, data *postreviewiomodel.UpdatePostReviewReq) error
 	DeletePostReviewByID(ctx context.Context, postReviewID int) error
-	GetPostReviewByID(ctx context.Context, postReviewID int) (*postreviewiomodel.PostReviewResp, error)
+	GetPostReviewByID(ctx context.Context, postReviewID int, accountID int) (*postreviewiomodel.PostReviewResp, error)
 	CommentPostReview(ctx context.Context, data *postreviewratingiomodel.CommentPostReviewRatingReq) error
 	ListPostReviewByAccountID(ctx context.Context, accountID int, paging *common.Paging) (*postreviewiomodel.ListPostReviewResp, error)
 }

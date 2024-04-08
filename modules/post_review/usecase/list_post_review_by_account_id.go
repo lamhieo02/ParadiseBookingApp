@@ -3,6 +3,7 @@ package postreviewusecase
 import (
 	"context"
 	"paradise-booking/common"
+	"paradise-booking/constant"
 	"paradise-booking/modules/post_review/convert"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
 )
@@ -29,6 +30,21 @@ func (postReviewUsecase *postReviewUsecase) ListPostReviewByAccountID(ctx contex
 
 		result.Data[i].LikeCount = *likeCount
 		result.Data[i].CommentCount = *commentCount
+
+		likePostView, err := postReviewUsecase.likePostReviewSto.FindDataByCondition(ctx, map[string]interface{}{
+			"account_id":     accountID,
+			"post_review_id": v.ID,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		if len(likePostView) == 0 || likePostView[0].Status == constant.UNLIKE_POST_REVIEW {
+			result.Data[i].IsLiked = false
+		} else {
+			result.Data[i].IsLiked = true
+		}
+
 	}
 
 	return &result, nil
