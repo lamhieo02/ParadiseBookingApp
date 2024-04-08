@@ -16,7 +16,14 @@ func (hdl *postReviewHandler) GetPostReviewByID() gin.HandlerFunc {
 			return
 		}
 
-		data, err := hdl.postReviewUC.GetPostReviewByID(c.Request.Context(), id)
+		accountID := c.Query("account_id")
+		acID, err := strconv.Atoi(accountID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		data, err := hdl.postReviewUC.GetPostReviewByID(c.Request.Context(), id, acID)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
