@@ -174,20 +174,25 @@ func main() {
 	// prepare for comment
 	commentSto := commentstorage.NewCommentStorage(db)
 
-	// prepare for post review
-	postReviewSto := postreviewstorage.NewPostReviewStorage(db)
-	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto, commentSto, accountSto)
-	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
-
 	// prepare for like post review
 	likePostReviewSto := likepostreviewstorage.NewLikePostReviewStorage(db)
 	likePostReviewUC := likepostreviewusecase.NewLikePostReviewUseCase(likePostReviewSto)
 	likePostReviewHdl := likepostreviewhandler.NewLikePostReviewHandler(likePostReviewUC)
 
+	// declare cache for like_post_review
+	// likePostReviewCache := cache.NewLikePostReviewStoCache(likePostReviewSto, cacheRedis)
+
+	// declare cache for comment
+	// commentCache := cache.NewCommentStoCache(commentSto, cacheRedis)
 	// prepare reply comment
 	replyCommentSto := replycommentstorage.NewReplyCommentStorage(db)
 	replyCommentUC := replycommentusecase.NewReplyCommentUsecase(replyCommentSto, commentSto)
 	replyCommentHdl := replycommenthandler.NewReplyCommentHandler(replyCommentUC)
+
+	// prepare for post review
+	postReviewSto := postreviewstorage.NewPostReviewStorage(db)
+	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto, commentSto, accountSto, likePostReviewSto, replyCommentSto)
+	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
 
 	// run task processor
 	wg := new(sync.WaitGroup)

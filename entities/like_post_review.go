@@ -1,6 +1,9 @@
 package entities
 
-import "paradise-booking/common"
+import (
+	"paradise-booking/common"
+	"strconv"
+)
 
 type LikePostReview struct {
 	common.SQLModel
@@ -11,4 +14,8 @@ type LikePostReview struct {
 
 func (LikePostReview) TableName() string {
 	return "like_post_review"
+}
+
+func (l *LikePostReview) CacheKeyNumLikePostReview() string {
+	return "numlike:" + strconv.Itoa(l.PostReviewId)
 }
