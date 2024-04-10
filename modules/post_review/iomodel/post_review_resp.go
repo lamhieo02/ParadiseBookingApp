@@ -6,7 +6,8 @@ type PostReviewResp struct {
 	ID           int64         `json:"id"`
 	PostOwnerID  int64         `json:"post_owner_id"`
 	Title        string        `json:"title"`
-	Topic        string        `json:"topic"`
+	TopicID      int           `json:"topic_id"`
+	TopicName    string        `json:"topic_name"`
 	Content      string        `json:"content"`
 	Image        string        `json:"image"`
 	Lat          float64       `json:"lat"`

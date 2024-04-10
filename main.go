@@ -319,6 +319,7 @@ func main() {
 	v1.POST("/post_reviews/list/:account_id", postReviewHdl.ListPostReviewByAccountID())
 	v1.DELETE("/post_reviews/:post_review_id", middlewares.RequiredAuth(), postReviewHdl.DeletePostReviewByID())
 	v1.GET("/post_reviews/:post_review_id", postReviewHdl.GetPostReviewByID())
+	v1.POST("/post_reviews/list", middlewares.RequiredAuth(), postReviewHdl.ListPostReviewByFilter())
 
 	// post review rating
 	v1.POST("/post_review/comment", middlewares.RequiredAuth(), postReviewHdl.CommentPostReview())

@@ -14,6 +14,7 @@ type PostReviewUseCase interface {
 	GetPostReviewByID(ctx context.Context, postReviewID int, accountID int) (*postreviewiomodel.PostReviewResp, error)
 	CommentPostReview(ctx context.Context, data *postreviewratingiomodel.CommentPostReviewRatingReq) error
 	ListPostReviewByAccountID(ctx context.Context, accountID int, paging *common.Paging) (*postreviewiomodel.ListPostReviewResp, error)
+	ListPostReviewByFilter(ctx context.Context, paging *common.Paging, filter *postreviewiomodel.Filter, accountID int64) (*postreviewiomodel.ListPostReviewResp, error)
 }
 
 type postReviewHandler struct {

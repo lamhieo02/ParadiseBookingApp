@@ -2,6 +2,7 @@ package convert
 
 import (
 	"paradise-booking/common"
+	"paradise-booking/constant"
 	"paradise-booking/entities"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
 )
@@ -10,7 +11,8 @@ func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *post
 	return &postreviewiomodel.PostReviewResp{
 		ID:          int64(postReviewEntity.Id),
 		Title:       postReviewEntity.Title,
-		Topic:       postReviewEntity.Topic,
+		TopicID:     postReviewEntity.Topic,
+		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
 		Image:       postReviewEntity.Image,
@@ -36,7 +38,8 @@ func ConvertPostReviewEntityToModelDetail(postReviewEntity *entities.PostReview,
 	data := postreviewiomodel.PostReviewResp{
 		ID:          int64(postReviewEntity.Id),
 		Title:       postReviewEntity.Title,
-		Topic:       postReviewEntity.Topic,
+		TopicID:     postReviewEntity.Topic,
+		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
 		Image:       postReviewEntity.Image,
