@@ -6,7 +6,7 @@ type PostReview struct {
 	common.SQLModel
 	PostOwnerId int     `json:"post_owner_id" gorm:"column:post_owner_id"`
 	Title       string  `json:"title" gorm:"column:title"`
-	Topic       string  `json:"topic" gorm:"column:topic"`
+	Topic       int     `json:"topic" gorm:"column:topic"`
 	Content     string  `json:"content" gorm:"column:content"`
 	Image       string  `json:"image" gorm:"column:img"`
 	Lat         float64 `json:"lat" gorm:"column:lat"`

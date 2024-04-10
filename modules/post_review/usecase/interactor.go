@@ -4,6 +4,7 @@ import (
 	"context"
 	"paradise-booking/common"
 	"paradise-booking/entities"
+	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
 )
 
 type PostReviewStore interface {
@@ -13,6 +14,7 @@ type PostReviewStore interface {
 	UpdateByID(ctx context.Context, id int, data *entities.PostReview) error
 	ListPostReviewByAccountID(ctx context.Context, accountID int, paging *common.Paging) ([]*entities.PostReview, error)
 	DeleteByID(ctx context.Context, postReviewID int) error
+	ListPostReviewByFilter(ctx context.Context, paging *common.Paging, filter *postreviewiomodel.Filter) ([]*entities.PostReview, error)
 }
 
 type CommentStorage interface {
