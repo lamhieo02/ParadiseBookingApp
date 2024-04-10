@@ -19,7 +19,9 @@ import (
 	bookingratinghandler "paradise-booking/modules/booking_rating/handler"
 	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
 	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
+	commenthandler "paradise-booking/modules/comment/handler"
 	commentstorage "paradise-booking/modules/comment/storage"
+	commentusecase "paradise-booking/modules/comment/usecase"
 	likepostreviewhandler "paradise-booking/modules/like_post_review/handler"
 	likepostreviewstorage "paradise-booking/modules/like_post_review/storage"
 	likepostreviewusecase "paradise-booking/modules/like_post_review/usecase"
@@ -194,6 +196,10 @@ func main() {
 	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto, commentSto, accountSto, likePostReviewSto, replyCommentSto)
 	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
 
+	// declare cache for comment
+	commentUC := commentusecase.NewCommentUseCase(commentSto)
+	commentHdl := commenthandler.NewCommentHandler(commentUC)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -322,6 +328,10 @@ func main() {
 
 	// reply comment
 	v1.POST("/reply_comments", middlewares.RequiredAuth(), replyCommentHdl.ReplySourceComment())
+	v1.DELETE("/reply_comments/:reply_comment_id", middlewares.RequiredAuth(), replyCommentHdl.DeleteReplyComment())
+
+	// comment
+	v1.DELETE("/comments/:comment_id", middlewares.RequiredAuth(), commentHdl.DeleteCommentByID())
 
 	// google login
 	//v1.GET("/google/login")
