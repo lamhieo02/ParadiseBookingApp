@@ -7,6 +7,7 @@ import (
 
 type ReplyCommentUseCase interface {
 	ReplySourceComment(ctx context.Context, data *replycommentiomodel.ReplyCommentReq) error
+	DeleteByID(ctx context.Context, id int) error
 }
 
 type replyCommentHandler struct {
