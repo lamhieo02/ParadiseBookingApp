@@ -5,6 +5,7 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/entities"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
+	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
 type PostReviewStore interface {
@@ -44,6 +45,7 @@ type postReviewUsecase struct {
 	commentStore      CommentStorage
 	likePostReviewSto LikePostReviewStorage
 	replyComment      ReplyCommentStorage
+	googleMap         googlemapprovider.GoogleMap
 }
 
 func NewPostReviewUseCase(
@@ -51,6 +53,7 @@ func NewPostReviewUseCase(
 	commentSto CommentStorage,
 	accountSto AccountStorage,
 	likePostReviewSto LikePostReviewStorage,
-	replyCommentSto ReplyCommentStorage) *postReviewUsecase {
-	return &postReviewUsecase{postReviewStore: PostReviewStore, accountSto: accountSto, commentStore: commentSto, likePostReviewSto: likePostReviewSto, replyComment: replyCommentSto}
+	replyCommentSto ReplyCommentStorage,
+	googleMap googlemapprovider.GoogleMap) *postReviewUsecase {
+	return &postReviewUsecase{googleMap: googleMap, postReviewStore: PostReviewStore, accountSto: accountSto, commentStore: commentSto, likePostReviewSto: likePostReviewSto, replyComment: replyCommentSto}
 }

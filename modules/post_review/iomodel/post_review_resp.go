@@ -18,6 +18,9 @@ type PostReviewResp struct {
 	LikeCount    int64         `json:"like_count"`
 	CommentCount int64         `json:"comment_count"`
 	IsLiked      bool          `json:"is_liked"`
+	Country      string        `json:"country"`
+	State        string        `json:"state"`
+	District     string        `json:"district"`
 }
 
 type CommentResp struct {

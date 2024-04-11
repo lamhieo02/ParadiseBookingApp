@@ -2,13 +2,14 @@ package postreviewusecase
 
 import (
 	"context"
+	"fmt"
 	"paradise-booking/common"
-	"paradise-booking/constant"
 	"paradise-booking/modules/post_review/convert"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
+	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
-func (postReviewUsecase *postReviewUsecase) ListPostReviewByFilter(ctx context.Context, paging *common.Paging, filter *postreviewiomodel.Filter, accountID int64) (*postreviewiomodel.ListPostReviewResp, error) {
+func (postReviewUsecase *postReviewUsecase) ListPostReviewByFilter(ctx context.Context, paging *common.Paging, filter *postreviewiomodel.Filter) (*postreviewiomodel.ListPostReviewResp, error) {
 
 	paging.Process()
 	data, err := postReviewUsecase.postReviewStore.ListPostReviewByFilter(ctx, paging, filter)
@@ -32,20 +33,15 @@ func (postReviewUsecase *postReviewUsecase) ListPostReviewByFilter(ctx context.C
 		result.Data[i].LikeCount = *likeCount
 		result.Data[i].CommentCount = *commentCount
 
-		likePostView, err := postReviewUsecase.likePostReviewSto.FindDataByCondition(ctx, map[string]interface{}{
-			"account_id":     accountID,
-			"post_review_id": v.ID,
-		})
+		// get location
+		location, err := postReviewUsecase.googleMap.GetAddressFromLatLng(ctx, result.Data[i].Lat, result.Data[i].Lng)
 		if err != nil {
-			return nil, err
+			fmt.Printf("error get location from lat lng: %v", err)
+			location = &googlemapprovider.GoogleMapAddress{}
 		}
-
-		if len(likePostView) == 0 || likePostView[0].Status == constant.UNLIKE_POST_REVIEW {
-			result.Data[i].IsLiked = false
-		} else {
-			result.Data[i].IsLiked = true
-		}
-
+		result.Data[i].Country = location.Country
+		result.Data[i].State = location.State
+		result.Data[i].District = location.District
 	}
 
 	return &result, nil
