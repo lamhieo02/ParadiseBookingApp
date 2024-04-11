@@ -25,14 +25,7 @@ func (hdl *postReviewHandler) ListPostReviewByFilter() gin.HandlerFunc {
 			filter.TopicID = topic
 		}
 
-		accountID := c.Query("account_id")
-		accId, err := strconv.Atoi(accountID)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		result, err := hdl.postReviewUC.ListPostReviewByFilter(c.Request.Context(), &paging, &filter, int64(accId))
+		result, err := hdl.postReviewUC.ListPostReviewByFilter(c.Request.Context(), &paging, &filter)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
