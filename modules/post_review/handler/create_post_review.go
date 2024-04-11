@@ -13,6 +13,7 @@ func (hdl *postReviewHandler) CreatePostReview() gin.HandlerFunc {
 
 		if err := c.ShouldBind(&postReviewBody); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
+			return
 		}
 
 		err := hdl.postReviewUC.CreatePostReview(c.Request.Context(), &postReviewBody)
