@@ -41,7 +41,8 @@ func (hdl *postReviewHandler) ListPostReviewByFilter() gin.HandlerFunc {
 
 		dateFrom := c.Query("date_from")
 		if dateFrom != "" {
-			dateFrom, err := time.Parse("2006-01-02", dateFrom)
+			dateFrom += "T00:00:00Z"
+			dateFrom, err := time.Parse("2006-01-02T15:04:05Z", dateFrom)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
@@ -51,7 +52,8 @@ func (hdl *postReviewHandler) ListPostReviewByFilter() gin.HandlerFunc {
 
 		dateTo := c.Query("date_to")
 		if dateTo != "" {
-			dateTo, err := time.Parse("2006-01-02", dateTo)
+			dateTo += "T23:59:59Z"
+			dateTo, err := time.Parse("2006-01-02T15:04:05Z", dateTo)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
