@@ -3,6 +3,7 @@ package postreviewusecase
 import (
 	"context"
 	"fmt"
+	"log"
 	"paradise-booking/common"
 	"paradise-booking/modules/post_review/convert"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
@@ -12,6 +13,20 @@ import (
 func (postReviewUsecase *postReviewUsecase) ListPostReviewByFilter(ctx context.Context, paging *common.Paging, filter *postreviewiomodel.Filter) (*postreviewiomodel.ListPostReviewResp, error) {
 
 	paging.Process()
+
+	if filter.Lat != 0 && filter.Lng != 0 {
+		ggAddress, err := postReviewUsecase.googleMap.GetAddressFromLatLng(ctx, filter.Lat, filter.Lng)
+		if err != nil {
+			log.Printf("error get address from googlemap with lat=%v lng=%v got error: %v", filter.Lat, filter.Lng, err)
+			filter.Lat = 0
+			filter.Lng = 0
+		} else {
+			filter.Country = ggAddress.Country
+			filter.State = ggAddress.State
+			filter.District = ggAddress.District
+		}
+	}
+
 	data, err := postReviewUsecase.postReviewStore.ListPostReviewByFilter(ctx, paging, filter)
 	if err != nil {
 		return nil, err

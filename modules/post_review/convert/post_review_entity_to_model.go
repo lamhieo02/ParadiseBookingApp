@@ -20,6 +20,9 @@ func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *post
 		Lng:         postReviewEntity.Lng,
 		CreatedAt:   postReviewEntity.CreatedAt,
 		UpdatedAt:   postReviewEntity.UpdatedAt,
+		Country:     postReviewEntity.Country,
+		State:       postReviewEntity.State,
+		District:    postReviewEntity.District,
 	}
 }
 

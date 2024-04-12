@@ -11,6 +11,9 @@ type PostReview struct {
 	Image       string  `json:"image" gorm:"column:img"`
 	Lat         float64 `json:"lat" gorm:"column:lat"`
 	Lng         float64 `json:"lng" gorm:"column:lng"`
+	Country     string  `json:"country" gorm:"column:country"`
+	State       string  `json:"state" gorm:"column:state"`
+	District    string  `json:"district" gorm:"column:district"`
 }
 
 func (PostReview) TableName() string {

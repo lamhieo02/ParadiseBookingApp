@@ -13,12 +13,25 @@ func (s *postReviewStorage) ListPostReviewByFilter(ctx context.Context, paging *
 	var data []*entities.PostReview
 
 	db = db.Table(entities.PostReview{}.TableName()).Order("id desc")
-	if err := db.Count(&paging.Total).Error; err != nil {
-		return nil, common.ErrorDB(err)
-	}
 
 	if filter.TopicID != 0 {
 		db = db.Where("topic = ?", filter.TopicID)
+	}
+
+	if filter.Lat != 0 && filter.Lng != 0 {
+		db = db.Where("country = ? AND state = ? AND district = ?", filter.Country, filter.State, filter.District)
+	}
+
+	if filter.DateFrom != nil {
+		db = db.Where("created_at >= ?", filter.DateFrom)
+	}
+
+	if filter.DateTo != nil {
+		db = db.Where("created_at <= ?", filter.DateTo)
+	}
+
+	if err := db.Count(&paging.Total).Error; err != nil {
+		return nil, common.ErrorDB(err)
 	}
 
 	if err := db.Offset((paging.Page - 1) * paging.Limit).Limit(paging.Limit).Find(&data).Error; err != nil {
