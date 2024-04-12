@@ -7,6 +7,13 @@ import (
 )
 
 func (postReviewUsecase *postReviewUsecase) CreatePostReview(ctx context.Context, data *postreviewiomodel.CreatePostReviewReq) error {
+
+	// get location from lat lng
+	ggAddress, err := postReviewUsecase.googleMap.GetAddressFromLatLng(ctx, data.Lat, data.Lng)
+	if err != nil {
+		return err
+	}
+
 	models := entities.PostReview{
 		PostOwnerId: int(data.AccountID),
 		Title:       data.Title,
@@ -15,6 +22,9 @@ func (postReviewUsecase *postReviewUsecase) CreatePostReview(ctx context.Context
 		Lat:         data.Lat,
 		Lng:         data.Lng,
 		Image:       data.Image,
+		Country:     ggAddress.Country,
+		State:       ggAddress.State,
+		District:    ggAddress.District,
 	}
 
 	if err := postReviewUsecase.postReviewStore.Create(ctx, &models); err != nil {

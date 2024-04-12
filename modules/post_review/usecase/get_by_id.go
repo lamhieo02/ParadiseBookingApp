@@ -2,11 +2,9 @@ package postreviewusecase
 
 import (
 	"context"
-	"fmt"
 	"paradise-booking/constant"
 	"paradise-booking/modules/post_review/convert"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
-	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
 func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Context, postReviewID int, accountID int) (*postreviewiomodel.PostReviewResp, error) {
@@ -57,14 +55,9 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 	}
 
 	// get location
-	location, err := postReviewUsecase.googleMap.GetAddressFromLatLng(ctx, postReview.Lat, postReview.Lng)
-	if err != nil {
-		fmt.Printf("error get location from lat lng: %v", err)
-		location = &googlemapprovider.GoogleMapAddress{}
-	}
-	result.Country = location.Country
-	result.State = location.State
-	result.District = location.District
+	result.Country = postReview.Country
+	result.State = postReview.State
+	result.District = postReview.District
 
 	likePostReview, err := postReviewUsecase.likePostReviewSto.FindDataByCondition(ctx, map[string]interface{}{
 		"account_id":     accountID,
