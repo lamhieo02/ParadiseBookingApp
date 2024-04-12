@@ -19,6 +19,7 @@ type PlaceStorage interface {
 	UpdateByID(ctx context.Context, id int, data *entities.Place) error
 	GetPlaceByCondition(ctx context.Context, condition map[string]interface{}) ([]entities.Place, error)
 	GetRatingAverageByPlaceId(ctx context.Context, placeId int64) (*float64, error)
+	GetPlaceByLatLng(ctx context.Context, lat, lng float64) ([]*entities.Place, error)
 }
 
 type AccountStorage interface {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math"
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
@@ -23,10 +24,15 @@ func (uc *placeUseCase) ListAllPlace(ctx context.Context, paging *common.Paging,
 	if filter.Lat != nil && filter.Lng != nil {
 		lat := *filter.Lat
 		lng := *filter.Lng
+
+		// make lat and lng round to 2 decimal
+		lat = math.Round(lat*100) / 100
+		lng = math.Round(lng*100) / 100
+
 		address1, err := uc.googleMap.GetAddressFromLatLng(ctx, lat, lng)
 		if err != nil {
 			log.Printf("Error when get address from lat lng: %v", err)
-			addr, err := uc.placeStorage.GetPlaceByCondition(ctx, map[string]interface{}{"lat": lat, "lng": lng})
+			addr, err := uc.placeStorage.GetPlaceByLatLng(ctx, lat, lng)
 			if err != nil {
 				return nil, err
 			}
