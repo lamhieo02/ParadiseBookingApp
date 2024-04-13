@@ -2,6 +2,7 @@ package postreviewusecase
 
 import (
 	"context"
+	"log"
 	"paradise-booking/entities"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
 )
@@ -11,7 +12,10 @@ func (postReviewUsecase *postReviewUsecase) CreatePostReview(ctx context.Context
 	// get location from lat lng
 	ggAddress, err := postReviewUsecase.googleMap.GetAddressFromLatLng(ctx, data.Lat, data.Lng)
 	if err != nil {
-		return err
+		log.Printf("Error when get address from lat lng: %v", err)
+		ggAddress.Country = ""
+		ggAddress.State = ""
+		ggAddress.District = ""
 	}
 
 	models := entities.PostReview{
