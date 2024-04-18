@@ -49,4 +49,5 @@ type OwnerResp struct {
 	UserName string `json:"user_name"`
 	Avatar   string `json:"avatar"`
 	FullName string `json:"full_name"`
+	Email    string `json:"email"`
 }

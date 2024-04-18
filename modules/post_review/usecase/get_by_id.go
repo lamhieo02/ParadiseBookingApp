@@ -95,6 +95,7 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 	result.PostOwner.Avatar = owner.Avatar
 	result.PostOwner.FullName = owner.FullName
 	result.PostOwner.UserName = owner.Username
+	result.PostOwner.Email = owner.Email
 
 	// get infor comments
 	for i, v := range result.Comments {
@@ -105,6 +106,7 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 		result.Comments[i].Owner.Avatar = owner.Avatar
 		result.Comments[i].Owner.FullName = owner.FullName
 		result.Comments[i].Owner.UserName = owner.Username
+		result.Comments[i].Owner.Email = owner.Email
 	}
 
 	return result, nil
