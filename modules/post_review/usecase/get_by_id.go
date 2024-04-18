@@ -57,6 +57,7 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 					UserName: owner.Username,
 					Avatar:   owner.Avatar,
 					FullName: owner.FullName,
+					Email:    owner.Email,
 				},
 				DateComment: replyComment.CreatedAt,
 			})
