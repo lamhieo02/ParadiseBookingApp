@@ -30,15 +30,19 @@ type CommentResp struct {
 	Image         string             `json:"image"`
 	Videos        string             `json:"videos"`
 	AccountID     int64              `json:"account_id"`
+	Owner         OwnerResp          `json:"owner"`
+	DateComment   *time.Time         `json:"date_comment"`
 	ReplyComments []ReplyCommentResp `json:"reply_comments"`
 }
 
 type ReplyCommentResp struct {
-	ID        int64  `json:"id"`
-	Content   string `json:"content"`
-	Image     string `json:"image"`
-	Videos    string `json:"videos"`
-	AccountID int64  `json:"account_id"`
+	ID          int64      `json:"id"`
+	Content     string     `json:"content"`
+	Image       string     `json:"image"`
+	Videos      string     `json:"videos"`
+	AccountID   int64      `json:"account_id"`
+	Owner       OwnerResp  `json:"owner"`
+	DateComment *time.Time `json:"date_comment"`
 }
 
 type OwnerResp struct {

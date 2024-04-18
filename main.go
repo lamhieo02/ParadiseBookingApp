@@ -193,7 +193,7 @@ func main() {
 
 	// prepare for post review
 	postReviewSto := postreviewstorage.NewPostReviewStorage(db)
-	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto, commentSto, accountSto, likePostReviewSto, replyCommentSto, *googleMap)
+	postReviewUC := postreviewusecase.NewPostReviewUseCase(postReviewSto, commentSto, accountCache, likePostReviewSto, replyCommentSto, *googleMap)
 	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
 
 	// declare cache for comment

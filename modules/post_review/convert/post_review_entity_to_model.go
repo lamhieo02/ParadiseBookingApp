@@ -54,11 +54,12 @@ func ConvertPostReviewEntityToModelDetail(postReviewEntity *entities.PostReview,
 
 	for _, comment := range comments {
 		data.Comments = append(data.Comments, postreviewiomodel.CommentResp{
-			ID:        int64(comment.Id),
-			Content:   comment.Content,
-			Image:     comment.Image,
-			Videos:    comment.Videos,
-			AccountID: comment.AccountID,
+			ID:          int64(comment.Id),
+			Content:     comment.Content,
+			Image:       comment.Image,
+			Videos:      comment.Videos,
+			AccountID:   comment.AccountID,
+			DateComment: comment.CreatedAt,
 		})
 	}
 

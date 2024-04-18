@@ -42,12 +42,23 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 
 		tmpReplyComments := []postreviewiomodel.ReplyCommentResp{}
 		for _, replyComment := range replyComments {
+			// get owner of reply comment
+			owner, err := postReviewUsecase.accountSto.GetProfileByID(ctx, int(replyComment.AccountID))
+			if err != nil {
+				return nil, err
+			}
 			tmpReplyComments = append(tmpReplyComments, postreviewiomodel.ReplyCommentResp{
 				ID:        int64(replyComment.Id),
 				Content:   replyComment.Content,
 				Image:     replyComment.Image,
 				Videos:    replyComment.Videos,
 				AccountID: int64(replyComment.AccountID),
+				Owner: postreviewiomodel.OwnerResp{
+					UserName: owner.Username,
+					Avatar:   owner.Avatar,
+					FullName: owner.FullName,
+				},
+				DateComment: replyComment.CreatedAt,
 			})
 		}
 
@@ -84,6 +95,17 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 	result.PostOwner.Avatar = owner.Avatar
 	result.PostOwner.FullName = owner.FullName
 	result.PostOwner.UserName = owner.Username
+
+	// get infor comments
+	for i, v := range result.Comments {
+		owner, err := postReviewUsecase.accountSto.GetProfileByID(ctx, int(v.AccountID))
+		if err != nil {
+			return nil, err
+		}
+		result.Comments[i].Owner.Avatar = owner.Avatar
+		result.Comments[i].Owner.FullName = owner.FullName
+		result.Comments[i].Owner.UserName = owner.Username
+	}
 
 	return result, nil
 }
