@@ -59,19 +59,21 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 	result.State = postReview.State
 	result.District = postReview.District
 
-	likePostReview, err := postReviewUsecase.likePostReviewSto.FindDataByCondition(ctx, map[string]interface{}{
-		"account_id":     accountID,
-		"post_review_id": postReviewID,
-	})
+	if accountID != 0 {
+		likePostReview, err := postReviewUsecase.likePostReviewSto.FindDataByCondition(ctx, map[string]interface{}{
+			"account_id":     accountID,
+			"post_review_id": postReviewID,
+		})
 
-	if err != nil {
-		return nil, err
-	}
+		if err != nil {
+			return nil, err
+		}
 
-	if len(likePostReview) == 0 || likePostReview[0].Status == constant.UNLIKE_POST_REVIEW {
-		result.IsLiked = false
-	} else {
-		result.IsLiked = true
+		if len(likePostReview) == 0 || likePostReview[0].Status == constant.UNLIKE_POST_REVIEW {
+			result.IsLiked = false
+		} else {
+			result.IsLiked = true
+		}
 	}
 
 	return result, nil
