@@ -76,5 +76,14 @@ func (postReviewUsecase *postReviewUsecase) GetPostReviewByID(ctx context.Contex
 		}
 	}
 
+	// get owner
+	owner, err := postReviewUsecase.accountSto.GetProfileByID(ctx, int(result.PostOwnerID))
+	if err != nil {
+		return nil, err
+	}
+	result.PostOwner.Avatar = owner.Avatar
+	result.PostOwner.FullName = owner.FullName
+	result.PostOwner.UserName = owner.Username
+
 	return result, nil
 }

@@ -5,6 +5,7 @@ import "time"
 type PostReviewResp struct {
 	ID           int64         `json:"id"`
 	PostOwnerID  int64         `json:"post_owner_id"`
+	PostOwner    OwnerResp     `json:"post_owner"`
 	Title        string        `json:"title"`
 	TopicID      int           `json:"topic_id"`
 	TopicName    string        `json:"topic_name"`
@@ -38,4 +39,10 @@ type ReplyCommentResp struct {
 	Image     string `json:"image"`
 	Videos    string `json:"videos"`
 	AccountID int64  `json:"account_id"`
+}
+
+type OwnerResp struct {
+	UserName string `json:"user_name"`
+	Avatar   string `json:"avatar"`
+	FullName string `json:"full_name"`
 }
