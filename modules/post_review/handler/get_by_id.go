@@ -17,6 +17,9 @@ func (hdl *postReviewHandler) GetPostReviewByID() gin.HandlerFunc {
 		}
 
 		accountID := c.Query("account_id")
+		if accountID == "" {
+			accountID = "0"
+		}
 		acID, err := strconv.Atoi(accountID)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
