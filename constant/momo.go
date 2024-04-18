@@ -5,5 +5,5 @@ const (
 )
 
 const (
-	RedirectURLMomo = "http://localhost:3000/reservations/"
+	RedirectURLMomo = "https://booking.workon.space/reservations/"
 )
