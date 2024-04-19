@@ -197,7 +197,7 @@ func main() {
 	postReviewHdl := postreviewhandler.NewPostReviewHandler(postReviewUC)
 
 	// declare cache for comment
-	commentUC := commentusecase.NewCommentUseCase(commentSto)
+	commentUC := commentusecase.NewCommentUseCase(commentSto, replyCommentSto, accountCache)
 	commentHdl := commenthandler.NewCommentHandler(commentUC)
 
 	// run task processor
@@ -333,6 +333,7 @@ func main() {
 
 	// comment
 	v1.DELETE("/comments/:comment_id", middlewares.RequiredAuth(), commentHdl.DeleteCommentByID())
+	v1.GET("/comments/:post_review_id", commentHdl.GetCommentByPostReviewID())
 
 	// google login
 	//v1.GET("/google/login")
