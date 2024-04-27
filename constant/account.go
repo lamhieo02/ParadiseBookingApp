@@ -6,6 +6,7 @@ const (
 	UserRole Role = iota + 1
 	VendorRole
 	AdminRole
+	GuiderRole
 )
 
 const (

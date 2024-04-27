@@ -40,6 +40,9 @@ import (
 	policieshandler "paradise-booking/modules/policy/handler"
 	policiesstorage "paradise-booking/modules/policy/storage"
 	policiesusecase "paradise-booking/modules/policy/usecase"
+	postguidehandler "paradise-booking/modules/post_guide/handler"
+	postguidestorage "paradise-booking/modules/post_guide/storage"
+	postguideusecase "paradise-booking/modules/post_guide/usecase"
 	postreviewhandler "paradise-booking/modules/post_review/handler"
 	postreviewstorage "paradise-booking/modules/post_review/storage"
 	postreviewusecase "paradise-booking/modules/post_review/usecase"
@@ -200,6 +203,11 @@ func main() {
 	commentUC := commentusecase.NewCommentUseCase(commentSto, replyCommentSto, accountCache)
 	commentHdl := commenthandler.NewCommentHandler(commentUC)
 
+	// declare for post_guide
+	postGuideSto := postguidestorage.NewPostGuideStorage(db)
+	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
+	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache)
+	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -334,6 +342,10 @@ func main() {
 	// comment
 	v1.DELETE("/comments/:comment_id", middlewares.RequiredAuth(), commentHdl.DeleteCommentByID())
 	v1.GET("/comments/:post_review_id", commentHdl.GetCommentByPostReviewID())
+
+	// post guide
+	v1.POST("/post_guides", middlewares.RequiredAuth(), postGuideHdl.CreatePostGuide())
+	v1.GET("/post_guides/:id", postGuideHdl.GetPostGuideByID())
 
 	// google login
 	//v1.GET("/google/login")
