@@ -1,0 +1,25 @@
+package entities
+
+import (
+	"paradise-booking/common"
+	"strconv"
+)
+
+type PostGuide struct {
+	common.SQLModel
+	PostOwnerId int     `json:"post_owner_id" gorm:"column:post_owner_id"`
+	TopicID     int     `json:"topic_id" gorm:"column:topic_id"`
+	Title       string  `json:"title" gorm:"column:title"`
+	Description string  `json:"description" gorm:"column:description"`
+	Cover       string  `json:"cover" gorm:"column:cover"`
+	Lat         float64 `json:"lat" gorm:"column:lat"`
+	Lng         float64 `json:"lng" gorm:"column:lng"`
+}
+
+func (PostGuide) TableName() string {
+	return "post_guide"
+}
+
+func (p PostGuide) CacheKey() string {
+	return "post_guide:" + strconv.Itoa(p.Id)
+}
