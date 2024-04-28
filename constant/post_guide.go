@@ -1,7 +1,5 @@
 package constant
 
-type PostGuideTopic int
-
 const (
 	PostGuideTopicArtAndCulture = iota + 1
 	PostGuideTopicEntertainment
@@ -11,3 +9,13 @@ const (
 	PostGuideTopicSightseeing
 	PostGuideTopicWellness
 )
+
+var MapPostGuideTopic = map[int]string{
+	PostGuideTopicArtAndCulture: "Art and Culture",
+	PostGuideTopicEntertainment: "Entertainment",
+	PostGuideTopicFoodAndDrink:  "Food and Drink",
+	PostGuideTopicSport:         "Sport",
+	PostGuideTopicTours:         "Tours",
+	PostGuideTopicSightseeing:   "Sightseeing",
+	PostGuideTopicWellness:      "Wellness",
+}

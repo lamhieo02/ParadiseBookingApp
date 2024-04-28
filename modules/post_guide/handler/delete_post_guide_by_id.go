@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *postGuideHandler) GetPostGuideByID() gin.HandlerFunc {
+func (h *postGuideHandler) DeletePostGuideByID() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		postGuideID := ctx.Param("id")
 		id, err := strconv.Atoi(postGuideID)
@@ -16,12 +16,12 @@ func (h *postGuideHandler) GetPostGuideByID() gin.HandlerFunc {
 			return
 		}
 
-		data, err := h.postGuideUC.GetPostGuideByID(ctx, id)
+		err = h.postGuideUC.DeletePostGuideByID(ctx, id)
 		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
 
-		ctx.JSON(http.StatusOK, gin.H{"data": data})
+		ctx.JSON(http.StatusOK, gin.H{"data": true})
 	}
 }
