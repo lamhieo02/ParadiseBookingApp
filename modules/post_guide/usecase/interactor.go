@@ -2,7 +2,9 @@ package postguideusecase
 
 import (
 	"context"
+	"paradise-booking/common"
 	"paradise-booking/entities"
+	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
 )
 
 type PostGuideCache interface {
@@ -12,13 +14,22 @@ type PostGuideCache interface {
 type PostGuideSto interface {
 	Create(ctx context.Context, data *entities.PostGuide) error
 	GetByID(ctx context.Context, id int) (*entities.PostGuide, error)
+	DeleteByID(ctx context.Context, id int) error
+	UpdateWithMap(ctx context.Context, id int, props map[string]interface{}) error
+	UpdateByID(ctx context.Context, id int, postGuideData *entities.PostGuide) error
+	ListByFilter(ctx context.Context, paging *common.Paging, filter *postguideiomodel.Filter) ([]*entities.PostGuide, error)
+}
+
+type AccountCache interface {
+	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 }
 
 type postGuideUsecase struct {
 	postGuideSto   PostGuideSto
 	postGuideCache PostGuideCache
+	accountCache   AccountCache
 }
 
-func NewPostGuideUsecase(postGuideSto PostGuideSto, postGuideCache PostGuideCache) *postGuideUsecase {
-	return &postGuideUsecase{postGuideSto: postGuideSto, postGuideCache: postGuideCache}
+func NewPostGuideUsecase(postGuideSto PostGuideSto, postGuideCache PostGuideCache, accountCache AccountCache) *postGuideUsecase {
+	return &postGuideUsecase{postGuideSto: postGuideSto, postGuideCache: postGuideCache, accountCache: accountCache}
 }

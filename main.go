@@ -206,7 +206,7 @@ func main() {
 	// declare for post_guide
 	postGuideSto := postguidestorage.NewPostGuideStorage(db)
 	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
-	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache)
+	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache)
 	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
 	// run task processor
 	wg := new(sync.WaitGroup)
@@ -346,6 +346,9 @@ func main() {
 	// post guide
 	v1.POST("/post_guides", middlewares.RequiredAuth(), postGuideHdl.CreatePostGuide())
 	v1.GET("/post_guides/:id", postGuideHdl.GetPostGuideByID())
+	v1.GET("/post_guides/list", postGuideHdl.ListPostGuideByFilter())
+	v1.PUT("/post_guides", middlewares.RequiredAuth(), postGuideHdl.UpdatePostGuideByID())
+	v1.DELETE("/post_guides/:id", middlewares.RequiredAuth(), postGuideHdl.DeletePostGuideByID())
 
 	// google login
 	//v1.GET("/google/login")
