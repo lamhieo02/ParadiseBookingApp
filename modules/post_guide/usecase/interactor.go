@@ -5,6 +5,7 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/entities"
 	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
+	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
 type PostGuideCache interface {
@@ -28,8 +29,9 @@ type postGuideUsecase struct {
 	postGuideSto   PostGuideSto
 	postGuideCache PostGuideCache
 	accountCache   AccountCache
+	googleMap      googlemapprovider.GoogleMap
 }
 
-func NewPostGuideUsecase(postGuideSto PostGuideSto, postGuideCache PostGuideCache, accountCache AccountCache) *postGuideUsecase {
-	return &postGuideUsecase{postGuideSto: postGuideSto, postGuideCache: postGuideCache, accountCache: accountCache}
+func NewPostGuideUsecase(postGuideSto PostGuideSto, postGuideCache PostGuideCache, accountCache AccountCache, googleMap googlemapprovider.GoogleMap) *postGuideUsecase {
+	return &postGuideUsecase{postGuideSto: postGuideSto, postGuideCache: postGuideCache, accountCache: accountCache, googleMap: googleMap}
 }

@@ -2,11 +2,31 @@ package postguideusecase
 
 import (
 	"context"
+	"fmt"
+	"math"
 	"paradise-booking/entities"
 	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
+	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
 func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguideiomodel.CreatePostGuideReq) error {
+
+	lat := data.Lat
+	lng := data.Lng
+
+	address := &googlemapprovider.GoogleMapAddress{}
+	var err error
+	if lat != 0 && lng != 0 {
+		// make lat and lng round to 2 decimal
+		lat = math.Round(lat*100) / 100
+		lng = math.Round(lng*100) / 100
+
+		address, err = uc.googleMap.GetAddressFromLatLng(ctx, lat, lng)
+		if err != nil {
+			fmt.Println("Error get address from lat lng", err)
+		}
+	}
+
 	entity := &entities.PostGuide{
 		PostOwnerId: data.PostOwnerID,
 		TopicID:     data.TopicID,
@@ -15,6 +35,9 @@ func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguide
 		Cover:       data.Cover,
 		Lat:         data.Lat,
 		Lng:         data.Lng,
+		Country:     address.Country,
+		State:       address.State,
+		District:    address.District,
 	}
 
 	if err := uc.postGuideSto.Create(ctx, entity); err != nil {
