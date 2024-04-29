@@ -11,6 +11,13 @@ type GetPostGuideResp struct {
 	Cover       string    `json:"cover" gorm:"column:cover"`
 	Lat         float64   `json:"lat" gorm:"column:lat"`
 	Lng         float64   `json:"lng" gorm:"column:lng"`
+	Location    Location  `json:"location"`
+}
+
+type Location struct {
+	Country  string `json:"country"`
+	State    string `json:"state"`
+	District string `json:"district"`
 }
 
 type OwnerResp struct {

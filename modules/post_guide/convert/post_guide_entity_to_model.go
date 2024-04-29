@@ -23,6 +23,11 @@ func ConvertPostGuideEntityToModel(postGuideEntity *entities.PostGuide, owner *e
 		FullName: owner.FullName,
 		Email:    owner.Email,
 	}
+	result.Location = postguideiomodel.Location{
+		Country:  postGuideEntity.Country,
+		State:    postGuideEntity.State,
+		District: postGuideEntity.District,
+	}
 
 	return result
 }

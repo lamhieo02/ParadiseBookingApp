@@ -206,7 +206,7 @@ func main() {
 	// declare for post_guide
 	postGuideSto := postguidestorage.NewPostGuideStorage(db)
 	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
-	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache)
+	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache, *googleMap)
 	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
 	// run task processor
 	wg := new(sync.WaitGroup)

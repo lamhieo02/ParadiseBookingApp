@@ -28,6 +28,11 @@ func (uc *postGuideUsecase) ListPostGuideByFilter(ctx context.Context, paging *c
 			Cover:       v.Cover,
 			Lat:         v.Lat,
 			Lng:         v.Lng,
+			Location: postguideiomodel.Location{
+				Country:  v.Country,
+				State:    v.State,
+				District: v.District,
+			},
 		}
 
 		owner, err := uc.accountCache.GetProfileByID(ctx, v.PostOwnerId)
