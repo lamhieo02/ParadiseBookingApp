@@ -20,7 +20,7 @@ func (s *postGuideStorage) ListByFilter(ctx context.Context, paging *common.Pagi
 	}
 
 	if filter.TopicID != 0 {
-		db = db.Where("topic = ?", filter.TopicID)
+		db = db.Where("topic_id = ?", filter.TopicID)
 	}
 
 	if filter.Lat != 0 && filter.Lng != 0 {
