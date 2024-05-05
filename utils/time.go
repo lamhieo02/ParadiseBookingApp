@@ -21,3 +21,20 @@ func ParseTimeToString(date *time.Time) string {
 	formattedTime := date.Format(layout)
 	return formattedTime
 }
+
+func ParseTimeWithHourToString(date *time.Time) string {
+	layout := "02-01-2006 15:04:05"
+
+	formattedTime := date.Format(layout)
+	return formattedTime
+}
+
+func ParseStringToTimeWithHour(date string) (*time.Time, error) {
+	layout := "02-01-2006 15:04:05"
+	dateRes, err := time.Parse(layout, date)
+	if err != nil {
+		fmt.Println("Error parsing date:", err)
+		return nil, nil
+	}
+	return &dateRes, nil
+}

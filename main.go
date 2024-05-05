@@ -19,6 +19,9 @@ import (
 	bookingratinghandler "paradise-booking/modules/booking_rating/handler"
 	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
 	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
+	calendarguiderhandler "paradise-booking/modules/calendar_guider/handler"
+	calendarguiderstorage "paradise-booking/modules/calendar_guider/storage"
+	calendarguiderusecase "paradise-booking/modules/calendar_guider/usecase"
 	commenthandler "paradise-booking/modules/comment/handler"
 	commentstorage "paradise-booking/modules/comment/storage"
 	commentusecase "paradise-booking/modules/comment/usecase"
@@ -208,6 +211,12 @@ func main() {
 	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
 	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache, *googleMap)
 	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
+
+	// declare for calendar guider
+	calendarGuiderSto := calendarguiderstorage.NewCalendarGuiderStorage(db)
+	calendarGuiderUC := calendarguiderusecase.NewCalendarGuiderUseCase(calendarGuiderSto)
+	calendarGuiderHdl := calendarguiderhandler.NewCalendarGuiderHandler(calendarGuiderUC)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -350,6 +359,9 @@ func main() {
 	v1.PUT("/post_guides", middlewares.RequiredAuth(), postGuideHdl.UpdatePostGuideByID())
 	v1.DELETE("/post_guides/:id", middlewares.RequiredAuth(), postGuideHdl.DeletePostGuideByID())
 
+	// calendar guider
+	v1.POST("/calendar_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole), calendarGuiderHdl.CreateCalendarGuider())
+	v1.GET("/calendar_guiders/:id", calendarGuiderHdl.GetCalendarGuiderByID())
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
