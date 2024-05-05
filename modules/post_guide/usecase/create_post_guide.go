@@ -24,6 +24,7 @@ func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguide
 		address, err = uc.googleMap.GetAddressFromLatLng(ctx, lat, lng)
 		if err != nil {
 			fmt.Println("Error get address from lat lng", err)
+			address = &googlemapprovider.GoogleMapAddress{}
 		}
 	}
 
