@@ -17,6 +17,7 @@ func ConvertPostGuideEntityToModel(postGuideEntity *entities.PostGuide, owner *e
 	result.TopicName = constant.MapPostGuideTopic[postGuideEntity.TopicID]
 	result.Lat = postGuideEntity.Lat
 	result.Lng = postGuideEntity.Lng
+	result.Address = postGuideEntity.Address
 	result.PostOwner = postguideiomodel.OwnerResp{
 		UserName: owner.Username,
 		Avatar:   owner.Avatar,

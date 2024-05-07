@@ -12,6 +12,7 @@ type GetPostGuideResp struct {
 	Lat         float64   `json:"lat" gorm:"column:lat"`
 	Lng         float64   `json:"lng" gorm:"column:lng"`
 	Location    Location  `json:"location"`
+	Address     string    `json:"address" gorm:"column:address"`
 }
 
 type Location struct {
