@@ -57,10 +57,10 @@ jobs:
     - name: Deploy to Server EC2
       uses: appleboy/ssh-action@master
       with: 
-        host: 103.130.211.150  
-        username: hcmute
-        password: hcmute@fit
-        port: 10038
+        host: ${{ secrets.NEW_HOST }}  
+        username: ${{ secrets.NEW_USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.NEW_PORT }}
         script: |
           cd project/20110668_20110280/backend/ParadiseBookingApp/
           docker stop backendparadise
