@@ -8,4 +8,5 @@ type CreatePostGuideReq struct {
 	Cover       string  `json:"cover" form:"cover" binding:"required"`
 	Lat         float64 `json:"lat" form:"lat" binding:"required"`
 	Lng         float64 `json:"lng" form:"lng" binding:"required"`
+	Address     string  `json:"address" form:"address" binding:"required"`
 }

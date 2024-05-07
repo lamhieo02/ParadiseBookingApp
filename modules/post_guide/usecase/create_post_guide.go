@@ -38,6 +38,7 @@ func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguide
 		Country:     address.Country,
 		State:       address.State,
 		District:    address.District,
+		Address:     data.Address,
 	}
 
 	if err := uc.postGuideSto.Create(ctx, entity); err != nil {

@@ -360,8 +360,9 @@ func main() {
 	v1.DELETE("/post_guides/:id", middlewares.RequiredAuth(), postGuideHdl.DeletePostGuideByID())
 
 	// calendar guider
-	v1.POST("/calendar_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole), calendarGuiderHdl.CreateCalendarGuider())
+	v1.POST("/calendar_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole, constant.AdminRole), calendarGuiderHdl.CreateCalendarGuider())
 	v1.GET("/calendar_guiders/:id", calendarGuiderHdl.GetCalendarGuiderByID())
+	v1.POST("/calendar_guiders/list", calendarGuiderHdl.ListCalendarGuiderByFilter())
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
