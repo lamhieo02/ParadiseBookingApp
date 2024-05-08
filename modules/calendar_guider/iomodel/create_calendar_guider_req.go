@@ -12,6 +12,7 @@ type CreateCalendarGuiderReq struct {
 	DateFrom       string  `json:"date_from"`
 	DateTo         string  `json:"date_to"`
 	PricePerPerson float64 `json:"price_per_person"`
+	MaxGuest       int     `json:"max_guest"`
 }
 
 func (req *CreateCalendarGuiderReq) ToEntity() (*entities.CalendarGuider, error) {

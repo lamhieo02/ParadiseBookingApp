@@ -10,6 +10,7 @@ type GetCalendarGuiderResp struct {
 	DateTo   string `json:"date_to"`
 	Price    int    `json:"price"`
 	Status   bool   `json:"status"`
+	MaxGuest int    `json:"max_guest"`
 }
 
 type Guider struct {
