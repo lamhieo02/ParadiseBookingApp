@@ -14,6 +14,7 @@ type CalendarGuider struct {
 	DateTo         *time.Time `json:"date_to" gorm:"column:date_to"`
 	PricePerPerson int        `json:"price_per_person" gorm:"column:price_per_person"`
 	Status         bool       `json:"status" gorm:"column:status"`
+	MaxGuest       int        `json:"max_guest" gorm:"column:max_guest"`
 }
 
 func (CalendarGuider) TableName() string {

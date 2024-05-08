@@ -26,6 +26,7 @@ func (uc *calendarGuiderUC) ListCalendarGuiderByFilter(ctx context.Context, pagi
 			DateTo:      utils.ParseTimeWithHourToString(calendarGuider.DateTo),
 			Price:       calendarGuider.PricePerPerson,
 			Status:      calendarGuider.Status,
+			MaxGuest:    calendarGuider.MaxGuest,
 		})
 	}
 

@@ -21,6 +21,7 @@ func (uc *calendarGuiderUC) GetCalendarGuiderByID(ctx context.Context, id int) (
 		DateTo:      utils.ParseTimeWithHourToString(data.DateTo),
 		Price:       data.PricePerPerson,
 		Status:      data.Status,
+		MaxGuest:    data.MaxGuest,
 	}
 
 	return &result, nil
