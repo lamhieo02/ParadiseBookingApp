@@ -22,9 +22,9 @@ func ParseStringToTime(date string) (*time.Time, error) {
 		return nil, err
 	}
 
-	res := dateTime.Add(7 * time.Hour) // Add 7 hours to get the correct time in Ho Chi Minh timezone
+	// res := dateTime.Add(7 * time.Hour) // Add 7 hours to get the correct time in Ho Chi Minh timezone
 
-	return &res, nil
+	return &dateTime, nil
 }
 
 func ParseTimeToString(date *time.Time) string {
@@ -54,7 +54,7 @@ func ParseStringToTimeWithHour(date string) (*time.Time, error) {
 		return nil, err
 	}
 
-	res := dateTime.Add(7 * time.Hour) // Add 7 hours to get the correct time in Ho Chi Minh timezone
+	// res := dateTime.Add(7 * time.Hour) // Add 7 hours to get the correct time in Ho Chi Minh timezone
 
-	return &res, nil
+	return &dateTime, nil
 }
