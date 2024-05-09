@@ -13,5 +13,6 @@ func ConvertPostGuideUpdateToEntity(model *postguideiomodel.UpdatePostGuideReq) 
 		Cover:       model.Cover,
 		Lat:         model.Lat,
 		Lng:         model.Lng,
+		Address:     model.Address,
 	}
 }

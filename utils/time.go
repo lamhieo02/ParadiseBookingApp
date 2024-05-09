@@ -1,24 +1,30 @@
 package utils
 
 import (
-	"fmt"
 	"paradise-booking/constant"
 	"time"
 )
 
 func ParseStringToTime(date string) (*time.Time, error) {
-	location, err := time.LoadLocation("Asia/Ho_Chi_Minh")
+	// location, err := time.LoadLocation("Asia/Ho_Chi_Minh")
+	// if err != nil {
+	// 	fmt.Println("Error loading location:", err)
+	// 	return nil, nil
+	// }
+
+	// dateRes, err := time.ParseInLocation(constant.LayoutDateTime, date, location)
+	// if err != nil {
+	// 	fmt.Println("Error parsing date:", err)
+	// 	return nil, nil
+	// }
+	dateTime, err := time.Parse(constant.LayoutDateTime, date)
 	if err != nil {
-		fmt.Println("Error loading location:", err)
-		return nil, nil
+		return nil, err
 	}
 
-	dateRes, err := time.ParseInLocation(constant.LayoutDateTime, date, location)
-	if err != nil {
-		fmt.Println("Error parsing date:", err)
-		return nil, nil
-	}
-	return &dateRes, nil
+	res := dateTime.Add(7 * time.Hour) // Add 7 hours to get the correct time in Ho Chi Minh timezone
+
+	return &res, nil
 }
 
 func ParseTimeToString(date *time.Time) string {
@@ -32,17 +38,23 @@ func ParseTimeWithHourToString(date *time.Time) string {
 }
 
 func ParseStringToTimeWithHour(date string) (*time.Time, error) {
-	location, err := time.LoadLocation("Asia/Ho_Chi_Minh")
+	// location, err := time.LoadLocation("Asia/Ho_Chi_Minh")
+	// if err != nil {
+	// 	fmt.Println("Error loading location:", err)
+	// 	return nil, nil
+	// }
+
+	// dateRes, err := time.ParseInLocation(constant.LayoutDateTimeWithHour, date, location)
+	// if err != nil {
+	// 	fmt.Println("Error parsing date:", err)
+	// 	return nil, nil
+	// }
+	dateTime, err := time.Parse(constant.LayoutDateTimeWithHour, date)
 	if err != nil {
-		fmt.Println("Error loading location:", err)
-		return nil, nil
+		return nil, err
 	}
 
-	dateRes, err := time.ParseInLocation(constant.LayoutDateTimeWithHour, date, location)
-	if err != nil {
-		fmt.Println("Error parsing date:", err)
-		return nil, nil
-	}
+	res := dateTime.Add(7 * time.Hour) // Add 7 hours to get the correct time in Ho Chi Minh timezone
 
-	return &dateRes, nil
+	return &res, nil
 }
