@@ -67,7 +67,7 @@ jobs:
           cd project/20110668_20110280/backend/ParadiseBookingApp/
           docker stop backendparadise
           docker rm backendparadise
-          docker rmi 20110668_20110280_backendparadise
+          docker images | grep "backendparadise" | awk '{print $3}' | xargs docker rmi
           git pull
           cd ../..
           docker-compose up -d
