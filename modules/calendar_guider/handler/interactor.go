@@ -11,6 +11,7 @@ type calendarGuiderUseCase interface {
 	GetCalendarGuiderByID(ctx context.Context, id int) (*calendarguideriomodel.GetCalendarGuiderResp, error)
 	ListCalendarGuiderByFilter(ctx context.Context, paging *common.Paging, filter *calendarguideriomodel.Filter) ([]calendarguideriomodel.GetCalendarGuiderResp, error)
 	DeleteCalendarGuiderByID(ctx context.Context, id int) error
+	UpdateCalendarGuiderByID(ctx context.Context, id int, calendarGuiderModel *calendarguideriomodel.UpdateCalendarGuiderReq) error
 }
 
 type calendarGuiderHandler struct {
