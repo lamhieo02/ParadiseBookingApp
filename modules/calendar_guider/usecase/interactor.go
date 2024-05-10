@@ -12,6 +12,7 @@ type CalendarGuiderStorage interface {
 	DeleteByID(ctx context.Context, id int) error
 	GetByID(ctx context.Context, id int) (*entities.CalendarGuider, error)
 	ListByFilter(ctx context.Context, paging *common.Paging, filter *calendarguideriomodel.Filter) ([]*entities.CalendarGuider, error)
+	UpdateByID(ctx context.Context, id int, postGuideData *entities.CalendarGuider) error
 }
 
 type calendarGuiderUC struct {

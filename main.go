@@ -364,6 +364,7 @@ func main() {
 	v1.GET("/calendar_guiders/:id", calendarGuiderHdl.GetCalendarGuiderByID())
 	v1.POST("/calendar_guiders/list", calendarGuiderHdl.ListCalendarGuiderByFilter())
 	v1.DELETE("/calendar_guiders/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole, constant.AdminRole), calendarGuiderHdl.DeleteCalendarGuiderByID())
+	v1.PUT("/calendar_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole, constant.AdminRole), calendarGuiderHdl.UpdateCalendarGuiderByID())
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
