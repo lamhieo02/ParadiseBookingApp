@@ -33,6 +33,7 @@ func (req *CreateCalendarGuiderReq) ToEntity() (*entities.CalendarGuider, error)
 		DateFrom:       dateFrom,
 		DateTo:         dateTo,
 		PricePerPerson: int(req.PricePerPerson),
+		MaxGuest:       req.MaxGuest,
 		Status:         true, // default when create for the first time
 	}, nil
 }
