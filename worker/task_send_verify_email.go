@@ -13,7 +13,7 @@ import (
 
 const (
 	TaskSendVerifyEmail = "task:send_verify_email"
-	UrlVerifyEmail      = constant.URL_HOST_EC2 + "/verify_email"
+	UrlVerifyEmail      = constant.URL_HOST_PROD + "/verify_email"
 )
 
 type PayloadSendVerifyEmail struct {

@@ -16,6 +16,9 @@ import (
 	bookingstorage "paradise-booking/modules/booking/storage"
 	bookingusecase "paradise-booking/modules/booking/usecase"
 	bookingdetailstorage "paradise-booking/modules/booking_detail/storage"
+	bookingguiderhandler "paradise-booking/modules/booking_guider/handler"
+	bookingguiderstorage "paradise-booking/modules/booking_guider/storage"
+	bookingguiderusecase "paradise-booking/modules/booking_guider/usecase"
 	bookingratinghandler "paradise-booking/modules/booking_rating/handler"
 	bookingratingstorage "paradise-booking/modules/booking_rating/storage"
 	bookingratingusecase "paradise-booking/modules/booking_rating/usecase"
@@ -217,6 +220,11 @@ func main() {
 	calendarGuiderUC := calendarguiderusecase.NewCalendarGuiderUseCase(calendarGuiderSto)
 	calendarGuiderHdl := calendarguiderhandler.NewCalendarGuiderHandler(calendarGuiderUC)
 
+	// declare for booking guider
+	bookingGuiderSto := bookingguiderstorage.NewBookingGuiderStorage(db)
+	bookingGuiderUC := bookingguiderusecase.NewBookingGuiderUseCase(bookingGuiderSto, taskDistributor, momo, paymentSto)
+	bookingGuiderHdl := bookingguiderhandler.NewBookingGuiderHandler(bookingGuiderUC)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -365,6 +373,11 @@ func main() {
 	v1.POST("/calendar_guiders/list", calendarGuiderHdl.ListCalendarGuiderByFilter())
 	v1.DELETE("/calendar_guiders/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole, constant.AdminRole), calendarGuiderHdl.DeleteCalendarGuiderByID())
 	v1.PUT("/calendar_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole, constant.AdminRole), calendarGuiderHdl.UpdateCalendarGuiderByID())
+
+	// booking guider
+	v1.POST("/booking_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.AdminRole, constant.VendorRole), bookingGuiderHdl.CreateBookingGuider())
+	v1.GET("/confirm_booking_guider", bookingHdl.UpdateStatusBooking())
+
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)

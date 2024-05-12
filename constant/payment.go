@@ -14,3 +14,8 @@ const (
 	PaymentPagingLimitMax    = 200
 	PaymentPagingPageDefault = 1
 )
+
+const (
+	PaymentTypeBookingPlace  = 1
+	PaymentTypeBookingGuider = 2
+)

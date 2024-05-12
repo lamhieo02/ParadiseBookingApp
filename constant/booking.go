@@ -15,3 +15,10 @@ const (
 	TypeBookingForMySelf TypeBooking = iota + 1
 	TypeBookingForFriend
 )
+
+const (
+	BookingGuiderStatusPending = iota + 1
+	BookingGuiderStatusConfirmed
+	BookingGuiderStatusCompleted
+	BookingGuiderStatusCancel
+)

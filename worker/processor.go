@@ -23,6 +23,7 @@ type TaskProcessor interface {
 	ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error
 	ProcessTaskSendVerifyResetCodePassword(ctx context.Context, task *asynq.Task) error
 	ProcessTaskSendConfirmBooking(ctx context.Context, task *asynq.Task) error
+	ProcessTaskSendConfirmBookingGuider(ctx context.Context, task *asynq.Task) error
 }
 
 type AccountStorage interface {
@@ -80,6 +81,7 @@ func (processor *redisTaskProcessor) Start() error {
 	mux.HandleFunc(TaskSendVerifyEmail, processor.ProcessTaskSendVerifyEmail)
 	mux.HandleFunc(TaskSendResetCodePassword, processor.ProcessTaskSendVerifyResetCodePassword)
 	mux.HandleFunc(constant.TaskUpdateStatusBooking, processor.ProcessTaskUpdateStatusBooking)
+	mux.HandleFunc(TaskSendConfirmBookingGuider, processor.ProcessTaskSendConfirmBookingGuider)
 
 	return processor.server.Start(mux)
 

@@ -8,10 +8,15 @@ import (
 	"paradise-booking/modules/booking/convert"
 	"paradise-booking/modules/booking/iomodel"
 	bookingdetailstorage "paradise-booking/modules/booking_detail/storage"
+	momoprovider "paradise-booking/provider/momo"
 	"paradise-booking/worker"
 	"time"
 
 	"github.com/hibiken/asynq"
+)
+
+const (
+	bookingPlace = "Booking Place"
 )
 
 func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomodel.CreateBookingReq) (*iomodel.CreateBookingResp, error) {
@@ -37,6 +42,7 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 			taskPayload := worker.PayloadSendConfirmBooking{
 				BookingID: bookingEntity.Id,
 				Email:     bookingDetailEntity.Email,
+				FullName:  bookingDetailEntity.FullName,
 			}
 			opts := []asynq.Option{
 				asynq.MaxRetry(10),
@@ -54,8 +60,17 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 
 	// if payment method is momo, we will create payment
 	var requestId, orderId, paymentUrl string
+
 	if bookingData.PaymentMethod == constant.PaymentMethodMomo {
-		orderId, requestId, paymentUrl, err = uc.MomoProvider.CreatePayment(bookingDetailEntity)
+		bookingInfo := &momoprovider.InfoPayment{
+			BookingID:   bookingEntity.Id,
+			NameBooking: bookingPlace,
+			Email:       bookingDetailEntity.Email,
+			TotalPrice:  bookingDetailEntity.TotalPrice,
+			RedirectURL: constant.RedirectURLBookingPlaceMomo,
+		}
+
+		orderId, requestId, paymentUrl, err = uc.MomoProvider.CreatePayment(bookingInfo)
 		if err != nil {
 			return nil, err
 		}
@@ -74,6 +89,7 @@ func (uc *bookingUseCase) CreateBooking(ctx context.Context, bookingData *iomode
 		Amount:    (bookingDetailEntity.TotalPrice),
 		RequestID: requestId,
 		OrderID:   orderId,
+		Type:      constant.PaymentTypeBookingPlace,
 	}
 
 	err = uc.paymentSto.CreatePayment(ctx, paymentEntity)
