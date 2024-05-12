@@ -10,8 +10,6 @@ import (
 	"log"
 	"net/http"
 	"paradise-booking/config"
-	"paradise-booking/constant"
-	"paradise-booking/entities"
 	"strconv"
 
 	"github.com/sony/sonyflake"
@@ -47,7 +45,15 @@ type Payload struct {
 	Signature    string `json:"signature"`
 }
 
-func (momo *Momo) CreatePayment(bookingDetail *entities.BookingDetail) (orderId, requestId, paymentUrl string, err error) {
+type InfoPayment struct {
+	BookingID   int
+	NameBooking string
+	Email       string
+	TotalPrice  float64
+	RedirectURL string
+}
+
+func (momo *Momo) CreatePayment(infoPayment *InfoPayment) (orderId, requestId, paymentUrl string, err error) {
 	flake := sonyflake.NewSonyflake(sonyflake.Settings{})
 	//randome orderID and requestID
 	a, _ := flake.NextID()
@@ -58,10 +64,10 @@ func (momo *Momo) CreatePayment(bookingDetail *entities.BookingDetail) (orderId,
 	var extraData = ""
 	var orderGroupId = ""
 
-	totalPrice := int(bookingDetail.TotalPrice)
-	orderInfo := "Booking ID: " + strconv.Itoa(bookingDetail.BookingId) + " - " + bookingDetail.Email
+	totalPrice := int(infoPayment.TotalPrice)
+	orderInfo := infoPayment.NameBooking + "Booking ID: " + strconv.Itoa(infoPayment.BookingID) + " - " + infoPayment.Email
 
-	redirect := constant.RedirectURLMomo + strconv.Itoa(bookingDetail.BookingId)
+	redirect := infoPayment.RedirectURL + strconv.Itoa(infoPayment.BookingID)
 	momo.config.Momo.RedirectURL = redirect
 	//build raw signature
 	var rawSignature bytes.Buffer

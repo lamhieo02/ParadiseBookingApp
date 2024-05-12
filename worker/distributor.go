@@ -22,6 +22,11 @@ type TaskDistributor interface {
 		opts ...asynq.Option,
 	) error
 	DistributeTaskUpdateStatusBooking(ctx context.Context, opts ...asynq.Option) error
+	DistributeTaskSendConfirmBookingGuider(
+		ctx context.Context,
+		payload *PayloadSendConfirmBookingGuider,
+		opts ...asynq.Option,
+	) error
 }
 
 type redisTaskDistributor struct {

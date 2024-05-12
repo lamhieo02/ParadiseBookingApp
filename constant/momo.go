@@ -5,5 +5,6 @@ const (
 )
 
 const (
-	RedirectURLMomo = "https://booking.workon.space/reservations/"
+	RedirectURLBookingPlaceMomo  = "https://booking.workon.space/reservations/"
+	RedirectURLBookingGuiderMomo = "https://booking.workon.space/reservations/guider/" // TODO: change by real url from front end team
 )

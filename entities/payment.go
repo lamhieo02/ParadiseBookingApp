@@ -10,6 +10,7 @@ type Payment struct {
 	Amount    float64 `json:"amount" gorm:"column:amount"`
 	RequestID string  `json:"request_id" gorm:"column:request_id"`
 	OrderID   string  `json:"order_id" gorm:"column:order_id"`
+	Type      int     `json:"type" gorm:"column:type"`
 }
 
 func (Payment) TableName() string {
