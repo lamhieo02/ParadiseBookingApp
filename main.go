@@ -375,7 +375,7 @@ func main() {
 	v1.PUT("/calendar_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole, constant.AdminRole), calendarGuiderHdl.UpdateCalendarGuiderByID())
 
 	// booking guider
-	v1.POST("/booking_guiders", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.AdminRole, constant.VendorRole), bookingGuiderHdl.CreateBookingGuider())
+	v1.POST("/booking_guiders", bookingGuiderHdl.CreateBookingGuider())
 	v1.GET("/confirm_booking_guider", bookingGuiderHdl.UpdateStatusBookingGuider())
 
 	// google login
