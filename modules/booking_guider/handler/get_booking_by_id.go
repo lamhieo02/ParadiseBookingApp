@@ -9,7 +9,7 @@ import (
 
 func (hdl *bookingGuiderHandler) GetBookingGuiderByID() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		bookingID, _ := c.GetQuery("id")
+		bookingID := c.Param("id")
 
 		bookingId, _ := strconv.Atoi(bookingID)
 
