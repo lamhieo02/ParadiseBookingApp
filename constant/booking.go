@@ -22,3 +22,10 @@ const (
 	BookingGuiderStatusCompleted
 	BookingGuiderStatusCancel
 )
+
+var MapBookingGuiderStatus = map[int]string{
+	BookingGuiderStatusPending:   "Pending",
+	BookingGuiderStatusConfirmed: "Confirmed",
+	BookingGuiderStatusCompleted: "Completed",
+	BookingGuiderStatusCancel:    "Cancel",
+}

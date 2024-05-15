@@ -1,6 +1,8 @@
 package entities
 
-import "paradise-booking/common"
+import (
+	"paradise-booking/common"
+)
 
 type BookingGuider struct {
 	common.SQLModel

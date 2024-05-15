@@ -222,7 +222,7 @@ func main() {
 
 	// declare for booking guider
 	bookingGuiderSto := bookingguiderstorage.NewBookingGuiderStorage(db)
-	bookingGuiderUC := bookingguiderusecase.NewBookingGuiderUseCase(bookingGuiderSto, taskDistributor, momo, paymentSto)
+	bookingGuiderUC := bookingguiderusecase.NewBookingGuiderUseCase(bookingGuiderSto, taskDistributor, momo, paymentSto, calendarGuiderSto)
 	bookingGuiderHdl := bookingguiderhandler.NewBookingGuiderHandler(bookingGuiderUC)
 
 	// run task processor
@@ -377,6 +377,7 @@ func main() {
 	// booking guider
 	v1.POST("/booking_guiders", bookingGuiderHdl.CreateBookingGuider())
 	v1.GET("/confirm_booking_guider", bookingGuiderHdl.UpdateStatusBookingGuider())
+	v1.GET("/booking_guiders/:id", bookingGuiderHdl.GetBookingGuiderByID())
 
 	// google login
 	//v1.GET("/google/login")
