@@ -19,3 +19,8 @@ const (
 	PaymentTypeBookingPlace  = 1
 	PaymentTypeBookingGuider = 2
 )
+
+var MapPaymentMethod = map[int]string{
+	PaymentMethodCod:  "COD",
+	PaymentMethodMomo: "Momo",
+}

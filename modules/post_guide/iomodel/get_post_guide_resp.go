@@ -1,5 +1,7 @@
 package postguideiomodel
 
+import "time"
+
 type GetPostGuideResp struct {
 	ID          int       `json:"id" gorm:"column:id"`
 	PostOwnerId int       `json:"post_owner_id" gorm:"column:post_owner_id"`
@@ -13,6 +15,7 @@ type GetPostGuideResp struct {
 	Lng         float64   `json:"lng" gorm:"column:lng"`
 	Location    Location  `json:"location"`
 	Address     string    `json:"address" gorm:"column:address"`
+	CreatedAt   time.Time `json:"created_at" gorm:"column:created_at"`
 }
 
 type Location struct {

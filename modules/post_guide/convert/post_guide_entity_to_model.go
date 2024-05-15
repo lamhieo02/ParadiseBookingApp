@@ -29,6 +29,7 @@ func ConvertPostGuideEntityToModel(postGuideEntity *entities.PostGuide, owner *e
 		State:    postGuideEntity.State,
 		District: postGuideEntity.District,
 	}
+	result.CreatedAt = *postGuideEntity.CreatedAt
 
 	return result
 }
