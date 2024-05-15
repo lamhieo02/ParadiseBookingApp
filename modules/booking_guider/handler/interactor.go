@@ -8,7 +8,7 @@ import (
 type bookingGuiderUseCase interface {
 	CreateBookingGuider(ctx context.Context, bookingData *bookingguideriomodel.CreateBookingReq) (*bookingguideriomodel.CreateBookingResp, error)
 	UpdateStatusBooking(ctx context.Context, bookingGuiderID, status int) error
-	GetBookingByID(ctx context.Context, bookingGuiderID int) error
+	GetBookingByID(ctx context.Context, bookingGuiderID int) (*bookingguideriomodel.GetBookingGuiderResp, error)
 }
 
 type bookingGuiderHandler struct {
