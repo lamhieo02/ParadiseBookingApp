@@ -4,6 +4,7 @@ import (
 	"context"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
+	bookingguiderconvert "paradise-booking/modules/booking_guider/convert"
 	bookingguideriomodel "paradise-booking/modules/booking_guider/iomodel"
 	momoprovider "paradise-booking/provider/momo"
 	"paradise-booking/worker"
@@ -68,9 +69,13 @@ func (uc *bookingGuiderUseCase) CreateBookingGuider(ctx context.Context, booking
 		return nil, err
 	}
 
-	return &bookingguideriomodel.CreateBookingResp{
-		PaymentUrl: paymentUrl,
-	}, nil
+	// get booking guider data
+	result := bookingguideriomodel.CreateBookingResp{
+		PaymentUrl:        paymentUrl,
+		BookingGuiderData: *bookingguiderconvert.ConvertBookingEntityToModel(bookingEntity),
+	}
+
+	return &result, nil
 }
 
 func (uc *bookingGuiderUseCase) sendMailToConfirmBookingGuider(ctx context.Context, bookingEntity *entities.BookingGuider) error {
