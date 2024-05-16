@@ -378,6 +378,8 @@ func main() {
 	v1.POST("/booking_guiders", bookingGuiderHdl.CreateBookingGuider())
 	v1.GET("/confirm_booking_guider", bookingGuiderHdl.UpdateStatusBookingGuider())
 	v1.GET("/booking_guiders/:id", bookingGuiderHdl.GetBookingGuiderByID())
+	v1.GET("/booking_guiders/user/:user_id", bookingGuiderHdl.GetBookingGuiderByUser())
+	v1.POST("/booking_guiders/list", middlewares.RequiredAuth(), bookingGuiderHdl.ListBookingGuider())
 
 	// google login
 	//v1.GET("/google/login")
