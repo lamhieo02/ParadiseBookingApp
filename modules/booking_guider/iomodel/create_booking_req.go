@@ -16,7 +16,8 @@ type CreateBookingReq struct {
 }
 
 type CreateBookingResp struct {
-	PaymentUrl string `json:"payment_url"`
+	BookingGuiderData GetBookingGuiderResp `json:"booking_guider_data"`
+	PaymentUrl        string               `json:"payment_url"`
 }
 
 func (req *CreateBookingReq) ToEntity() *entities.BookingGuider {
