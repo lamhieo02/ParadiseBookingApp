@@ -2,7 +2,9 @@ package bookingguiderusecase
 
 import (
 	"context"
+	"paradise-booking/common"
 	"paradise-booking/entities"
+	bookingguideriomodel "paradise-booking/modules/booking_guider/iomodel"
 	momoprovider "paradise-booking/provider/momo"
 	"paradise-booking/worker"
 )
@@ -12,6 +14,8 @@ type bookingGuiderStorage interface {
 	UpdateWithMap(ctx context.Context, id int, props map[string]interface{}) error
 	UpdateStatus(ctx context.Context, bookingGuiderID int, status int) error
 	GetByID(ctx context.Context, id int) (*entities.BookingGuider, error)
+	ListByCondition(ctx context.Context, conditions []common.Condition) ([]*entities.BookingGuider, error)
+	ListByFilter(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter, userId int) ([]entities.BookingGuider, error)
 }
 
 type PaymentSto interface {

@@ -12,6 +12,7 @@ type CreateBookingReq struct {
 	TotalPrice    float64 `json:"total_price"`
 	Phone         string  `json:"phone"`
 	PaymentMethod int     `json:"payment_method"`
+	UserID        int     `json:"user_id"`
 }
 
 type CreateBookingResp struct {
@@ -29,5 +30,6 @@ func (req *CreateBookingReq) ToEntity() *entities.BookingGuider {
 		TotalPrice:    float64(req.TotalPrice),
 		Phone:         req.Phone,
 		PaymentMethod: req.PaymentMethod,
+		UserID:        req.UserID,
 	}
 }
