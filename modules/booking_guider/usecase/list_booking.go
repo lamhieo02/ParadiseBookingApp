@@ -21,7 +21,12 @@ func (uc *bookingGuiderUseCase) ListBooking(ctx context.Context, paging *common.
 	}
 
 	for i, v := range data {
-		res = append(res, bookingguiderconvert.ConvertBookingEntityToModel(&v))
+		postGuide, err := uc.postGuideUC.GetPostGuideByID(ctx, v.PostGuideID)
+		if err != nil {
+			return nil, err
+		}
+
+		res = append(res, bookingguiderconvert.ConvertBookingEntityToModel(&v, postGuide))
 		calendar, err := uc.calendarSto.GetByID(ctx, v.CalendarGuiderID)
 		if err != nil {
 			return nil, err

@@ -72,7 +72,7 @@ func (uc *bookingGuiderUseCase) CreateBookingGuider(ctx context.Context, booking
 	// get booking guider data
 	result := bookingguideriomodel.CreateBookingResp{
 		PaymentUrl:        paymentUrl,
-		BookingGuiderData: *bookingguiderconvert.ConvertBookingEntityToModel(bookingEntity),
+		BookingGuiderData: *bookingguiderconvert.ConvertBookingEntityToModel(bookingEntity, nil),
 	}
 
 	return &result, nil

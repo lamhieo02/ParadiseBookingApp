@@ -29,6 +29,10 @@ func (s *bookingGuiderSto) ListByFilter(ctx context.Context, paging *common.Pagi
 			dateTime, _ := utils.ParseStringToTime(v.DateTo)
 			db = db.Where("created_at <= ?", dateTime)
 		}
+
+		if v.PostGuideID != 0 {
+			db = db.Where("post_guide_id = ?", v.PostGuideID)
+		}
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
