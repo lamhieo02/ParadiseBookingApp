@@ -287,7 +287,7 @@ func main() {
 	// booking
 	v1.POST("/bookings", bookingHdl.CreateBooking())
 	v1.GET("/confirm_booking", bookingHdl.UpdateStatusBooking())
-	v1.POST("/booking_list", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingHdl.ListBooking())
+	v1.POST("/booking_list", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole, constant.GuiderRole), bookingHdl.ListBooking())
 	v1.GET("/bookings/:id", bookingHdl.GetBookingByID())
 	v1.GET("/bookings", middlewares.RequiredAuth(), bookingHdl.GetBookingByPlaceID())
 	v1.GET("/bookings_list/manage_reservation", middlewares.RequiredAuth(), bookingHdl.ListBookingNotReservation())
