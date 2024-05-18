@@ -4,6 +4,8 @@ import "paradise-booking/entities"
 
 type CreateBookingReq struct {
 	CalendarGuiderID int    `json:"calendar_guider_id"`
+	PostGuideID      int    `json:"post_guide_id"`
+	GuiderID         int    `json:"guider_id"`
 	Email            string `json:"email"`
 	NumberOfPeople   int    `json:"number_of_people"`
 	Name             string `json:"name"`
@@ -32,5 +34,7 @@ func (req *CreateBookingReq) ToEntity() *entities.BookingGuider {
 		Phone:         req.Phone,
 		PaymentMethod: req.PaymentMethod,
 		UserID:        req.UserID,
+		PostGuideID:   req.PostGuideID,
+		GuiderID:      req.GuiderID,
 	}
 }

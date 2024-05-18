@@ -4,10 +4,11 @@ import (
 	"paradise-booking/constant"
 	"paradise-booking/entities"
 	bookingguideriomodel "paradise-booking/modules/booking_guider/iomodel"
+	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
 )
 
-func ConvertBookingEntityToModel(entity *entities.BookingGuider) *bookingguideriomodel.GetBookingGuiderResp {
-	return &bookingguideriomodel.GetBookingGuiderResp{
+func ConvertBookingEntityToModel(entity *entities.BookingGuider, postGuide *postguideiomodel.GetPostGuideResp) *bookingguideriomodel.GetBookingGuiderResp {
+	res := &bookingguideriomodel.GetBookingGuiderResp{
 		ID:               entity.Id,
 		CalendarGuiderID: entity.CalendarGuiderID,
 		Email:            entity.Email,
@@ -21,4 +22,9 @@ func ConvertBookingEntityToModel(entity *entities.BookingGuider) *bookingguideri
 		CreatedAt:        *entity.CreatedAt,
 		PaymentMethod:    constant.MapPaymentMethod[entity.PaymentMethod],
 	}
+
+	if postGuide != nil {
+		res.PostGuide = *postGuide
+	}
+	return res
 }

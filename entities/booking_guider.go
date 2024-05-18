@@ -16,6 +16,8 @@ type BookingGuider struct {
 	Phone            string  `json:"phone" gorm:"column:phone"`
 	PaymentMethod    int     `json:"payment_method" gorm:"column:payment_method"`
 	UserID           int     `json:"user_id" gorm:"column:user_id"`
+	PostGuideID      int     `json:"post_guide_id" gorm:"column:post_guide_id"`
+	GuiderID         int     `json:"guider_id" gorm:"column:guider_id"`
 }
 
 func (BookingGuider) TableName() string {

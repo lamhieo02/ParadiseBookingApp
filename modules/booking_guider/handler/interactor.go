@@ -12,6 +12,7 @@ type bookingGuiderUseCase interface {
 	GetBookingByID(ctx context.Context, bookingGuiderID int) (*bookingguideriomodel.GetBookingGuiderResp, error)
 	GetBookingByUserID(ctx context.Context, userID int) ([]*bookingguideriomodel.GetBookingGuiderResp, error)
 	ListBooking(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter, userID int) ([]*bookingguideriomodel.GetBookingGuiderResp, error)
+	DeleteBookingByID(ctx context.Context, bookingGuiderID int) error
 }
 
 type bookingGuiderHandler struct {

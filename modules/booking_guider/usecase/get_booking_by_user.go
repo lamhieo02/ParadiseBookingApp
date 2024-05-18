@@ -22,7 +22,7 @@ func (uc *bookingGuiderUseCase) GetBookingByUserID(ctx context.Context, userID i
 	}
 
 	for i, v := range data {
-		res = append(res, bookingguiderconvert.ConvertBookingEntityToModel(v))
+		res = append(res, bookingguiderconvert.ConvertBookingEntityToModel(v, nil))
 		calendar, err := uc.calendarSto.GetByID(ctx, v.CalendarGuiderID)
 		if err != nil {
 			return nil, err

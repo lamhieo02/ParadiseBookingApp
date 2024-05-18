@@ -222,7 +222,7 @@ func main() {
 
 	// declare for booking guider
 	bookingGuiderSto := bookingguiderstorage.NewBookingGuiderStorage(db)
-	bookingGuiderUC := bookingguiderusecase.NewBookingGuiderUseCase(bookingGuiderSto, taskDistributor, momo, paymentSto, calendarGuiderSto)
+	bookingGuiderUC := bookingguiderusecase.NewBookingGuiderUseCase(bookingGuiderSto, taskDistributor, momo, paymentSto, calendarGuiderSto, postGuideUC)
 	bookingGuiderHdl := bookingguiderhandler.NewBookingGuiderHandler(bookingGuiderUC)
 
 	// run task processor
