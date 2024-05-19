@@ -22,9 +22,10 @@ func NewAuthUserCache(store AccountSto, cacheStore Cache) *authUserCache {
 }
 
 func (c *authUserCache) GetProfileByID(ctx context.Context, id int) (*entities.Account, error) {
-	var account *entities.Account
-
-	key := "account:" + fmt.Sprintf("%d", id) // key store in redis
+	account := &entities.Account{}
+	account.Id = id
+	// key := "account:" + fmt.Sprintf("%d", id) // key store in redis
+	key := account.CacheKeyID()
 
 	err := c.cacheStore.Get(ctx, key, &account) // get data from redis
 	if err != nil {
@@ -51,9 +52,10 @@ func (c *authUserCache) GetProfileByID(ctx context.Context, id int) (*entities.A
 }
 
 func (c *authUserCache) GetAccountByEmail(ctx context.Context, email string) (*entities.Account, error) {
-	var account *entities.Account
+	account := &entities.Account{Email: email}
 
-	key := "account:" + email // key store in redis
+	// key := "account:" + email // key store in redis
+	key := account.CacheKeyEmail()
 
 	err := c.cacheStore.Get(ctx, key, &account) // get data from redis
 	if err != nil {
