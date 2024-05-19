@@ -6,6 +6,7 @@ import (
 	"paradise-booking/config"
 	"paradise-booking/entities"
 	accountstorage "paradise-booking/modules/account/storage"
+	"paradise-booking/provider/cache"
 	"paradise-booking/worker"
 )
 
@@ -27,8 +28,9 @@ type accountUseCase struct {
 	verifyEmailsUC  VerifyEmailsUseCase
 	cfg             *config.Config
 	taskDistributor worker.TaskDistributor
+	redisCache      cache.Cache
 }
 
-func NewUserUseCase(cfg *config.Config, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, taskDistributor worker.TaskDistributor) *accountUseCase {
-	return &accountUseCase{accountSto, verifyEmailsUC, cfg, taskDistributor}
+func NewUserUseCase(cfg *config.Config, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, taskDistributor worker.TaskDistributor, cache cache.Cache) *accountUseCase {
+	return &accountUseCase{accountSto, verifyEmailsUC, cfg, taskDistributor, cache}
 }

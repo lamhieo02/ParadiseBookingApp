@@ -2,6 +2,7 @@ package entities
 
 import (
 	"paradise-booking/common"
+	"strconv"
 )
 
 type Account struct {
@@ -34,6 +35,14 @@ func (a *Account) GetEmail() string {
 
 func (a *Account) GetID() int {
 	return a.Id
+}
+
+func (a *Account) CacheKeyID() string {
+	return "account:" + strconv.Itoa(a.Id)
+}
+
+func (a *Account) CacheKeyEmail() string {
+	return "account:" + a.Email
 }
 
 var MapRole map[int]string = map[int]string{

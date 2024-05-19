@@ -126,7 +126,7 @@ func main() {
 	verifyEmailsUseCase := verifyemailsusecase.NewVerifyEmailsUseCase(verifyEmailsSto, accountSto)
 	verifyEmailsHdl := verifyemailshanlder.NewVerifyEmailsHandler(verifyEmailsUseCase)
 
-	accountUseCase := accountusecase.NewUserUseCase(cfg, accountSto, verifyEmailsUseCase, taskDistributor)
+	accountUseCase := accountusecase.NewUserUseCase(cfg, accountSto, verifyEmailsUseCase, taskDistributor, cacheRedis)
 	accountHdl := accounthandler.NewAccountHandler(cfg, accountUseCase)
 
 	// prepare for placewishlist storeage
@@ -212,7 +212,7 @@ func main() {
 	// declare for post_guide
 	postGuideSto := postguidestorage.NewPostGuideStorage(db)
 	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
-	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache, *googleMap)
+	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache, *googleMap, cacheRedis)
 	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
 
 	// declare for calendar guider
