@@ -10,14 +10,21 @@ import (
 func (hdl *bookingratinghandler) GetCommentByVendorID() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		vendorID := ctx.Param("id")
+		vendorID := ctx.Query("vendor_id")
 		id, err := strconv.Atoi(vendorID)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
 
-		res, err := hdl.placeRatingUC.GetCommentByVendorID(ctx, id)
+		objectType := ctx.Query("object_type")
+		objectTypeInt, err := strconv.Atoi(objectType)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
+			return
+		}
+
+		res, err := hdl.placeRatingUC.GetCommentByVendorID(ctx, id, objectTypeInt)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return

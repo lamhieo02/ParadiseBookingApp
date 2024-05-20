@@ -29,3 +29,8 @@ var MapBookingGuiderStatus = map[int]string{
 	BookingGuiderStatusCompleted: "Completed",
 	BookingGuiderStatusCancel:    "Cancel",
 }
+
+const (
+	BookingRatingObjectTypePlace = 1
+	BookingRatingObjectTypeGuide = 2
+)
