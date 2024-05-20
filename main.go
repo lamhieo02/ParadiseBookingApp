@@ -309,7 +309,7 @@ func main() {
 	v1.GET("/place_wish_lists/place", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), placeWishListHdl.ListPlaceByWishListID())
 
 	// booking rating
-	v1.POST("/booking_ratings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingRatingHdl.MakeComment())
+	v1.POST("/booking_ratings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole, constant.GuiderRole), bookingRatingHdl.MakeComment())
 	v1.GET("/booking_ratings/comments", bookingRatingHdl.GetCommentByObjectID())
 	v1.GET("/booking_ratings/bookings", bookingRatingHdl.GetCommentByBookingID())
 	v1.GET("/booking_ratings/users", bookingRatingHdl.GetCommentByUserID())
