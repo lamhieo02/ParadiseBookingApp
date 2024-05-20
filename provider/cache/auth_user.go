@@ -33,7 +33,7 @@ func (c *authUserCache) GetProfileByID(ctx context.Context, id int) (*entities.A
 	}
 
 	// if data is found in cache, then return the data
-	if account != nil {
+	if account.Id != 0 {
 		return account, nil
 	}
 
@@ -63,7 +63,7 @@ func (c *authUserCache) GetAccountByEmail(ctx context.Context, email string) (*e
 	}
 
 	// if data is found in cache, then return the data
-	if account != nil {
+	if account.Id != 0 {
 		return account, nil
 	}
 
