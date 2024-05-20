@@ -23,4 +23,6 @@ func RunDBMigration(cfg *config.Config) {
 	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
 		log.Fatalln("Cannot run migrate db b", err)
 	}
+
+	// trigger cicd
 }
