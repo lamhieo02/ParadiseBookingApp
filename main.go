@@ -287,13 +287,14 @@ func main() {
 
 	// booking
 	v1.POST("/bookings", bookingHdl.CreateBooking())
-	v1.GET("/confirm_booking", bookingHdl.UpdateStatusBooking())
+	v1.GET("/confirm_booking", bookingHdl.ConfirmStatusBooking())
 	v1.POST("/booking_list", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole, constant.GuiderRole), bookingHdl.ListBooking())
 	v1.GET("/bookings/:id", bookingHdl.GetBookingByID())
 	v1.GET("/bookings", middlewares.RequiredAuth(), bookingHdl.GetBookingByPlaceID())
 	v1.GET("/bookings_list/manage_reservation", middlewares.RequiredAuth(), bookingHdl.ListBookingNotReservation())
 	v1.DELETE("/bookings/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole, constant.GuiderRole), bookingHdl.DeleteBookingByID())
 	v1.POST("/cancel_booking", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole, constant.GuiderRole), bookingHdl.CancelBookingByID())
+	v1.PUT("/bookings", middlewares.RequiredAuth(), bookingHdl.UpdateStatusBooking())
 
 	// wish list
 	v1.POST("/wish_lists", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), wishListHdl.CreateWishList())
