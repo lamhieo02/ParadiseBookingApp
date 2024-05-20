@@ -8,7 +8,8 @@ type GetCommentByVendorResp struct {
 }
 
 type GetCommentUserByVendor struct {
-	DataRating entities.BookingRating
-	DataPlace  entities.Place   `json:"place"`
-	DataUser   entities.Account `json:"user"`
+	DataRating    entities.BookingRating
+	DataPlace     *entities.Place     `json:"place"`
+	DataPostGuide *entities.PostGuide `json:"post_guide"`
+	DataUser      entities.Account    `json:"user"`
 }

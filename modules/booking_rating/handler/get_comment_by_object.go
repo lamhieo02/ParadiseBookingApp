@@ -7,11 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (hdl *bookingratinghandler) GetCommentByUserID() gin.HandlerFunc {
+func (hdl *bookingratinghandler) GetCommentByObjectID() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		userID := ctx.Query("user_id")
-		id, err := strconv.Atoi(userID)
+		objectId := ctx.Query("object_id")
+		id, err := strconv.Atoi(objectId)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
@@ -24,7 +24,7 @@ func (hdl *bookingratinghandler) GetCommentByUserID() gin.HandlerFunc {
 			return
 		}
 
-		res, err := hdl.placeRatingUC.GetCommentByUserID(ctx, id, objectTypeInt)
+		res, err := hdl.placeRatingUC.GetCommentByObjectID(ctx, id, objectTypeInt)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
@@ -34,5 +34,3 @@ func (hdl *bookingratinghandler) GetCommentByUserID() gin.HandlerFunc {
 
 	}
 }
-
-// trigger cicd

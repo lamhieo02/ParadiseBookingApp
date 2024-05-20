@@ -164,8 +164,10 @@ func main() {
 	placeWishListHdl := placewishlisthandler.NewPlaceWishListHandler(placeWishListUseCase)
 
 	// prepare for place rating
+	postGuideSto := postguidestorage.NewPostGuideStorage(db)
+
 	bookingRatingSto := bookingratingstorage.Newbookingratingstorage(db)
-	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto, placeSto, cacheRedis)
+	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto, placeSto, cacheRedis, postGuideSto)
 	bookingRatingHdl := bookingratinghandler.Newbookingratinghandler(bookingRatingUC)
 
 	// prepare for amenities
@@ -210,7 +212,6 @@ func main() {
 	commentHdl := commenthandler.NewCommentHandler(commentUC)
 
 	// declare for post_guide
-	postGuideSto := postguidestorage.NewPostGuideStorage(db)
 	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
 	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache, *googleMap, cacheRedis)
 	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
@@ -308,11 +309,11 @@ func main() {
 
 	// booking rating
 	v1.POST("/booking_ratings", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.UserRole, constant.VendorRole), bookingRatingHdl.MakeComment())
-	v1.GET("/booking_ratings/places/:id", bookingRatingHdl.GetCommentByPlaceID())
-	v1.GET("/booking_ratings/bookings/:id", bookingRatingHdl.GetCommentByBookingID())
-	v1.GET("/booking_ratings/users/:id", bookingRatingHdl.GetCommentByUserID())
-	v1.GET("/booking_ratings/vendors/:id", bookingRatingHdl.GetCommentByVendorID())
-	v1.GET("/booking_ratings/statistics/:place_id", bookingRatingHdl.GetStatisTicsByPlaceId())
+	v1.GET("/booking_ratings/comments", bookingRatingHdl.GetCommentByObjectID())
+	v1.GET("/booking_ratings/bookings", bookingRatingHdl.GetCommentByBookingID())
+	v1.GET("/booking_ratings/users", bookingRatingHdl.GetCommentByUserID())
+	v1.GET("/booking_ratings/vendors", bookingRatingHdl.GetCommentByVendorID())
+	v1.GET("/booking_ratings/statistics", bookingRatingHdl.GetStatisTicsByObjectId())
 
 	// verify email
 	v1.GET("/verify_email", verifyEmailsHdl.CheckVerifyCodeIsMatching())

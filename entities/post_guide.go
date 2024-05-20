@@ -27,3 +27,7 @@ func (PostGuide) TableName() string {
 func (p PostGuide) CacheKey() string {
 	return "post_guide:" + strconv.Itoa(p.Id)
 }
+
+func (p PostGuide) CacheKeyGuideRating() string {
+	return "post_guide_rating:" + strconv.Itoa(p.Id)
+}
