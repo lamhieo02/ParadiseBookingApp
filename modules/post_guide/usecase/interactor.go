@@ -20,6 +20,7 @@ type PostGuideSto interface {
 	UpdateWithMap(ctx context.Context, id int, props map[string]interface{}) error
 	UpdateByID(ctx context.Context, id int, postGuideData *entities.PostGuide) error
 	ListByFilter(ctx context.Context, paging *common.Paging, filter *postguideiomodel.Filter) ([]*entities.PostGuide, error)
+	GetRatingAverageByPostGuideId(ctx context.Context, postGuideId int64) (*float64, error)
 }
 
 type AccountCache interface {
