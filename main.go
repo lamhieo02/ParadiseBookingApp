@@ -55,6 +55,9 @@ import (
 	replycommenthandler "paradise-booking/modules/reply_comment/handler"
 	replycommentstorage "paradise-booking/modules/reply_comment/storage"
 	replycommentusecase "paradise-booking/modules/reply_comment/usecase"
+	requestguiderhandler "paradise-booking/modules/request_guider/handler"
+	requestguiderstorage "paradise-booking/modules/request_guider/storage"
+	requestguiderusecase "paradise-booking/modules/request_guider/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
@@ -226,6 +229,11 @@ func main() {
 	bookingGuiderUC := bookingguiderusecase.NewBookingGuiderUseCase(bookingGuiderSto, taskDistributor, momo, paymentSto, calendarGuiderSto, postGuideUC)
 	bookingGuiderHdl := bookingguiderhandler.NewBookingGuiderHandler(bookingGuiderUC)
 
+	// declare for request guider
+	requestGuiderSto := requestguiderstorage.NewRequestGuiderStorage(db)
+	requestGuiderUC := requestguiderusecase.NewRequestGuiderUC(requestGuiderSto)
+	requestGuiderHdl := requestguiderhandler.NewRequestGuiderHandler(requestGuiderUC)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -384,6 +392,11 @@ func main() {
 	v1.POST("/booking_guiders/list", middlewares.RequiredAuth(), bookingGuiderHdl.ListBookingGuider())
 	v1.DELETE("/booking_guiders/:id", middlewares.RequiredAuth(), bookingGuiderHdl.DeleteBookingGuiderByID())
 	v1.PUT("/booking_guiders", middlewares.RequiredAuth(), bookingGuiderHdl.UpdateStatusBookingGuider())
+
+	// request guider
+	v1.POST("/request_guiders", middlewares.RequiredAuth(), requestGuiderHdl.CreateRequestGuider())
+	v1.GET("/request_guiders/list", requestGuiderHdl.ListRequestGuiderByUserID())
+	v1.GET("/request_guiders/user/:user_id", requestGuiderHdl.GetRequestGuiderByUserID())
 
 	// google login
 	//v1.GET("/google/login")
