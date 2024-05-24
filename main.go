@@ -231,7 +231,7 @@ func main() {
 
 	// declare for request guider
 	requestGuiderSto := requestguiderstorage.NewRequestGuiderStorage(db)
-	requestGuiderUC := requestguiderusecase.NewRequestGuiderUC(requestGuiderSto)
+	requestGuiderUC := requestguiderusecase.NewRequestGuiderUC(requestGuiderSto, accountSto)
 	requestGuiderHdl := requestguiderhandler.NewRequestGuiderHandler(requestGuiderUC)
 
 	// run task processor
@@ -397,6 +397,7 @@ func main() {
 	v1.POST("/request_guiders", middlewares.RequiredAuth(), requestGuiderHdl.UpsertRequestGuider())
 	v1.GET("/request_guiders/list", requestGuiderHdl.ListRequestGuiderByUserID())
 	v1.GET("/request_guiders/user/:user_id", requestGuiderHdl.GetRequestGuiderByUserID())
+	v1.POST("/confirm_request_guider", requestGuiderHdl.ConfirmRequestGuider())
 
 	// google login
 	//v1.GET("/google/login")
