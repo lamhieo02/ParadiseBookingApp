@@ -8,8 +8,8 @@ import (
 )
 
 type requestGuiderUC interface {
-	CreateRequestGuider(ctx context.Context, data *entities.RequestGuider) error
-	GetByUserID(ctx context.Context, userID int) ([]*requestguideriomodel.GetRequestGuiderResp, error)
+	UpsertRequestGuider(ctx context.Context, data *entities.RequestGuider) error
+	GetByUserID(ctx context.Context, userID int) (*requestguideriomodel.GetRequestGuiderResp, error)
 	ListByFilter(ctx context.Context, paging *common.Paging, filter *requestguideriomodel.Filter) ([]*requestguideriomodel.GetRequestGuiderResp, error)
 }
 

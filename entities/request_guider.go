@@ -16,6 +16,7 @@ type RequestGuider struct {
 	Reason       string `gorm:"column:reason" json:"reason"`
 	GoalOfTravel string `gorm:"column:goal_of_travel" json:"goal_of_travel"`
 	Languages    string `gorm:"column:languages" json:"languages"`
+	Status       string `gorm:"column:status" json:"status"`
 }
 
 func (RequestGuider) TableName() string {

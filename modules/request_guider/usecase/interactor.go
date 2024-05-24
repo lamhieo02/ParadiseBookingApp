@@ -9,8 +9,9 @@ import (
 
 type RequestGuiderSto interface {
 	Create(ctx context.Context, data *entities.RequestGuider) error
-	GetByUserID(ctx context.Context, userID int) ([]entities.RequestGuider, error)
+	GetByUserID(ctx context.Context, userID int) (*entities.RequestGuider, error)
 	ListByFilter(ctx context.Context, paging *common.Paging, filter *requestguideriomodel.Filter) ([]*entities.RequestGuider, error)
+	UpdateByID(ctx context.Context, id int, data *entities.RequestGuider) error
 }
 
 type requestGuiderUC struct {
