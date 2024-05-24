@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (hdl *RequestGuiderHandler) CreateRequestGuider() gin.HandlerFunc {
+func (hdl *RequestGuiderHandler) UpsertRequestGuider() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var dataReq *requestguideriomodel.CreateRequestGuiderReq
 		if err := ctx.ShouldBind(&dataReq); err != nil {
@@ -15,7 +15,7 @@ func (hdl *RequestGuiderHandler) CreateRequestGuider() gin.HandlerFunc {
 			return
 		}
 
-		if err := hdl.requestGuiderUC.CreateRequestGuider(ctx, dataReq.ToEntity()); err != nil {
+		if err := hdl.requestGuiderUC.UpsertRequestGuider(ctx, dataReq.ToEntity()); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}

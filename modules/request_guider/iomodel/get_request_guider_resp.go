@@ -14,6 +14,7 @@ type GetRequestGuiderResp struct {
 	Reason        string   `json:"reason"`
 	GoalsOfTravel []string `json:"goals_of_travel"`
 	Languages     []string `json:"languages"`
+	Status        string   `json:"status"`
 }
 
 type Filter struct {

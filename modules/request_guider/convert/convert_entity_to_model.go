@@ -21,5 +21,6 @@ func ConvertRequestGuiderEntityToModel(entity *entities.RequestGuider) *requestg
 		Reason:        entity.Reason,
 		GoalsOfTravel: strings.Split(entity.GoalOfTravel, ","),
 		Languages:     strings.Split(entity.Languages, ","),
+		Status:        entity.Status,
 	}
 }

@@ -394,7 +394,7 @@ func main() {
 	v1.PUT("/booking_guiders", middlewares.RequiredAuth(), bookingGuiderHdl.UpdateStatusBookingGuider())
 
 	// request guider
-	v1.POST("/request_guiders", middlewares.RequiredAuth(), requestGuiderHdl.CreateRequestGuider())
+	v1.POST("/request_guiders", middlewares.RequiredAuth(), requestGuiderHdl.UpsertRequestGuider())
 	v1.GET("/request_guiders/list", requestGuiderHdl.ListRequestGuiderByUserID())
 	v1.GET("/request_guiders/user/:user_id", requestGuiderHdl.GetRequestGuiderByUserID())
 
