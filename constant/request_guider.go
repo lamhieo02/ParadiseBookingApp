@@ -5,3 +5,8 @@ const (
 	RequestGuiderStatusSuccess    = "success"
 	RequestGuiderStatusReject     = "reject"
 )
+
+const (
+	RequestGuiderTypeConfirmAccept = 1
+	RequestGuiderTypeConfirmReject = 2
+)
