@@ -9,6 +9,13 @@ const (
 	GuiderRole
 )
 
+var MapRole = map[Role]string{
+	UserRole:   "user",
+	VendorRole: "vendor",
+	AdminRole:  "admin",
+	GuiderRole: "guider",
+}
+
 const (
 	TypeVerifyEmail   = 1
 	TypeResetPassword = 2
