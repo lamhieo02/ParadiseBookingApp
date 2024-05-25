@@ -4,6 +4,7 @@ import (
 	"paradise-booking/constant"
 	"paradise-booking/entities"
 	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
+	"strings"
 )
 
 func ConvertPostGuideEntityToModel(postGuideEntity *entities.PostGuide, owner *entities.Account) postguideiomodel.GetPostGuideResp {
@@ -30,6 +31,6 @@ func ConvertPostGuideEntityToModel(postGuideEntity *entities.PostGuide, owner *e
 		District: postGuideEntity.District,
 	}
 	result.CreatedAt = *postGuideEntity.CreatedAt
-
+	result.Languages = strings.Split(postGuideEntity.Languages, ",")
 	return result
 }

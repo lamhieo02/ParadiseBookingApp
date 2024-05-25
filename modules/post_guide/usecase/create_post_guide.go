@@ -6,6 +6,7 @@ import (
 	"paradise-booking/entities"
 	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
 	googlemapprovider "paradise-booking/provider/googlemap"
+	"strings"
 )
 
 func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguideiomodel.CreatePostGuideReq) error {
@@ -39,6 +40,7 @@ func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguide
 		State:       address.State,
 		District:    address.District,
 		Address:     data.Address,
+		Languages:   strings.Join(data.Languages, ","),
 	}
 
 	if err := uc.postGuideSto.Create(ctx, entity); err != nil {

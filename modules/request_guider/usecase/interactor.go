@@ -18,6 +18,7 @@ type RequestGuiderSto interface {
 
 type AccountSto interface {
 	UpdateAccountById(ctx context.Context, id int, accountUpdate *entities.Account) error
+	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 }
 
 type requestGuiderUC struct {

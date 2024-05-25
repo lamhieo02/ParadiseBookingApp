@@ -16,6 +16,7 @@ type GetPostGuideResp struct {
 	Location      Location  `json:"location"`
 	Address       string    `json:"address" gorm:"column:address"`
 	RatingAverage float64   `json:"rating_average" form:"rating_average"`
+	Languages     []string  `json:"languages" gorm:"column:languages"`
 	CreatedAt     time.Time `json:"created_at" gorm:"column:created_at"`
 }
 
