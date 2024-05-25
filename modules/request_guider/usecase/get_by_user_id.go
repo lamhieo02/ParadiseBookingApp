@@ -12,5 +12,20 @@ func (uc *requestGuiderUC) GetByUserID(ctx context.Context, userID int) (*reques
 		return nil, err
 	}
 
-	return requestguiderconvert.ConvertRequestGuiderEntityToModel(data), nil
+	res := requestguiderconvert.ConvertRequestGuiderEntityToModel(data)
+	user, err := uc.accountSto.GetProfileByID(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	res.User.ID = user.Id
+	res.User.Username = user.Username
+	res.User.FullName = user.FullName
+	res.User.Email = user.Email
+	res.User.Phone = user.Phone
+	res.User.Address = user.Address
+	res.User.DOB = user.Dob
+
+	return res, nil
+
 }
