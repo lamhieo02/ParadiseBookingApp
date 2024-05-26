@@ -9,7 +9,8 @@ func (u *amenityUseCase) DeleteAmenityByListId(ctx context.Context, req *iomodel
 
 	for _, id := range req.ListConfigAmenityId {
 		condition := map[string]any{
-			"place_id":          req.IDPlace,
+			"object_id":         req.ObjectID,
+			"object_type":       req.ObjectType,
 			"config_amenity_id": id,
 		}
 		err := u.amenitySto.DeleteByCondition(ctx, condition)
