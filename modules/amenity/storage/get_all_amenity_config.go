@@ -5,10 +5,10 @@ import (
 	"paradise-booking/entities"
 )
 
-func (s *amenityStorage) GetAllAmenityConfig(ctx context.Context) ([]entities.ConfigAmenity, error) {
+func (s *amenityStorage) GetAllAmenityConfig(ctx context.Context, typeInt int) ([]entities.ConfigAmenity, error) {
 	var res []entities.ConfigAmenity
 	db := s.db.Table(entities.ConfigAmenity{}.TableName())
-	if err := db.Where("1=1").Find(&res).Error; err != nil {
+	if err := db.Where("type = ?", typeInt).Find(&res).Error; err != nil {
 		return nil, err
 	}
 

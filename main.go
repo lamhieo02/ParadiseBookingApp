@@ -338,8 +338,8 @@ func main() {
 	v1.POST("/amenities", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.CreateAmenity())
 	v1.DELETE("/amenities/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.DeleteAmenityByID())
 	v1.GET("/amenities/config", amenityHdl.GetAllConfigAmenity())
-	v1.GET("/amenities/place/:place_id", amenityHdl.ListAmenityByPlaceID())
-	v1.POST("/amenities/place/remove", amenityHdl.DeleteAmenityByListID())
+	v1.GET("/amenities/object", amenityHdl.ListAmenityByObjectId())
+	v1.POST("/amenities/object/remove", amenityHdl.DeleteAmenityByListID())
 
 	// policies
 	v1.POST("/policies", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), policyHdl.UpsertPolicy())

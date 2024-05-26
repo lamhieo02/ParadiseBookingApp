@@ -9,8 +9,8 @@ import (
 type AmenityUseCase interface {
 	CreateAmenity(ctx context.Context, data *iomodel.CreateAmenityReq) (err error)
 	DeleteAmenityById(ctx context.Context, id int) error
-	GetAllConfigAmenity(ctx context.Context) (res []entities.ConfigAmenity, err error)
-	ListAmenityByPlaceID(ctx context.Context, placeID int) (res []entities.Amenity, err error)
+	GetAllConfigAmenity(ctx context.Context, typeInt int) (res []entities.ConfigAmenity, err error)
+	ListAmenityByObjectID(ctx context.Context, objectID int, objectType int) (res []entities.Amenity, err error)
 	DeleteAmenityByListId(ctx context.Context, req *iomodel.DeleteAmenityReq) error
 }
 

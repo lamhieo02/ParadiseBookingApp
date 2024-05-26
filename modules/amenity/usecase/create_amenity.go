@@ -9,7 +9,9 @@ import (
 func (u *amenityUseCase) CreateAmenity(ctx context.Context, data *iomodel.CreateAmenityReq) (err error) {
 	for _, v := range data.ListDetailAmenity {
 		data := &entities.Amenity{
-			PlaceId:         data.PlaceId,
+			// PlaceId:         data.PlaceId,
+			ObjectID:        data.ObjectID,
+			ObjectType:      data.ObjectType,
 			Description:     v.Description,
 			ConfigAmenityId: v.ConfigAmenityId,
 		}

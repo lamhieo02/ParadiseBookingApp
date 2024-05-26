@@ -1,7 +1,9 @@
 package iomodel
 
 type CreateAmenityReq struct {
-	PlaceId           int             `json:"place_id"`
+	// PlaceId           int             `json:"place_id"`
+	ObjectID          int             `json:"object_id"`
+	ObjectType        int             `json:"object_type"`
 	ListDetailAmenity []DetailAmenity `json:"list_detail_amenity"`
 }
 
