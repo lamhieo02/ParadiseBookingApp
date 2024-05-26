@@ -29,6 +29,7 @@ func (uc *postGuideUsecase) ListPostGuideByFilter(ctx context.Context, paging *c
 			Lat:         v.Lat,
 			Lng:         v.Lng,
 			Address:     v.Address,
+			Schedule:    v.Schedule,
 			Location: postguideiomodel.Location{
 				Country:  v.Country,
 				State:    v.State,

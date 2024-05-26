@@ -32,5 +32,6 @@ func ConvertPostGuideEntityToModel(postGuideEntity *entities.PostGuide, owner *e
 	}
 	result.CreatedAt = *postGuideEntity.CreatedAt
 	result.Languages = strings.Split(postGuideEntity.Languages, ",")
+	result.Schedule = postGuideEntity.Schedule
 	return result
 }

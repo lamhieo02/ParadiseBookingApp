@@ -41,6 +41,7 @@ func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguide
 		District:    address.District,
 		Address:     data.Address,
 		Languages:   strings.Join(data.Languages, ","),
+		Schedule:    data.Schedule,
 	}
 
 	if err := uc.postGuideSto.Create(ctx, entity); err != nil {
