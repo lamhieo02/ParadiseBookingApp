@@ -10,7 +10,7 @@ import (
 func (s *accountStorage) GetAllAccountUserAndVendor(ctx context.Context, paging *common.Paging) ([]entities.Account, error) {
 	var result []entities.Account
 	db := s.db.Table(entities.Account{}.TableName())
-	db = db.Where("role in (?)", []constant.Role{constant.UserRole, constant.VendorRole, constant.GuiderRole})
+	db = db.Where("role in (?)", []constant.Role{constant.UserRole, constant.VendorRole, constant.GuiderRole}).Order("id desc")
 
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)

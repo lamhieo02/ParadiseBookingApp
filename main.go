@@ -335,8 +335,8 @@ func main() {
 	v1.GET("/images/:path", mediaHdl.GetImage())
 
 	// amenities
-	v1.POST("/amenities", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.CreateAmenity())
-	v1.DELETE("/amenities/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), amenityHdl.DeleteAmenityByID())
+	v1.POST("/amenities", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole, constant.GuiderRole), amenityHdl.CreateAmenity())
+	v1.DELETE("/amenities/:id", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole, constant.GuiderRole), amenityHdl.DeleteAmenityByID())
 	v1.GET("/amenities/config", amenityHdl.GetAllConfigAmenity())
 	v1.GET("/amenities/object", amenityHdl.ListAmenityByObjectId())
 	v1.POST("/amenities/object/remove", amenityHdl.DeleteAmenityByListID())

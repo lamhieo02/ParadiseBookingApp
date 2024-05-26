@@ -49,6 +49,7 @@ var MapRole map[int]string = map[int]string{
 	1: "User",
 	2: "Vendor",
 	3: "Admin",
+	4: "Guider",
 }
 
 var MapStatus map[int]string = map[int]string{
