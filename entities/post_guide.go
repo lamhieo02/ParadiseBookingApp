@@ -19,6 +19,7 @@ type PostGuide struct {
 	District    string  `json:"district" gorm:"column:district"`
 	Address     string  `json:"address" gorm:"column:address"`
 	Languages   string  `json:"languages" gorm:"column:languages"`
+	Schedule    string  `json:"schedule" gorm:"column:schedule"`
 }
 
 func (PostGuide) TableName() string {

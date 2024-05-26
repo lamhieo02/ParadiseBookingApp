@@ -8,4 +8,5 @@ type UpdatePostGuideReq struct {
 	Lat         float64 `json:"lat" form:"lat"`
 	Lng         float64 `json:"lng" form:"lng"`
 	Address     string  `json:"address" form:"address"`
+	Schedule    string  `json:"schedule" form:"schedule"`
 }

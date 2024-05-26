@@ -10,4 +10,5 @@ type CreatePostGuideReq struct {
 	Lng         float64  `json:"lng" form:"lng" binding:"required"`
 	Address     string   `json:"address" form:"address" binding:"required"`
 	Languages   []string `json:"languages" form:"languages" binding:"required"`
+	Schedule    string   `json:"schedule" form:"schedule" binding:"required"`
 }
