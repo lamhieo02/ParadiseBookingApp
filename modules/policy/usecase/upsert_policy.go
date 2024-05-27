@@ -8,11 +8,12 @@ import (
 	"gorm.io/gorm"
 )
 
-func (uc *policyUsecase) UpSearchPolicy(ctx context.Context, dataReq *iomodel.CreatePolicyReq) error {
+func (uc *policyUsecase) UpsertPolicy(ctx context.Context, dataReq *iomodel.CreatePolicyReq) error {
 
 	for _, policy := range dataReq.Data.ListPolicy {
 		data, err := uc.PolicyStore.GetByCondition(ctx, map[string]any{
-			"place_id":        dataReq.Data.PlaceID,
+			"object_id":       dataReq.Data.ObjectID,
+			"object_type":     dataReq.Data.ObjectType,
 			"group_policy_id": policy.GroupPolicyID,
 		})
 
@@ -24,7 +25,9 @@ func (uc *policyUsecase) UpSearchPolicy(ctx context.Context, dataReq *iomodel.Cr
 		if len(data) == 0 {
 			// create new
 			record := &entities.Policy{
-				PlaceId:       dataReq.Data.PlaceID,
+				// PlaceId:       dataReq.Data.PlaceID,
+				ObjectID:      dataReq.Data.ObjectID,
+				ObjectType:    dataReq.Data.ObjectType,
 				Name:          policy.Name,
 				GroupPolicyId: policy.GroupPolicyID,
 			}

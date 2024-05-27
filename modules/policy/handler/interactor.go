@@ -7,8 +7,8 @@ import (
 )
 
 type PolicyUseCase interface {
-	UpSearchPolicy(ctx context.Context, dataReq *iomodel.CreatePolicyReq) error
-	GetPolicyByPlaceID(ctx context.Context, placeId int) ([]entities.Policy, error)
+	UpsertPolicy(ctx context.Context, dataReq *iomodel.CreatePolicyReq) error
+	GetPolicyByObjectID(ctx context.Context, objectID int, objectType int) ([]entities.Policy, error)
 }
 
 type policyHandler struct {

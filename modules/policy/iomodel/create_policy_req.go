@@ -5,7 +5,8 @@ type CreatePolicyReq struct {
 }
 
 type DataReqCreatePolicy struct {
-	PlaceID    int          `json:"place_id"`
+	ObjectID   int          `json:"object_id"`
+	ObjectType int          `json:"object_type"`
 	ListPolicy []ListPolicy `json:"list_policy"`
 }
 
