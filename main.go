@@ -343,7 +343,7 @@ func main() {
 
 	// policies
 	v1.POST("/policies", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole, constant.GuiderRole), policyHdl.UpsertPolicy())
-	v1.GET("/policies/:place_id", policyHdl.GetPolicyByObjectId())
+	v1.GET("/policies", policyHdl.GetPolicyByObjectId())
 
 	// payment
 	v1.POST("/payments/list_by_vendor", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), paymentHdl.ListPaymentByVendorID())
