@@ -342,8 +342,8 @@ func main() {
 	v1.POST("/amenities/object/remove", amenityHdl.DeleteAmenityByListID())
 
 	// policies
-	v1.POST("/policies", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), policyHdl.UpsertPolicy())
-	v1.GET("/policies/:place_id", policyHdl.GetPolicyByPlaceId())
+	v1.POST("/policies", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole, constant.GuiderRole), policyHdl.UpsertPolicy())
+	v1.GET("/policies/:place_id", policyHdl.GetPolicyByObjectId())
 
 	// payment
 	v1.POST("/payments/list_by_vendor", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), paymentHdl.ListPaymentByVendorID())

@@ -16,7 +16,7 @@ func (hdl *policyHandler) UpsertPolicy() gin.HandlerFunc {
 			return
 		}
 
-		err := hdl.policyUC.UpSearchPolicy(ctx, &input)
+		err := hdl.policyUC.UpsertPolicy(ctx, &input)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
