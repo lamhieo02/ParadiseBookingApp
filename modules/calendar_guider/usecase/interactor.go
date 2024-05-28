@@ -15,10 +15,15 @@ type CalendarGuiderStorage interface {
 	UpdateByID(ctx context.Context, id int, postGuideData *entities.CalendarGuider) error
 }
 
-type calendarGuiderUC struct {
-	calendarGuiderSto CalendarGuiderStorage
+type BookingGuiderSto interface {
+	ListByCondition(ctx context.Context, conditions []common.Condition) ([]*entities.BookingGuider, error)
 }
 
-func NewCalendarGuiderUseCase(calendarGuiderSto CalendarGuiderStorage) *calendarGuiderUC {
-	return &calendarGuiderUC{calendarGuiderSto}
+type calendarGuiderUC struct {
+	calendarGuiderSto CalendarGuiderStorage
+	bookingGuiderSto  BookingGuiderSto
+}
+
+func NewCalendarGuiderUseCase(calendarGuiderSto CalendarGuiderStorage, bookingGuiderSto BookingGuiderSto) *calendarGuiderUC {
+	return &calendarGuiderUC{calendarGuiderSto, bookingGuiderSto}
 }
