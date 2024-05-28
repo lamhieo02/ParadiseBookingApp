@@ -220,12 +220,12 @@ func main() {
 	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
 
 	// declare for calendar guider
+	bookingGuiderSto := bookingguiderstorage.NewBookingGuiderStorage(db)
 	calendarGuiderSto := calendarguiderstorage.NewCalendarGuiderStorage(db)
-	calendarGuiderUC := calendarguiderusecase.NewCalendarGuiderUseCase(calendarGuiderSto)
+	calendarGuiderUC := calendarguiderusecase.NewCalendarGuiderUseCase(calendarGuiderSto, bookingGuiderSto)
 	calendarGuiderHdl := calendarguiderhandler.NewCalendarGuiderHandler(calendarGuiderUC)
 
 	// declare for booking guider
-	bookingGuiderSto := bookingguiderstorage.NewBookingGuiderStorage(db)
 	bookingGuiderUC := bookingguiderusecase.NewBookingGuiderUseCase(bookingGuiderSto, taskDistributor, momo, paymentSto, calendarGuiderSto, postGuideUC)
 	bookingGuiderHdl := bookingguiderhandler.NewBookingGuiderHandler(bookingGuiderUC)
 
