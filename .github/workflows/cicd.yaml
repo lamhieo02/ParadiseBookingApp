@@ -54,7 +54,7 @@ jobs:
     #       docker rm -vf $(docker ps -aq)
     #       docker rmi -f $(docker images -aq)
     #       docker run --name AppBE -d -p 8080:8080 553321397725.dkr.ecr.ap-southeast-1.amazonaws.com/paradise-backend:latest
-    - name: Deploy to Server 
+    - name: Deploy to Server UTE
       uses: appleboy/ssh-action@master
       with: 
         host: ${{ secrets.NEW_HOST }}  
