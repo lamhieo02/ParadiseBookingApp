@@ -3,6 +3,7 @@ package postguideconvert
 import (
 	"paradise-booking/entities"
 	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
+	"strings"
 )
 
 func ConvertPostGuideUpdateToEntity(model *postguideiomodel.UpdatePostGuideReq) *entities.PostGuide {
@@ -15,5 +16,6 @@ func ConvertPostGuideUpdateToEntity(model *postguideiomodel.UpdatePostGuideReq) 
 		Lng:         model.Lng,
 		Address:     model.Address,
 		Schedule:    model.Schedule,
+		Languages:   strings.Join(model.Languages, ","), // Convert array to string
 	}
 }
