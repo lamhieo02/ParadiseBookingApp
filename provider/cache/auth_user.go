@@ -23,9 +23,9 @@ func NewAuthUserCache(store AccountSto, cacheStore Cache) *authUserCache {
 
 func (c *authUserCache) GetProfileByID(ctx context.Context, id int) (*entities.Account, error) {
 	account := &entities.Account{}
-	account.Id = id
 	// key := "account:" + fmt.Sprintf("%d", id) // key store in redis
-	key := account.CacheKeyID()
+	// key := account.CacheKeyID()
+	key := "account:" + fmt.Sprintf("%d", id)
 
 	err := c.cacheStore.Get(ctx, key, &account) // get data from redis
 	if err != nil {
@@ -33,7 +33,7 @@ func (c *authUserCache) GetProfileByID(ctx context.Context, id int) (*entities.A
 	}
 
 	// if data is found in cache, then return the data
-	if account.Id != 0 {
+	if account != nil || account.Id != 0 {
 		return account, nil
 	}
 
