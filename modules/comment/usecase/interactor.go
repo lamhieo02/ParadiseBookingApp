@@ -8,6 +8,7 @@ import (
 type CommentStorage interface {
 	DeleteByID(ctx context.Context, id int) error
 	GetByPostReviewID(ctx context.Context, postReviewID int) ([]*entities.Comment, error)
+	UpdateByID(ctx context.Context, id int, data *entities.Comment) error
 }
 
 type ReplyCommentStorage interface {

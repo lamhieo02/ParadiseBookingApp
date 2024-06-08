@@ -11,6 +11,7 @@ type ReplyCommentStorage interface {
 	GetByID(ctx context.Context, id int) (*entities.ReplyComment, error)
 	UpdateWithMap(ctx context.Context, data *entities.ReplyComment, props map[string]interface{}) error
 	GetBySourceCommentID(ctx context.Context, sourceCommentID int) ([]entities.ReplyComment, error)
+	UpdateByID(ctx context.Context, id int, data *entities.ReplyComment) error
 }
 
 type CommentStorage interface {
