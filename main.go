@@ -365,10 +365,12 @@ func main() {
 	// reply comment
 	v1.POST("/reply_comments", middlewares.RequiredAuth(), replyCommentHdl.ReplySourceComment())
 	v1.DELETE("/reply_comments/:reply_comment_id", middlewares.RequiredAuth(), replyCommentHdl.DeleteReplyComment())
+	v1.PUT("/reply_comments/:reply_comment_id", middlewares.RequiredAuth(), replyCommentHdl.EditReplyCommentByID())
 
 	// comment
 	v1.DELETE("/comments/:comment_id", middlewares.RequiredAuth(), commentHdl.DeleteCommentByID())
 	v1.GET("/comments/:post_review_id", commentHdl.GetCommentByPostReviewID())
+	v1.PUT("/comments/:comment_id", middlewares.RequiredAuth(), commentHdl.EditCommentByID())
 
 	// post guide
 	v1.POST("/post_guides", middlewares.RequiredAuth(), postGuideHdl.CreatePostGuide())
