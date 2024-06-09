@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+// trigger cicd
+
 type SQLModel struct {
 	Id int `json:"id" gorm:"column:id"`
 	// FakeId    string    `json:"id" gorm:"-"`
