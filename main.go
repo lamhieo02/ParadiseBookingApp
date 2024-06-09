@@ -55,6 +55,9 @@ import (
 	replycommenthandler "paradise-booking/modules/reply_comment/handler"
 	replycommentstorage "paradise-booking/modules/reply_comment/storage"
 	replycommentusecase "paradise-booking/modules/reply_comment/usecase"
+	reporthandler "paradise-booking/modules/report/handler"
+	reportstorage "paradise-booking/modules/report/storage"
+	reportusecase "paradise-booking/modules/report/usecase"
 	requestguiderhandler "paradise-booking/modules/request_guider/handler"
 	requestguiderstorage "paradise-booking/modules/request_guider/storage"
 	requestguiderusecase "paradise-booking/modules/request_guider/usecase"
@@ -234,6 +237,11 @@ func main() {
 	requestGuiderUC := requestguiderusecase.NewRequestGuiderUC(requestGuiderSto, accountSto)
 	requestGuiderHdl := requestguiderhandler.NewRequestGuiderHandler(requestGuiderUC)
 
+	// declare for report
+	reportSto := reportstorage.NewReportStorage(db)
+	reportUseCase := reportusecase.NewReportUseCase(reportSto)
+	reportHdl := reporthandler.NewReportHandler(reportUseCase)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -400,6 +408,11 @@ func main() {
 	v1.GET("/request_guiders/list", requestGuiderHdl.ListRequestGuiderByUserID())
 	v1.GET("/request_guiders/user/:user_id", requestGuiderHdl.GetRequestGuiderByUserID())
 	v1.POST("/confirm_request_guider", requestGuiderHdl.ConfirmRequestGuider())
+
+	// report
+	v1.POST("/reports", reportHdl.CreateReport())
+	v1.GET("/reports/:id", reportHdl.GetReportByID())
+	v1.PUT("/reports/:id", reportHdl.UpdateReportByID())
 
 	// google login
 	//v1.GET("/google/login")
