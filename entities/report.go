@@ -11,6 +11,7 @@ type Report struct {
 	StatusID    int    `json:"status_id" gorm:"column:status_id"`
 	Videos      string `json:"videos" gorm:"column:videos"`
 	Images      string `json:"images" gorm:"column:images"`
+	UserID      int    `json:"user_id" gorm:"column:user_id"`
 }
 
 func (Report) TableName() string {
