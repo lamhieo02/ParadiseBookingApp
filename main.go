@@ -61,6 +61,9 @@ import (
 	requestguiderhandler "paradise-booking/modules/request_guider/handler"
 	requestguiderstorage "paradise-booking/modules/request_guider/storage"
 	requestguiderusecase "paradise-booking/modules/request_guider/usecase"
+	requestvendorhandler "paradise-booking/modules/request_vendor/handler"
+	requestvendorstorage "paradise-booking/modules/request_vendor/storage"
+	requestvendorusecase "paradise-booking/modules/request_vendor/usecase"
 	verifyemailshanlder "paradise-booking/modules/verify_emails/handler"
 	verifyemailsstorage "paradise-booking/modules/verify_emails/storage"
 	verifyemailsusecase "paradise-booking/modules/verify_emails/usecase"
@@ -237,9 +240,14 @@ func main() {
 	requestGuiderUC := requestguiderusecase.NewRequestGuiderUC(requestGuiderSto, accountSto)
 	requestGuiderHdl := requestguiderhandler.NewRequestGuiderHandler(requestGuiderUC)
 
+	// declare for request vendor
+	requestVendorSto := requestvendorstorage.NewRequestVendorStorage(db)
+	requestVendorUC := requestvendorusecase.NewRequestVendorUC(requestVendorSto, accountSto)
+	requestVendorHdl := requestvendorhandler.NewRequestVendorHandler(requestVendorUC)
+
 	// declare for report
 	reportSto := reportstorage.NewReportStorage(db)
-	reportUseCase := reportusecase.NewReportUseCase(reportSto)
+	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache)
 	reportHdl := reporthandler.NewReportHandler(reportUseCase)
 
 	// run task processor
@@ -408,6 +416,12 @@ func main() {
 	v1.GET("/request_guiders/list", requestGuiderHdl.ListRequestGuiderByUserID())
 	v1.GET("/request_guiders/user/:user_id", requestGuiderHdl.GetRequestGuiderByUserID())
 	v1.POST("/confirm_request_guider", requestGuiderHdl.ConfirmRequestGuider())
+
+	// request vendor
+	v1.POST("/request_vendors", middlewares.RequiredAuth(), requestVendorHdl.UpsertRequestVendor())
+	v1.GET("/request_vendors/list", requestVendorHdl.ListRequestVendorByUserID())
+	v1.GET("/request_vendors/user/:user_id", requestVendorHdl.GetRequestVendorByUserID())
+	v1.POST("/confirm_request_vendor", requestVendorHdl.ConfirmRequestVendor())
 
 	// report
 	v1.POST("/reports", reportHdl.CreateReport())

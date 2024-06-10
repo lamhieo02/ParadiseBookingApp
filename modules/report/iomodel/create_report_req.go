@@ -13,12 +13,14 @@ type CreateReportReq struct {
 	StatusID    int      `json:"status_id"`
 	Videos      []string `json:"videos"`
 	Images      []string `json:"images"`
+	UserID      int      `json:"user_id"`
 }
 
 func (c *CreateReportReq) ToEntity() *entities.Report {
 	return &entities.Report{
 		ObjectID:    c.ObjectID,
 		ObjectType:  c.ObjectType,
+		UserID:      c.UserID,
 		Type:        c.Type,
 		Description: c.Description,
 		StatusID:    c.StatusID,
