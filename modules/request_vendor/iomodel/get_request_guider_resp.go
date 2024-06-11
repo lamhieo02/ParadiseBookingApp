@@ -18,6 +18,8 @@ type GetRequestVendorResp struct {
 }
 
 type Filter struct {
+	UserID int    `json:"user_id"`
+	Status string `json:"status"`
 }
 
 type User struct {
