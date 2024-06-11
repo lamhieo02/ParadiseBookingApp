@@ -13,6 +13,14 @@ func (s *requestVendorSto) ListByFilter(ctx context.Context, paging *common.Pagi
 
 	db = db.Table(entities.RequestVendor{}.TableName()).Order("id desc")
 
+	if filter.UserID != 0 {
+		db = db.Where("user_id = ?", filter.UserID)
+	}
+
+	if filter.Status != "" {
+		db = db.Where("status = ?", filter.Status)
+	}
+
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)
 	}

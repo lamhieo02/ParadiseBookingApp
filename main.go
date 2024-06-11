@@ -427,6 +427,7 @@ func main() {
 	v1.POST("/reports", reportHdl.CreateReport())
 	v1.GET("/reports/:id", reportHdl.GetReportByID())
 	v1.PUT("/reports/:id", reportHdl.UpdateReportByID())
+	v1.POST("/reports/list", middlewares.RequiredAuth(), reportHdl.ListReport())
 
 	// google login
 	//v1.GET("/google/login")
