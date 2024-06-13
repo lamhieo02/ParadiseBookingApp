@@ -27,14 +27,24 @@ type AccountCache interface {
 	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 }
 
+type placeCache interface {
+	GetPlaceByID(ctx context.Context, placeId int) (*entities.Place, error)
+}
+
+type placeSto interface {
+	ListPlaceIdsByCondition(ctx context.Context, limit int, condition map[string]interface{}) ([]int, error)
+}
+
 type postGuideUsecase struct {
 	postGuideSto   PostGuideSto
 	postGuideCache PostGuideCache
 	accountCache   AccountCache
 	googleMap      googlemapprovider.GoogleMap
 	redisCache     cache.Cache
+	placeCache     placeCache
+	placeSto       placeSto
 }
 
-func NewPostGuideUsecase(postGuideSto PostGuideSto, postGuideCache PostGuideCache, accountCache AccountCache, googleMap googlemapprovider.GoogleMap, cache cache.Cache) *postGuideUsecase {
-	return &postGuideUsecase{postGuideSto: postGuideSto, postGuideCache: postGuideCache, accountCache: accountCache, googleMap: googleMap, redisCache: cache}
+func NewPostGuideUsecase(postGuideSto PostGuideSto, postGuideCache PostGuideCache, accountCache AccountCache, googleMap googlemapprovider.GoogleMap, cache cache.Cache, placeCache placeCache, placeSto placeSto) *postGuideUsecase {
+	return &postGuideUsecase{postGuideSto: postGuideSto, postGuideCache: postGuideCache, accountCache: accountCache, googleMap: googleMap, redisCache: cache, placeCache: placeCache, placeSto: placeSto}
 }

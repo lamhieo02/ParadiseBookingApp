@@ -69,6 +69,11 @@ func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 			filter.DateTo = &dateTo
 		}
 
+		state := ctx.Query("state")
+		if state != "" {
+			filter.State = state
+		}
+
 		var listPlaceReq iomodel.ListPlaceReq
 		if err := ctx.ShouldBind(&listPlaceReq); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})

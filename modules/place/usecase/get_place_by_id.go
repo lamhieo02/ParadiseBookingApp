@@ -2,9 +2,13 @@ package placeusecase
 
 import (
 	"context"
+	"errors"
 	"paradise-booking/common"
+	"paradise-booking/constant"
 	"paradise-booking/modules/place/convert"
 	"paradise-booking/modules/place/iomodel"
+
+	"gorm.io/gorm"
 )
 
 func (uc *placeUseCase) GetPlaceByID(ctx context.Context, placeID int, userEmail string) (result *iomodel.GetPlaceResp, err error) {
@@ -53,5 +57,35 @@ func (uc *placeUseCase) GetPlaceByID(ctx context.Context, placeID int, userEmail
 	}
 
 	result = convert.ConvertPlaceEntityToGetModel(place, isFree, ratingAverage)
+
+	// get post guide related to place
+	condition := map[string]interface{}{
+		"state": place.State,
+	}
+	postGuideIds, err := uc.postGuideSto.ListPostGuideIdsByCondition(ctx, 10, condition)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, err
+	}
+
+	for _, postGuideID := range postGuideIds {
+		postGuide, err := uc.postGuideCache.GetByID(ctx, postGuideID)
+		if err != nil {
+			return nil, err
+		}
+
+		result.PostGuideRelates = append(result.PostGuideRelates, iomodel.PostGuideRelate{
+			ID:          postGuide.Id,
+			TopicID:     postGuide.TopicID,
+			TopicName:   constant.MapPostGuideTopic[postGuide.TopicID],
+			Title:       postGuide.Title,
+			Description: postGuide.Description,
+			Cover:       postGuide.Cover,
+			Country:     postGuide.Country,
+			State:       postGuide.State,
+			District:    postGuide.District,
+			Address:     postGuide.Address,
+		})
+	}
+
 	return result, nil
 }
