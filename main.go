@@ -156,9 +156,12 @@ func main() {
 	// prepare for place
 	bookingSto := bookingstorage.NewBookingStorage(db)
 
+	postGuideSto := postguidestorage.NewPostGuideStorage(db)
+	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
+
 	placeSto := placestorage.NewPlaceStorage(db)
 	placeCache := cache.NewPlaceStoCache(placeSto, cacheRedis)
-	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountCache, googleMap, placeWishListCache, placeCache, bookingSto)
+	placeUseCase := placeusecase.NewPlaceUseCase(cfg, placeSto, accountCache, googleMap, placeWishListCache, placeCache, bookingSto, postGuideCache, postGuideSto)
 	placeHdl := placehandler.NewPlaceHandler(placeUseCase)
 
 	// prepare for booking detail
@@ -173,8 +176,6 @@ func main() {
 	placeWishListHdl := placewishlisthandler.NewPlaceWishListHandler(placeWishListUseCase)
 
 	// prepare for place rating
-	postGuideSto := postguidestorage.NewPostGuideStorage(db)
-
 	bookingRatingSto := bookingratingstorage.Newbookingratingstorage(db)
 	bookingRatingUC := bookingratingusecase.Newbookingratingusecase(bookingRatingSto, accountSto, placeSto, cacheRedis, postGuideSto)
 	bookingRatingHdl := bookingratinghandler.Newbookingratinghandler(bookingRatingUC)
@@ -221,8 +222,7 @@ func main() {
 	commentHdl := commenthandler.NewCommentHandler(commentUC)
 
 	// declare for post_guide
-	postGuideCache := cache.NewPostGuideStoCache(postGuideSto, cacheRedis)
-	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache, *googleMap, cacheRedis)
+	postGuideUC := postguideusecase.NewPostGuideUsecase(postGuideSto, postGuideCache, accountCache, *googleMap, cacheRedis, placeCache, placeSto)
 	postGuideHdl := postguidehandler.NewPostGuideHandler(postGuideUC)
 
 	// declare for calendar guider

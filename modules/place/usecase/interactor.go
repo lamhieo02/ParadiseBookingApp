@@ -39,16 +39,35 @@ type BookingSto interface {
 	GetBookingsWithinDateRange(ctx context.Context, dateFrom, dateTo *time.Time) ([]entities.Booking, error)
 }
 
-type placeUseCase struct {
-	placeStorage  PlaceStorage
-	accountSto    AccountStorage
-	placeWishSto  PlaceWishListSto
-	cfg           *config.Config
-	googleMap     *googlemapprovider.GoogleMap
-	placeStoCache PlaceStoCache
-	bookingSto    BookingSto
+type postGuideCache interface {
+	GetByID(ctx context.Context, id int) (*entities.PostGuide, error)
 }
 
-func NewPlaceUseCase(cfg *config.Config, placeSto PlaceStorage, accoutSto AccountStorage, googleMap *googlemapprovider.GoogleMap, placeWishSto PlaceWishListSto, placeStoCache PlaceStoCache, bookingSto BookingSto) *placeUseCase {
-	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap, placeStoCache, bookingSto}
+type postGuideSto interface {
+	ListPostGuideIdsByCondition(ctx context.Context, limit int, condition map[string]interface{}) ([]int, error)
+}
+
+type placeUseCase struct {
+	placeStorage   PlaceStorage
+	accountSto     AccountStorage
+	placeWishSto   PlaceWishListSto
+	cfg            *config.Config
+	googleMap      *googlemapprovider.GoogleMap
+	placeStoCache  PlaceStoCache
+	bookingSto     BookingSto
+	postGuideCache postGuideCache
+	postGuideSto   postGuideSto
+}
+
+func NewPlaceUseCase(
+	cfg *config.Config,
+	placeSto PlaceStorage,
+	accoutSto AccountStorage,
+	googleMap *googlemapprovider.GoogleMap,
+	placeWishSto PlaceWishListSto,
+	placeStoCache PlaceStoCache,
+	bookingSto BookingSto,
+	postGuideCache postGuideCache,
+	postGuideSto postGuideSto) *placeUseCase {
+	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap, placeStoCache, bookingSto, postGuideCache, postGuideSto}
 }

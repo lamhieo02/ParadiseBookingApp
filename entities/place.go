@@ -28,6 +28,10 @@ func (Place) TableName() string {
 	return "places"
 }
 
+func (p Place) CacheKeyPlace() string {
+	return "place:" + strconv.Itoa(p.Id)
+}
+
 func (p Place) CacheKeyPlaceRating() string {
 	return "place_rating:" + strconv.Itoa(p.Id)
 }

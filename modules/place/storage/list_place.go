@@ -50,6 +50,10 @@ func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, fi
 		if v.Bedroom != nil {
 			db = db.Where("bed_room >= ?", v.Bedroom)
 		}
+
+		if v.State != "" {
+			db = db.Where("state = ?", v.State)
+		}
 	}
 
 	if err := db.Count(&paging.Total).Error; err != nil {
