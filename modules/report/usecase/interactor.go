@@ -15,14 +15,14 @@ type reportStorage interface {
 }
 
 type reportUseCase struct {
-	reportSto  reportStorage
-	accountSto accountSto
+	reportSto    reportStorage
+	accountCache accountCache
 }
 
-type accountSto interface {
+type accountCache interface {
 	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 }
 
-func NewReportUseCase(reportSto reportStorage, accountSto accountSto) *reportUseCase {
-	return &reportUseCase{reportSto: reportSto, accountSto: accountSto}
+func NewReportUseCase(reportSto reportStorage, accountCache accountCache) *reportUseCase {
+	return &reportUseCase{reportSto: reportSto, accountCache: accountCache}
 }

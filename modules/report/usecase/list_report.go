@@ -16,7 +16,15 @@ func (uc *reportUseCase) ListReport(ctx context.Context, paging *common.Paging, 
 
 	var result []*reportiomodel.GetReportResp
 	for _, report := range data {
-		result = append(result, reportconvert.ReportEntityToModel(report))
+		tmp := reportconvert.ReportEntityToModel(report)
+		account, err := uc.accountCache.GetProfileByID(ctx, report.UserID)
+		if err != nil {
+			return nil, err
+		}
+
+		uc.getDataUser(tmp, account)
+
+		result = append(result, tmp)
 	}
 
 	return result, nil
