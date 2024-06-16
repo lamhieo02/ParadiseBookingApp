@@ -27,6 +27,10 @@ func (s *postGuideStorage) ListByFilter(ctx context.Context, paging *common.Pagi
 		db = db.Where("lat = ? AND lng = ?", filter.Lat, filter.Lng)
 	}
 
+	if filter.State != "" {
+		db = db.Where("state = ?", filter.State)
+	}
+
 	if err := db.Count(&paging.Total).Error; err != nil {
 		return nil, common.ErrorDB(err)
 	}

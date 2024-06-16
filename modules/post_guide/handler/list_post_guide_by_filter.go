@@ -45,6 +45,11 @@ func (h *postGuideHandler) ListPostGuideByFilter() gin.HandlerFunc {
 			filter.Lng = lngFloat
 		}
 
+		state := ctx.Query("state")
+		if state != "" {
+			filter.State = state
+		}
+
 		data, err := h.postGuideUC.ListPostGuideByFilter(ctx, &paging, &filter)
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
