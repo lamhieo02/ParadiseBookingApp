@@ -29,7 +29,11 @@ func (uc *reportUseCase) GetReportByID(ctx context.Context, id int) (*reportiomo
 }
 
 func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reportiomodel.GetReportResp) {
-	var objectVL interface{}
+	var (
+		objectVL       interface{}
+		userReportedID int
+	)
+
 	if reportData.ObjectType == constant.Report_Object_Type_Place {
 		place, err := uc.placeCache.GetPlaceByID(ctx, reportData.ObjectID)
 		if err != nil {
@@ -43,6 +47,7 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		objectValue.Description = place.Description
 
 		objectVL = objectValue
+		userReportedID = place.VendorID
 
 	} else if reportData.ObjectType == constant.Report_Object_Type_Tour {
 		postGuide, err := uc.postGuideCache.GetByID(ctx, reportData.ObjectID)
@@ -57,6 +62,7 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		objectValue.Description = postGuide.Description
 
 		objectVL = objectValue
+		userReportedID = postGuide.PostOwnerId
 
 	} else if reportData.ObjectType == constant.Report_Object_Type_Post_Review {
 		postReview, err := uc.postReviewSto.GetByID(ctx, reportData.ObjectID)
@@ -71,6 +77,7 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		objectValue.Cover = postReview.Image
 
 		objectVL = objectValue
+		userReportedID = postReview.PostOwnerId
 	} else if reportData.ObjectType == constant.Report_Object_Type_Comment {
 		comment, err := uc.commentSto.GetByID(ctx, reportData.ObjectID)
 		if err != nil {
@@ -78,6 +85,7 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		}
 
 		objectVL = comment
+		userReportedID = int(comment.AccountID)
 	} else if reportData.ObjectType == constant.Report_Object_Type_Guider || reportData.ObjectType == constant.Report_Object_Type_User ||
 		reportData.ObjectType == constant.Report_Object_Type_Vendor {
 		account, err := uc.accountCache.GetProfileByID(ctx, reportData.ObjectID)
@@ -86,7 +94,20 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		}
 
 		objectVL = convert.ConvertAccountEntityToInfoResp(account)
+		userReportedID = account.Id
 	}
+
+	account, err := uc.accountCache.GetProfileByID(ctx, userReportedID)
+	if err != nil {
+		return
+	}
+
+	reportData.UserReported.ID = account.Id
+	reportData.UserReported.FullName = account.FullName
+	reportData.UserReported.UserName = account.Username
+	reportData.UserReported.Email = account.Email
+	reportData.UserReported.Phone = account.Phone
+	reportData.UserReported.Cover = account.Avatar
 
 	reportData.ObjectValue = objectVL
 }
