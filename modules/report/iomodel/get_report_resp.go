@@ -3,18 +3,26 @@ package reportiomodel
 import "time"
 
 type GetReportResp struct {
-	ID          int      `json:"id"`
-	ObjectID    int      `json:"object_id"`
-	ObjectType  int      `json:"object_type"`
-	ObjectName  string   `json:"object_name"`
-	Type        string   `json:"type"`
-	Description string   `json:"description"`
-	StatusID    int      `json:"status_id"`
-	StatusName  string   `json:"status_name"`
-	Videos      []string `json:"videos"`
-	Images      []string `json:"images"`
-	UserID      int      `json:"user_id"`
-	User        User     `json:"user"`
+	ID          int         `json:"id"`
+	ObjectID    int         `json:"object_id"`
+	ObjectType  int         `json:"object_type"`
+	ObjectValue interface{} `json:"object_value"`
+	ObjectName  string      `json:"object_name"`
+	Type        string      `json:"type"`
+	Description string      `json:"description"`
+	StatusID    int         `json:"status_id"`
+	StatusName  string      `json:"status_name"`
+	Videos      []string    `json:"videos"`
+	Images      []string    `json:"images"`
+	UserID      int         `json:"user_id"`
+	User        User        `json:"user"`
+}
+
+type ObjectValue struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Address     string `json:"address"`
+	Cover       string `json:"cover"`
 }
 
 type User struct {

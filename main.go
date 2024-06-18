@@ -247,7 +247,7 @@ func main() {
 
 	// declare for report
 	reportSto := reportstorage.NewReportStorage(db)
-	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache)
+	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache, placeCache, postGuideCache, postReviewSto, commentSto)
 	reportHdl := reporthandler.NewReportHandler(reportUseCase)
 
 	// run task processor

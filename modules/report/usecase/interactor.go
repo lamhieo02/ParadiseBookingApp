@@ -14,15 +14,41 @@ type reportStorage interface {
 	ListReport(ctx context.Context, paging *common.Paging, filter *reportiomodel.Filter) ([]*entities.Report, error)
 }
 
-type reportUseCase struct {
-	reportSto    reportStorage
-	accountCache accountCache
+type placeCache interface {
+	GetPlaceByID(ctx context.Context, id int) (*entities.Place, error)
+}
+
+type postGuideCache interface {
+	GetByID(ctx context.Context, id int) (*entities.PostGuide, error)
 }
 
 type accountCache interface {
 	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 }
 
-func NewReportUseCase(reportSto reportStorage, accountCache accountCache) *reportUseCase {
-	return &reportUseCase{reportSto: reportSto, accountCache: accountCache}
+type postReviewSto interface {
+	GetByID(ctx context.Context, postReviewID int) (*entities.PostReview, error)
+}
+
+type commentSto interface {
+	GetByID(ctx context.Context, id int) (*entities.Comment, error)
+}
+
+type reportUseCase struct {
+	reportSto      reportStorage
+	accountCache   accountCache
+	placeCache     placeCache
+	postGuideCache postGuideCache
+	postReviewSto  postReviewSto
+	commentSto     commentSto
+}
+
+func NewReportUseCase(
+	reportSto reportStorage,
+	accountCache accountCache,
+	placeCache placeCache,
+	postGuideCache postGuideCache,
+	postReviewSto postReviewSto,
+	commentSto commentSto) *reportUseCase {
+	return &reportUseCase{reportSto: reportSto, accountCache: accountCache, placeCache: placeCache, postGuideCache: postGuideCache, postReviewSto: postReviewSto, commentSto: commentSto}
 }
