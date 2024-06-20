@@ -39,8 +39,8 @@ redis:
   # Host: roundhouse.proxy.rlwy.net
   # Host: localhost
   Host: redis
-  Port: 31002
-  # Port: 6379
+  # Port: 31002
+  Port: 6379
   # Password: FLn5DhEbgfciBNIlK2Jp3PICeJo6cMHN
   Password: ""
   DB: 0
