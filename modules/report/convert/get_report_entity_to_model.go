@@ -8,7 +8,8 @@ import (
 )
 
 func ReportEntityToModel(data *entities.Report) *reportiomodel.GetReportResp {
-	return &reportiomodel.GetReportResp{
+
+	res := &reportiomodel.GetReportResp{
 		ID:          data.Id,
 		ObjectID:    data.ObjectID,
 		ObjectType:  data.ObjectType,
@@ -17,8 +18,18 @@ func ReportEntityToModel(data *entities.Report) *reportiomodel.GetReportResp {
 		Description: data.Description,
 		StatusID:    data.StatusID,
 		StatusName:  constant.MapReportStatus[data.StatusID],
-		Videos:      strings.Split(data.Videos, ","),
-		Images:      strings.Split(data.Images, ","),
-		UserID:      data.UserID,
+		// Videos:      strings.Split(data.Videos, ","),
+		// Images:      strings.Split(data.Images, ","),
+		UserID: data.UserID,
 	}
+
+	if data.Images != "" {
+		res.Images = strings.Split(data.Images, ",")
+	}
+
+	if data.Videos != "" {
+		res.Videos = strings.Split(data.Videos, ",")
+	}
+
+	return res
 }
