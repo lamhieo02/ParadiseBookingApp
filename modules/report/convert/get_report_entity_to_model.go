@@ -18,9 +18,9 @@ func ReportEntityToModel(data *entities.Report) *reportiomodel.GetReportResp {
 		Description: data.Description,
 		StatusID:    data.StatusID,
 		StatusName:  constant.MapReportStatus[data.StatusID],
-		// Videos:      strings.Split(data.Videos, ","),
-		// Images:      strings.Split(data.Images, ","),
-		UserID: data.UserID,
+		Images:      []string{},
+		Videos:      []string{},
+		UserID:      data.UserID,
 	}
 
 	if data.Images != "" {
