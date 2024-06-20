@@ -35,26 +35,31 @@ import (
 
 const PREFIX_URL_IMAGE = "https://booking.workon.space/api/v1/images/"
 
-func (uc *mediaUseCase) UploadFile(ctx context.Context, fileHeader *multipart.FileHeader) (*common.Image, error) {
-	fileName := strconv.Itoa(time.Now().Nanosecond()) + fileHeader.Filename
+func (uc *mediaUseCase) UploadFile(ctx context.Context, fileHeaders []*multipart.FileHeader) ([]*common.Image, error) {
+	var images []*common.Image
+	for _, fileHeader := range fileHeaders {
+		fileName := strconv.Itoa(time.Now().Nanosecond()) + fileHeader.Filename
 
-	file, err := fileHeader.Open()
-	if err != nil {
-		panic(common.ErrBadRequest(err))
+		file, err := fileHeader.Open()
+		if err != nil {
+			panic(common.ErrBadRequest(err))
+		}
+
+		defer file.Close()
+
+		dataBytes := make([]byte, fileHeader.Size)
+		if _, err := file.Read(dataBytes); err != nil {
+			panic(common.ErrBadRequest(err))
+		}
+
+		pathFile := fmt.Sprintf("./%s/%s", uc.cfg.Image.ImageFolder, fileName)
+		_, err = uc.mediaProvider.SaveImage(ctx, dataBytes, pathFile)
+		if err != nil {
+			panic(common.ErrBadRequest(err))
+		}
+
+		images = append(images, &common.Image{Url: PREFIX_URL_IMAGE + fileName})
 	}
 
-	defer file.Close()
-
-	dataBytes := make([]byte, fileHeader.Size)
-	if _, err := file.Read(dataBytes); err != nil {
-		panic(common.ErrBadRequest(err))
-	}
-
-	pathFile := fmt.Sprintf("./%s/%s", uc.cfg.Image.ImageFolder, fileName)
-	_, err = uc.mediaProvider.SaveImage(ctx, dataBytes, pathFile)
-	if err != nil {
-		panic(common.ErrBadRequest(err))
-	}
-
-	return &common.Image{Url: PREFIX_URL_IMAGE + fileName}, nil
+	return images, nil
 }
