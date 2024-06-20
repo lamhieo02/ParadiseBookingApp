@@ -9,12 +9,14 @@ import (
 
 func (hdl *mediaHandler) UploadFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fileHeader, err := c.FormFile("file")
+		form, err := c.MultipartForm()
 		if err != nil {
 			panic(common.ErrBadRequest(err))
 		}
 
-		img, err := hdl.mediaUC.UploadFile(c.Request.Context(), fileHeader)
+		files := form.File["files"]
+
+		img, err := hdl.mediaUC.UploadFile(c.Request.Context(), files)
 		if err != nil {
 			panic(common.ErrBadRequest(err))
 		}

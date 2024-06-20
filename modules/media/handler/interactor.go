@@ -8,7 +8,7 @@ import (
 )
 
 type mediaUseCase interface {
-	UploadFile(ctx context.Context, fileHeader *multipart.FileHeader) (*common.Image, error)
+	UploadFile(ctx context.Context, fileHeader []*multipart.FileHeader) ([]*common.Image, error)
 }
 
 type mediaHandler struct {
