@@ -13,7 +13,7 @@ func ConvertPostGuideEntityToModel(postGuideEntity *entities.PostGuide, owner *e
 	result.PostOwnerId = postGuideEntity.PostOwnerId
 	result.Title = postGuideEntity.Title
 	result.Description = postGuideEntity.Description
-	result.Cover = postGuideEntity.Cover
+	result.Images = strings.Split(postGuideEntity.Cover, ",")
 	result.TopicID = postGuideEntity.TopicID
 	result.TopicName = constant.MapPostGuideTopic[postGuideEntity.TopicID]
 	result.Lat = postGuideEntity.Lat

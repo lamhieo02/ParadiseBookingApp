@@ -10,7 +10,7 @@ type GetPostGuideResp struct {
 	TopicName     string        `json:"topic_name"`
 	Title         string        `json:"title" gorm:"column:title"`
 	Description   string        `json:"description" gorm:"column:description"`
-	Cover         string        `json:"cover" gorm:"column:cover"`
+	Images        []string      `json:"images" gorm:"column:images"`
 	Lat           float64       `json:"lat" gorm:"column:lat"`
 	Lng           float64       `json:"lng" gorm:"column:lng"`
 	Location      Location      `json:"location"`

@@ -3,17 +3,18 @@ package convert
 import (
 	"paradise-booking/entities"
 	"paradise-booking/modules/place/iomodel"
+	"strings"
 )
 
 func ConvertPlaceEntityToGetModel(data *entities.Place, isFree bool, ratingAverage *float64) *iomodel.GetPlaceResp {
-	return &iomodel.GetPlaceResp{
+	res := &iomodel.GetPlaceResp{
 		ID:            data.Id,
 		VendorID:      data.VendorID,
 		Name:          data.Name,
 		Description:   data.Description,
 		PricePerNight: data.PricePerNight,
 		Address:       data.Address,
-		Cover:         data.Cover,
+		Images:        []string{},
 		Lat:           data.Lat,
 		Lng:           data.Lng,
 		Country:       data.Country,
@@ -25,4 +26,10 @@ func ConvertPlaceEntityToGetModel(data *entities.Place, isFree bool, ratingAvera
 		RatingAverage: *ratingAverage,
 		BedRoom:       data.BedRoom,
 	}
+
+	if data.Cover != "" {
+		res.Images = strings.Split(data.Cover, ",")
+	}
+
+	return res
 }

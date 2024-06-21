@@ -33,7 +33,7 @@ func (uc *postGuideUsecase) CreatePostGuide(ctx context.Context, data *postguide
 		TopicID:     data.TopicID,
 		Title:       data.Title,
 		Description: data.Description,
-		Cover:       data.Cover,
+		Cover:       strings.Join(data.Images, ","),
 		Lat:         data.Lat,
 		Lng:         data.Lng,
 		Country:     address.Country,

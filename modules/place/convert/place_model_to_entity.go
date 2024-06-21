@@ -3,6 +3,7 @@ package convert
 import (
 	"paradise-booking/entities"
 	"paradise-booking/modules/place/iomodel"
+	"strings"
 )
 
 func ConvertPlaceCreateModelToEntity(data *iomodel.CreatePlaceReq) *entities.Place {
@@ -11,7 +12,7 @@ func ConvertPlaceCreateModelToEntity(data *iomodel.CreatePlaceReq) *entities.Pla
 		Description:      data.Description,
 		PricePerNight:    data.PricePerNight,
 		Address:          data.Address,
-		Cover:            data.Cover,
+		Cover:            strings.Join(data.Images, ","),
 		Lat:              data.Lat,
 		Lng:              data.Lng,
 		MaxGuest:         data.MaxGuest,
