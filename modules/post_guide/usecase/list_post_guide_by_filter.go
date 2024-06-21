@@ -5,6 +5,7 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
+	"strings"
 )
 
 func (uc *postGuideUsecase) ListPostGuideByFilter(ctx context.Context, paging *common.Paging, filter *postguideiomodel.Filter) (*postguideiomodel.ListPostGuideResp, error) {
@@ -25,7 +26,7 @@ func (uc *postGuideUsecase) ListPostGuideByFilter(ctx context.Context, paging *c
 			TopicName:   constant.MapPostGuideTopic[v.TopicID],
 			Title:       v.Title,
 			Description: v.Description,
-			Cover:       v.Cover,
+			Images:      strings.Split(v.Cover, ","),
 			Lat:         v.Lat,
 			Lng:         v.Lng,
 			Address:     v.Address,

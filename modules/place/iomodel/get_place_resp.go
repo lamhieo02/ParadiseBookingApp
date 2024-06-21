@@ -7,7 +7,7 @@ type GetPlaceResp struct {
 	Description      string            `json:"description" form:"description"`
 	PricePerNight    float64           `json:"price_per_night" form:"price_per_night"`
 	Address          string            `json:"address" form:"address"`
-	Cover            string            `json:"cover" form:"cover"`
+	Images           []string          `json:"images" form:"images"`
 	Lat              float64           `json:"lat" form:"lat"`
 	Lng              float64           `json:"lng" form:"lng"`
 	Country          string            `json:"country" form:"country"`

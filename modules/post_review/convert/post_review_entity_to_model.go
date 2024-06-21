@@ -5,6 +5,7 @@ import (
 	"paradise-booking/constant"
 	"paradise-booking/entities"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
+	"strings"
 )
 
 func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *postreviewiomodel.PostReviewResp {
@@ -15,7 +16,7 @@ func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *post
 		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
-		Image:       postReviewEntity.Image,
+		Images:      strings.Split(postReviewEntity.Image, ","),
 		Lat:         postReviewEntity.Lat,
 		Lng:         postReviewEntity.Lng,
 		CreatedAt:   postReviewEntity.CreatedAt,
@@ -45,7 +46,7 @@ func ConvertPostReviewEntityToModelDetail(postReviewEntity *entities.PostReview,
 		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
-		Image:       postReviewEntity.Image,
+		Images:      strings.Split(postReviewEntity.Image, ","),
 		Lat:         postReviewEntity.Lat,
 		Lng:         postReviewEntity.Lng,
 		CreatedAt:   postReviewEntity.CreatedAt,

@@ -6,6 +6,7 @@ import (
 	"paradise-booking/entities"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
 	googlemapprovider "paradise-booking/provider/googlemap"
+	"strings"
 )
 
 func (postReviewUsecase *postReviewUsecase) CreatePostReview(ctx context.Context, data *postreviewiomodel.CreatePostReviewReq) error {
@@ -27,7 +28,7 @@ func (postReviewUsecase *postReviewUsecase) CreatePostReview(ctx context.Context
 		Content:     data.Content,
 		Lat:         data.Lat,
 		Lng:         data.Lng,
-		Image:       data.Image,
+		Image:       strings.Join(data.Images, ","),
 		Country:     ggAddress.Country,
 		State:       ggAddress.State,
 		District:    ggAddress.District,

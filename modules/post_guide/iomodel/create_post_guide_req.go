@@ -5,7 +5,7 @@ type CreatePostGuideReq struct {
 	TopicID     int      `json:"topic_id" form:"topic_id" binding:"required"`
 	Title       string   `json:"title" form:"title" binding:"required"`
 	Description string   `json:"description" form:"description" binding:"required"`
-	Cover       string   `json:"cover" form:"cover" binding:"required"`
+	Images      []string `json:"images" form:"images" binding:"required"`
 	Lat         float64  `json:"lat" form:"lat" binding:"required"`
 	Lng         float64  `json:"lng" form:"lng" binding:"required"`
 	Address     string   `json:"address" form:"address" binding:"required"`
