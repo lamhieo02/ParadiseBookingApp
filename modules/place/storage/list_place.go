@@ -13,7 +13,7 @@ func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, fi
 
 	var data []entities.Place
 
-	db = db.Table(entities.Place{}.TableName())
+	db = db.Table(entities.Place{}.TableName()).Order("id desc")
 
 	if v := filter; v != nil {
 		if v.VendorID != nil {
