@@ -7,6 +7,7 @@ import (
 	"paradise-booking/constant"
 	"paradise-booking/modules/place/convert"
 	"paradise-booking/modules/place/iomodel"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -79,7 +80,7 @@ func (uc *placeUseCase) GetPlaceByID(ctx context.Context, placeID int, userEmail
 			TopicName:   constant.MapPostGuideTopic[postGuide.TopicID],
 			Title:       postGuide.Title,
 			Description: postGuide.Description,
-			Cover:       postGuide.Cover,
+			Images:      strings.Split(postGuide.Cover, ","),
 			Country:     postGuide.Country,
 			State:       postGuide.State,
 			District:    postGuide.District,

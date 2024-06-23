@@ -4,6 +4,7 @@ import (
 	"context"
 	postguideconvert "paradise-booking/modules/post_guide/convert"
 	postguideiomodel "paradise-booking/modules/post_guide/iomodel"
+	"strings"
 )
 
 func (uc *postGuideUsecase) GetPostGuideByID(ctx context.Context, id int) (*postguideiomodel.GetPostGuideResp, error) {
@@ -51,7 +52,7 @@ func (uc *postGuideUsecase) GetPostGuideByID(ctx context.Context, id int) (*post
 			Description:   place.Description,
 			PricePerNight: place.PricePerNight,
 			Address:       place.Address,
-			Cover:         place.Cover,
+			Images:        strings.Split(place.Cover, ","),
 			Country:       place.Country,
 			State:         place.State,
 			District:      place.District,

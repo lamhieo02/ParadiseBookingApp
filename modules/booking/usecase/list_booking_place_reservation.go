@@ -6,6 +6,7 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
+	"paradise-booking/modules/booking/convert"
 	"paradise-booking/modules/booking/iomodel"
 
 	"github.com/samber/lo"
@@ -51,8 +52,10 @@ func (uc *bookingUseCase) ListPlaceReservationByVendor(ctx context.Context, vend
 			isBooked = true
 		}
 
+		placeModel := convert.ConvertPlaceEntityToModel(place)
+
 		res := iomodel.BookingPlaceResp{
-			place,
+			placeModel,
 			isBooked,
 		}
 		return &iomodel.ListBookingPlaceReservationResp{Data: []iomodel.BookingPlaceResp{res}}, nil
@@ -112,7 +115,7 @@ func (uc *bookingUseCase) ListPlaceReservationByVendor(ctx context.Context, vend
 		}
 
 		res := iomodel.BookingPlaceResp{
-			&item,
+			convert.ConvertPlaceEntityToModel(&item),
 			isBooked,
 		}
 		result.Data = append(result.Data, res)

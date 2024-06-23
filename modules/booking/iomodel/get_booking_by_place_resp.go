@@ -12,7 +12,7 @@ type GetBookingByPlaceResp struct {
 	UserId          int              `json:"user_id"`
 	User            entities.Account `json:"user"`
 	PlaceId         int              `json:"place_id"`
-	Place           entities.Place   `json:"place"`
+	Place           *DataPlace       `json:"place"`
 	StatusId        int              `json:"status_id"`
 	ChekoutDate     string           `json:"checkout_date"`
 	CheckInDate     string           `json:"checkin_date"`

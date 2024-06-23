@@ -7,6 +7,7 @@ import (
 	"paradise-booking/modules/account/convert"
 	reportconvert "paradise-booking/modules/report/convert"
 	reportiomodel "paradise-booking/modules/report/iomodel"
+	"strings"
 )
 
 func (uc *reportUseCase) GetReportByID(ctx context.Context, id int) (*reportiomodel.GetReportResp, error) {
@@ -43,7 +44,7 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		objectValue := reportiomodel.ObjectValue{}
 		objectValue.Title = place.Name
 		objectValue.Address = place.Address
-		objectValue.Cover = place.Cover
+		objectValue.Images = strings.Split(place.Cover, ",")
 		objectValue.Description = place.Description
 
 		objectVL = objectValue
@@ -58,7 +59,7 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		objectValue := reportiomodel.ObjectValue{}
 		objectValue.Title = postGuide.Title
 		objectValue.Address = postGuide.Address
-		objectValue.Cover = postGuide.Cover
+		objectValue.Images = strings.Split(postGuide.Cover, ",")
 		objectValue.Description = postGuide.Description
 
 		objectVL = objectValue
@@ -74,7 +75,7 @@ func (uc *reportUseCase) getObjectValue(ctx context.Context, reportData *reporti
 		objectValue.Title = postReview.Title
 		objectValue.Description = "TOPIC" + constant.MapCategoryIDToName[postReview.Topic]
 		objectValue.Address = postReview.Country + " - " + postReview.State + " - " + postReview.District
-		objectValue.Cover = postReview.Image
+		objectValue.Images = strings.Split(postReview.Image, ",")
 
 		objectVL = objectValue
 		userReportedID = postReview.PostOwnerId
