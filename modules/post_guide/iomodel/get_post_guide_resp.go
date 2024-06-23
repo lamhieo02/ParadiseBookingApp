@@ -23,15 +23,15 @@ type GetPostGuideResp struct {
 }
 
 type PlaceRelate struct {
-	ID            int     `json:"id"`
-	Name          string  `json:"name"`
-	Description   string  `json:"description"`
-	PricePerNight float64 `json:"price_per_night"`
-	Address       string  `json:"address"`
-	Cover         string  `json:"cover"`
-	Country       string  `json:"country"`
-	State         string  `json:"state"`
-	District      string  `json:"district"`
+	ID            int      `json:"id"`
+	Name          string   `json:"name"`
+	Description   string   `json:"description"`
+	PricePerNight float64  `json:"price_per_night"`
+	Address       string   `json:"address"`
+	Images        []string `json:"images"`
+	Country       string   `json:"country"`
+	State         string   `json:"state"`
+	District      string   `json:"district"`
 }
 
 type Location struct {

@@ -22,14 +22,14 @@ type GetPlaceResp struct {
 }
 
 type PostGuideRelate struct {
-	ID          int    `json:"id" form:"id"`
-	TopicID     int    `json:"topic_id" form:"topic_id"`
-	TopicName   string `json:"topic_name" form:"topic_name"`
-	Title       string `json:"title" form:"title"`
-	Description string `json:"description" form:"description"`
-	Cover       string `json:"cover" form:"cover"`
-	Country     string `json:"country" form:"country"`
-	State       string `json:"state" form:"state"`
-	District    string `json:"district" form:"district"`
-	Address     string `json:"address" form:"address"`
+	ID          int      `json:"id" form:"id"`
+	TopicID     int      `json:"topic_id" form:"topic_id"`
+	TopicName   string   `json:"topic_name" form:"topic_name"`
+	Title       string   `json:"title" form:"title"`
+	Description string   `json:"description" form:"description"`
+	Images      []string `json:"images" form:"images"`
+	Country     string   `json:"country" form:"country"`
+	State       string   `json:"state" form:"state"`
+	District    string   `json:"district" form:"district"`
+	Address     string   `json:"address" form:"address"`
 }

@@ -29,10 +29,10 @@ type UserReported struct {
 }
 
 type ObjectValue struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Address     string `json:"address"`
-	Cover       string `json:"cover"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Address     string   `json:"address"`
+	Images      []string `json:"images"`
 }
 
 type User struct {

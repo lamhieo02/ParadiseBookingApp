@@ -9,7 +9,10 @@ import (
 func ConvertBookingModelToGetResp(user *entities.Account, dataBooking *entities.Booking, place *entities.Place, bookingDetail *entities.BookingDetail) *iomodel.GetBookingResp {
 	checkInTime := utils.ParseTimeToString(dataBooking.CheckInDate)
 	checkOutTime := utils.ParseTimeToString(dataBooking.ChekoutDate)
-	return &iomodel.GetBookingResp{
+
+	placeModel := ConvertPlaceEntityToModel(place)
+
+	res := &iomodel.GetBookingResp{
 		UserId: user.Id,
 		User:   *user,
 		GetData: iomodel.DataListBooking{
@@ -17,7 +20,7 @@ func ConvertBookingModelToGetResp(user *entities.Account, dataBooking *entities.
 			CreatedAt:       dataBooking.CreatedAt,
 			UpdatedAt:       dataBooking.UpdatedAt,
 			PlaceId:         dataBooking.PlaceId,
-			Place:           *place,
+			Place:           placeModel,
 			StatusId:        dataBooking.StatusId,
 			CheckInDate:     checkInTime,
 			ChekoutDate:     checkOutTime,
@@ -28,4 +31,6 @@ func ConvertBookingModelToGetResp(user *entities.Account, dataBooking *entities.
 			PaymentMethod:   bookingDetail.PaymentMethod,
 		},
 	}
+
+	return res
 }
