@@ -8,6 +8,7 @@ import (
 
 type PaymentUseCase interface {
 	ListPaymentByVendorID(ctx context.Context, paging *common.Paging, vendorID int, bookingID int) ([]entities.Payment, error)
+	ListPaymentByGuiderID(ctx context.Context, paging *common.Paging, guiderID int, bookingId int) ([]entities.Payment, error)
 	UpdateStatusPaymentByID(ctx context.Context, id int, statusID int) error
 }
 

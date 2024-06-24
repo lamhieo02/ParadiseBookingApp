@@ -12,6 +12,7 @@ type PaymentSto interface {
 	GetPaymentByVendor(ctx context.Context, vendorID int, paging *common.Paging) ([]entities.Payment, error)
 	UpdateByID(ctx context.Context, id int, data *entities.Payment) error
 	GetByID(ctx context.Context, id int) (*entities.Payment, error)
+	GetPaymentByGuider(ctx context.Context, guiderId int, paging *common.Paging) ([]entities.Payment, error)
 }
 
 type paymentUseCase struct {
