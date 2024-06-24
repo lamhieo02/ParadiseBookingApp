@@ -5,6 +5,8 @@ import (
 	"paradise-booking/modules/account/iomodel"
 )
 
+// test config
+
 func ConvertAccountEntityToInfoMangageForAdmin(accounts []entities.Account) []iomodel.AccountInfoToAdminManageResp {
 	var result []iomodel.AccountInfoToAdminManageResp
 	for _, v := range accounts {
