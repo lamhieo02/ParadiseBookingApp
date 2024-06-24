@@ -11,7 +11,7 @@ func ConvertPostGuideUpdateToEntity(model *postguideiomodel.UpdatePostGuideReq) 
 		TopicID:     model.TopicID,
 		Title:       model.Title,
 		Description: model.Description,
-		Cover:       model.Cover,
+		Cover:       strings.Join(model.Images, ","),
 		Lat:         model.Lat,
 		Lng:         model.Lng,
 		Address:     model.Address,

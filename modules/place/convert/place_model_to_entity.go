@@ -28,7 +28,7 @@ func ConvertPlaceUpdateModelToEntity(data *iomodel.UpdatePlaceReq) *entities.Pla
 		Description:      data.Description,
 		PricePerNight:    data.PricePerNight,
 		Address:          data.Address,
-		Cover:            data.Cover,
+		Cover:            strings.Join(data.Images, ","),
 		Lat:              data.Lat,
 		Lng:              data.Lng,
 		Country:          data.Country,
