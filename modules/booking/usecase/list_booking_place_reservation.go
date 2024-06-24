@@ -8,6 +8,7 @@ import (
 	"paradise-booking/entities"
 	"paradise-booking/modules/booking/convert"
 	"paradise-booking/modules/booking/iomodel"
+	"sort"
 
 	"github.com/samber/lo"
 )
@@ -119,6 +120,11 @@ func (uc *bookingUseCase) ListPlaceReservationByVendor(ctx context.Context, vend
 			isBooked,
 		}
 		result.Data = append(result.Data, res)
+	})
+
+	// sort descending by time
+	sort.Slice(result.Data, func(i, j int) bool {
+		return result.Data[i].CreatedAt.After(*result.Data[j].CreatedAt)
 	})
 
 	return &result, nil
