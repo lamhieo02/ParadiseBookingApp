@@ -35,7 +35,7 @@ import (
 	mediausecase "paradise-booking/modules/media/usecase"
 	"paradise-booking/modules/middleware"
 	paymenthandler "paradise-booking/modules/payment/handler"
-	paymentstorage "paradise-booking/modules/payment/store"
+	paymentstorage "paradise-booking/modules/payment/storage"
 	paymentusecase "paradise-booking/modules/payment/usecase"
 	placehandler "paradise-booking/modules/place/handler"
 	placestorage "paradise-booking/modules/place/storage"
@@ -363,7 +363,8 @@ func main() {
 
 	// payment
 	v1.POST("/payments/list_by_vendor", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), paymentHdl.ListPaymentByVendorID())
-	v1.PUT("/payments", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), paymentHdl.UpdatePaymentStatus())
+	v1.POST("/payments/list_by_guider", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole), paymentHdl.ListPaymentByGuiderID())
+	v1.PUT("/payments", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole, constant.GuiderRole), paymentHdl.UpdatePaymentStatus())
 
 	// post review
 	v1.POST("/post_reviews", middlewares.RequiredAuth(), postReviewHdl.CreatePostReview())
