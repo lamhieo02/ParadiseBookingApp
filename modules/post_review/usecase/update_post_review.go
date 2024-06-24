@@ -4,6 +4,7 @@ import (
 	"context"
 	"paradise-booking/entities"
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
+	"strings"
 )
 
 func (postReviewUsecase *postReviewUsecase) UpdatePostReview(ctx context.Context, data *postreviewiomodel.UpdatePostReviewReq) error {
@@ -18,7 +19,7 @@ func (postReviewUsecase *postReviewUsecase) UpdatePostReview(ctx context.Context
 		Title:   data.Title,
 		Topic:   data.Topic,
 		Content: data.Content,
-		Image:   data.Image,
+		Image:   strings.Join(data.Images, ","),
 		Lat:     data.Lat,
 		Lng:     data.Lng,
 	}

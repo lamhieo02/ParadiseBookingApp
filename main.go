@@ -363,6 +363,7 @@ func main() {
 
 	// payment
 	v1.POST("/payments/list_by_vendor", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), paymentHdl.ListPaymentByVendorID())
+	v1.PUT("/payments", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), paymentHdl.UpdatePaymentStatus())
 
 	// post review
 	v1.POST("/post_reviews", middlewares.RequiredAuth(), postReviewHdl.CreatePostReview())
