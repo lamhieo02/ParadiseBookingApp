@@ -13,7 +13,7 @@ func (s *postGuideStorage) ListByFilter(ctx context.Context, paging *common.Pagi
 	var data []*entities.PostGuide
 
 	// db = db.Table(entities.PostGuide{}.TableName()).Order("id desc")
-	db = db.Table(entities.PostGuide{}.TableName())
+	db = db.Table(entities.PostGuide{}.TableName()).Order("id desc")
 
 	if filter.PostOwnerId != 0 {
 		db = db.Where("post_owner_id = ?", filter.PostOwnerId)
