@@ -16,6 +16,11 @@ func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, fi
 	db = db.Table(entities.Place{}.TableName()).Order("id desc")
 
 	if v := filter; v != nil {
+
+		if v.PlaceID != nil {
+			db = db.Where("id = ?", v.PlaceID)
+		}
+
 		if v.VendorID != nil {
 			db = db.Where("vendor_id = ?", v.VendorID)
 		}

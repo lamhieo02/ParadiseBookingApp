@@ -74,6 +74,18 @@ func (hdl *placeHandler) ListAllPlace() gin.HandlerFunc {
 			filter.State = state
 		}
 
+		vendorID := ctx.Query("vendor_id")
+		if vendorID != "" {
+			vendorID, _ := strconv.Atoi(vendorID)
+			filter.VendorID = &vendorID
+		}
+
+		placeID := ctx.Query("place_id")
+		if placeID != "" {
+			placeID, _ := strconv.Atoi(placeID)
+			filter.PlaceID = &placeID
+		}
+
 		var listPlaceReq iomodel.ListPlaceReq
 		if err := ctx.ShouldBind(&listPlaceReq); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err})

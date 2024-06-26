@@ -12,4 +12,5 @@ type Filter struct {
 	PriceFrom *int     `json:"price_from"`
 	PriceTo   *int     `json:"price_to"`
 	State     string   `json:"state"`
+	PlaceID   *int     `json:"place_id"`
 }
