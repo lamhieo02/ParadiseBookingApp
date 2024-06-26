@@ -9,23 +9,33 @@ import (
 )
 
 func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *postreviewiomodel.PostReviewResp {
-	return &postreviewiomodel.PostReviewResp{
+
+	res := &postreviewiomodel.PostReviewResp{
 		ID:          int64(postReviewEntity.Id),
 		Title:       postReviewEntity.Title,
 		TopicID:     postReviewEntity.Topic,
 		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
-		Images:      strings.Split(postReviewEntity.Image, ","),
-		Videos:      strings.Split(postReviewEntity.Videos, ","),
-		Lat:         postReviewEntity.Lat,
-		Lng:         postReviewEntity.Lng,
-		CreatedAt:   postReviewEntity.CreatedAt,
-		UpdatedAt:   postReviewEntity.UpdatedAt,
-		Country:     postReviewEntity.Country,
-		State:       postReviewEntity.State,
-		District:    postReviewEntity.District,
+		// Images:      strings.Split(postReviewEntity.Image, ","),
+		// Videos:    strings.Split(postReviewEntity.Videos, ","),
+		Lat:       postReviewEntity.Lat,
+		Lng:       postReviewEntity.Lng,
+		CreatedAt: postReviewEntity.CreatedAt,
+		UpdatedAt: postReviewEntity.UpdatedAt,
+		Country:   postReviewEntity.Country,
+		State:     postReviewEntity.State,
+		District:  postReviewEntity.District,
 	}
+
+	if postReviewEntity.Image != "" {
+		res.Images = strings.Split(postReviewEntity.Image, ",")
+	}
+
+	if postReviewEntity.Videos != "" {
+		res.Images = strings.Split(postReviewEntity.Image, ",")
+	}
+	return res
 }
 
 func ConvertListPostReviewToModel(listPostReview []*entities.PostReview, paging *common.Paging) postreviewiomodel.ListPostReviewResp {
@@ -47,12 +57,20 @@ func ConvertPostReviewEntityToModelDetail(postReviewEntity *entities.PostReview,
 		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
-		Images:      strings.Split(postReviewEntity.Image, ","),
-		Videos:      strings.Split(postReviewEntity.Videos, ","),
-		Lat:         postReviewEntity.Lat,
-		Lng:         postReviewEntity.Lng,
-		CreatedAt:   postReviewEntity.CreatedAt,
-		UpdatedAt:   postReviewEntity.UpdatedAt,
+		// Images:      strings.Split(postReviewEntity.Image, ","),
+		// Videos:      strings.Split(postReviewEntity.Videos, ","),
+		Lat:       postReviewEntity.Lat,
+		Lng:       postReviewEntity.Lng,
+		CreatedAt: postReviewEntity.CreatedAt,
+		UpdatedAt: postReviewEntity.UpdatedAt,
+	}
+
+	if postReviewEntity.Image != "" {
+		data.Images = strings.Split(postReviewEntity.Image, ",")
+	}
+
+	if postReviewEntity.Videos != "" {
+		data.Videos = strings.Split(postReviewEntity.Videos, ",")
 	}
 
 	for _, comment := range comments {
