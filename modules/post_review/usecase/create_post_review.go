@@ -29,6 +29,7 @@ func (postReviewUsecase *postReviewUsecase) CreatePostReview(ctx context.Context
 		Lat:         data.Lat,
 		Lng:         data.Lng,
 		Image:       strings.Join(data.Images, ","),
+		Videos:      strings.Join(data.Videos, ","),
 		Country:     ggAddress.Country,
 		State:       ggAddress.State,
 		District:    ggAddress.District,

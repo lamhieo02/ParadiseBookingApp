@@ -11,6 +11,7 @@ type PostReviewResp struct {
 	TopicName    string        `json:"topic_name"`
 	Content      string        `json:"content"`
 	Images       []string      `json:"images"`
+	Videos       []string      `json:"videos"`
 	Lat          float64       `json:"lat"`
 	Lng          float64       `json:"lng"`
 	CreatedAt    *time.Time    `json:"created_at"`
