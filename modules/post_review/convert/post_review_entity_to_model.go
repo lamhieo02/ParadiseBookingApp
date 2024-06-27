@@ -17,15 +17,15 @@ func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *post
 		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
-		// Images:      strings.Split(postReviewEntity.Image, ","),
-		// Videos:    strings.Split(postReviewEntity.Videos, ","),
-		Lat:       postReviewEntity.Lat,
-		Lng:       postReviewEntity.Lng,
-		CreatedAt: postReviewEntity.CreatedAt,
-		UpdatedAt: postReviewEntity.UpdatedAt,
-		Country:   postReviewEntity.Country,
-		State:     postReviewEntity.State,
-		District:  postReviewEntity.District,
+		Images:      []string{},
+		Videos:      []string{},
+		Lat:         postReviewEntity.Lat,
+		Lng:         postReviewEntity.Lng,
+		CreatedAt:   postReviewEntity.CreatedAt,
+		UpdatedAt:   postReviewEntity.UpdatedAt,
+		Country:     postReviewEntity.Country,
+		State:       postReviewEntity.State,
+		District:    postReviewEntity.District,
 	}
 
 	if postReviewEntity.Image != "" {
@@ -33,7 +33,7 @@ func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *post
 	}
 
 	if postReviewEntity.Videos != "" {
-		res.Images = strings.Split(postReviewEntity.Image, ",")
+		res.Videos = strings.Split(postReviewEntity.Videos, ",")
 	}
 	return res
 }
@@ -57,12 +57,12 @@ func ConvertPostReviewEntityToModelDetail(postReviewEntity *entities.PostReview,
 		TopicName:   constant.MapCategoryIDToName[postReviewEntity.Topic],
 		PostOwnerID: int64(postReviewEntity.PostOwnerId),
 		Content:     postReviewEntity.Content,
-		// Images:      strings.Split(postReviewEntity.Image, ","),
-		// Videos:      strings.Split(postReviewEntity.Videos, ","),
-		Lat:       postReviewEntity.Lat,
-		Lng:       postReviewEntity.Lng,
-		CreatedAt: postReviewEntity.CreatedAt,
-		UpdatedAt: postReviewEntity.UpdatedAt,
+		Images:      []string{},
+		Videos:      []string{},
+		Lat:         postReviewEntity.Lat,
+		Lng:         postReviewEntity.Lng,
+		CreatedAt:   postReviewEntity.CreatedAt,
+		UpdatedAt:   postReviewEntity.UpdatedAt,
 	}
 
 	if postReviewEntity.Image != "" {
