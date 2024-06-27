@@ -20,6 +20,7 @@ func (postReviewUsecase *postReviewUsecase) UpdatePostReview(ctx context.Context
 		Topic:   data.Topic,
 		Content: data.Content,
 		Image:   strings.Join(data.Images, ","),
+		Videos:  strings.Join(data.Videos, ","),
 		Lat:     data.Lat,
 		Lng:     data.Lng,
 	}
