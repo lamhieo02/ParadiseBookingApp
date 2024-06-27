@@ -33,7 +33,7 @@ func ConvertPostReviewEntityToModel(postReviewEntity *entities.PostReview) *post
 	}
 
 	if postReviewEntity.Videos != "" {
-		res.Images = strings.Split(postReviewEntity.Image, ",")
+		res.Videos = strings.Split(postReviewEntity.Videos, ",")
 	}
 	return res
 }
