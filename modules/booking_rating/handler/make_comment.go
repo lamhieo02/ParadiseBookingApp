@@ -3,7 +3,7 @@ package bookingratinghandler
 import (
 	"net/http"
 	"paradise-booking/common"
-	"paradise-booking/modules/booking_rating/iomodel"
+	bookingratingiomodel "paradise-booking/modules/booking_rating/iomodel"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +12,7 @@ func (hdl *bookingratinghandler) MakeComment() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		requester := c.MustGet("Account").(common.Requester)
 
-		input := iomodel.CreateBookingRatingReq{}
+		input := bookingratingiomodel.CreateBookingRatingReq{}
 		if err := c.ShouldBind(&input); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return

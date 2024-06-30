@@ -1,6 +1,9 @@
 package entities
 
-import "paradise-booking/common"
+import (
+	"paradise-booking/common"
+	"strconv"
+)
 
 type BookingDetail struct {
 	common.SQLModel
@@ -20,4 +23,8 @@ type BookingDetail struct {
 
 func (BookingDetail) TableName() string {
 	return "bookings_detail"
+}
+
+func (p BookingDetail) CacheKey() string {
+	return "booking_detail_booking_id:" + strconv.Itoa(p.BookingId)
 }

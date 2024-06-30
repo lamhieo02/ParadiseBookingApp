@@ -166,6 +166,7 @@ func main() {
 
 	// prepare for booking detail
 	bookingDetailSto := bookingdetailstorage.NewBookingDetailStorage(db)
+	bookingDetailStoCache := cache.NewBookingDetailStoCache(bookingDetailSto, cacheRedis)
 
 	// prepare for booking
 	bookingUseCase := bookingusecase.NewBookingUseCase(bookingSto, bookingDetailSto, cfg, taskDistributor, accountSto, placeSto, momo, paymentSto)
@@ -247,7 +248,7 @@ func main() {
 
 	// declare for report
 	reportSto := reportstorage.NewReportStorage(db)
-	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache, placeCache, postGuideCache, postReviewSto, commentSto)
+	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache, placeCache, postGuideCache, postReviewSto, commentSto, bookingSto, placeSto, bookingDetailStoCache)
 	reportHdl := reporthandler.NewReportHandler(reportUseCase)
 
 	// run task processor
@@ -430,6 +431,8 @@ func main() {
 	v1.GET("/reports/:id", reportHdl.GetReportByID())
 	v1.PUT("/reports/:id", reportHdl.UpdateReportByID())
 	v1.POST("/reports/list", middlewares.RequiredAuth(), reportHdl.ListReport())
+
+	v1.POST("/reports/statistics/place", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), reportHdl.GetStatisticPlace())
 
 	// google login
 	//v1.GET("/google/login")

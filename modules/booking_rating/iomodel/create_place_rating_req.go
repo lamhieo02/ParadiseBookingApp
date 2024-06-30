@@ -1,4 +1,4 @@
-package iomodel
+package bookingratingiomodel
 
 type CreateBookingRatingReq struct {
 	BookingID int `json:"booking_id"`

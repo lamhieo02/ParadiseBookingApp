@@ -1,14 +1,14 @@
-package iomodel
+package bookingratingiomodel
 
 import "paradise-booking/entities"
 
 type GetCommentByObjectResp struct {
 	ListRating    []GetCommentRespByObject
-	DataPlace     *entities.Place     `json:"place"`
-	DataPostGuide *entities.PostGuide `json:"post_guide"`
+	DataPlace     *DataPlace     `json:"place"`
+	DataPostGuide *DataPostGuide `json:"post_guide"`
 }
 
 type GetCommentRespByObject struct {
-	DataRating entities.BookingRating
+	DataRating DataBookingRating
 	DataUser   entities.Account `json:"user"`
 }

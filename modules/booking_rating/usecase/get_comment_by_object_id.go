@@ -6,17 +6,18 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
-	"paradise-booking/modules/booking_rating/iomodel"
+	bookingratingconvert "paradise-booking/modules/booking_rating/convert"
+	bookingratingiomodel "paradise-booking/modules/booking_rating/iomodel"
 )
 
-func (uc *bookingRatingUsecase) GetCommentByObjectID(ctx context.Context, objectID int, objectType int) (*iomodel.GetCommentByObjectResp, error) {
+func (uc *bookingRatingUsecase) GetCommentByObjectID(ctx context.Context, objectID int, objectType int) (*bookingratingiomodel.GetCommentByObjectResp, error) {
 	res, err := uc.BookingRatingSto.GetByCondition(ctx, map[string]interface{}{"object_id": objectID, "object_type": objectType})
 	if err != nil {
 		return nil, err
 	}
 
-	var result iomodel.GetCommentByObjectResp
-	var listRating []iomodel.GetCommentRespByObject
+	var result bookingratingiomodel.GetCommentByObjectResp
+	var listRating []bookingratingiomodel.GetCommentRespByObject
 	for _, bookingRate := range res {
 		user, err := uc.AccountSto.GetProfileByID(ctx, bookingRate.UserId)
 		if err != nil {
@@ -24,8 +25,8 @@ func (uc *bookingRatingUsecase) GetCommentByObjectID(ctx context.Context, object
 			continue
 		}
 
-		listRating = append(listRating, iomodel.GetCommentRespByObject{
-			DataRating: bookingRate,
+		listRating = append(listRating, bookingratingiomodel.GetCommentRespByObject{
+			DataRating: *bookingratingconvert.ConvertDataBookingRatingEntityToModel(&bookingRate),
 			DataUser:   *user,
 		})
 	}
@@ -37,14 +38,14 @@ func (uc *bookingRatingUsecase) GetCommentByObjectID(ctx context.Context, object
 			log.Printf("Error when get place by id: %v\n", err)
 			return nil, common.ErrCannotGetEntity(entities.Place{}.TableName(), err)
 		}
-		result.DataPlace = place
+		result.DataPlace = bookingratingconvert.ConvertPlaceEntityToModel(place)
 	} else if objectType == constant.BookingRatingObjectTypeGuide {
 		postGuide, err := uc.PostGuideSto.GetByID(ctx, objectID)
 		if err != nil {
 			log.Printf("Error when get post guide by id: %v\n", err)
 			return nil, common.ErrCannotGetEntity(entities.PostGuide{}.TableName(), err)
 		}
-		result.DataPostGuide = postGuide
+		result.DataPostGuide = bookingratingconvert.ConvertPostGuideEntityToModel(postGuide)
 	}
 
 	return &result, nil
