@@ -24,6 +24,7 @@ func (uc *reportUseCase) GetStatisticsPlace(ctx context.Context, req *reportiomo
 	mapColumnNameWithValuesBooking := map[string]valueBooking{}
 	mapColumnNameWithValuesRevenue := map[string]float64{}
 	layout := new(string)
+	placeIds := []int{}
 
 	columnsName, err := uc.getColumnNames(req, layout)
 	if err != nil {
@@ -35,12 +36,16 @@ func (uc *reportUseCase) GetStatisticsPlace(ctx context.Context, req *reportiomo
 		mapColumnNameWithValuesRevenue[item] = 0
 	})
 
-	// get all booking have status completed
-	placeIds, err := uc.placeSto.ListPlaceIdsByCondition(ctx, 100, map[string]interface{}{
-		"vendor_id": vendorID,
-	})
-	if err != nil {
-		return nil, err
+	if req.PlaceID != 0 {
+		placeIds = append(placeIds, req.PlaceID)
+	} else {
+		// get all booking have status completed
+		placeIds, err = uc.placeSto.ListPlaceIdsByCondition(ctx, 100, map[string]interface{}{
+			"vendor_id": vendorID,
+		})
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	timeFrom, _ := utils.ParseStringToTime(req.DateFrom)

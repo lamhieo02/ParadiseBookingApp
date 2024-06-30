@@ -3,11 +3,11 @@ package placewishlistusecase
 import (
 	"context"
 	"paradise-booking/entities"
-	"paradise-booking/modules/place_wishlist/iomodel"
+	placewishlistiomodel "paradise-booking/modules/place_wishlist/iomodel"
 	"time"
 )
 
-func (placeWishListUsecase *placeWishListUsecase) CreatePlaceWishList(ctx context.Context, data *iomodel.CreatePlaceWishListReq, userID int) (*entities.PlaceWishList, error) {
+func (placeWishListUsecase *placeWishListUsecase) CreatePlaceWishList(ctx context.Context, data *placewishlistiomodel.CreatePlaceWishListReq, userID int) (*entities.PlaceWishList, error) {
 	model := entities.PlaceWishList{
 		PlaceId:    data.PlaceID,
 		WishListId: data.WishListID,

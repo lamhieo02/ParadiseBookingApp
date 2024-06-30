@@ -3,14 +3,14 @@ package placewishlisthandler
 import (
 	"net/http"
 	"paradise-booking/common"
-	"paradise-booking/modules/place_wishlist/iomodel"
+	placewishlistiomodel "paradise-booking/modules/place_wishlist/iomodel"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (hdl *placeWishListHandler) CreatePlaceWishList() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var placeWishListBody iomodel.CreatePlaceWishListReq
+		var placeWishListBody placewishlistiomodel.CreatePlaceWishListReq
 
 		if err := c.ShouldBind(&placeWishListBody); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
