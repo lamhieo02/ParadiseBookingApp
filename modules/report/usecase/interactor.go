@@ -46,6 +46,15 @@ type bookingDetailCache interface {
 	GetByBookingID(ctx context.Context, bookingId int) (res *entities.BookingDetail, err error)
 }
 
+type postGuideSto interface {
+	ListPostGuideByCondition(ctx context.Context, conditions []common.Condition) ([]entities.PostGuide, error)
+	ListPostGuideIdsByCondition(ctx context.Context, limit int, condition map[string]interface{}) ([]int, error)
+}
+
+type bookingGuiderSto interface {
+	ListByCondition(ctx context.Context, conditions []common.Condition) ([]*entities.BookingGuider, error)
+}
+
 type reportUseCase struct {
 	reportSto          reportStorage
 	accountCache       accountCache
@@ -56,6 +65,8 @@ type reportUseCase struct {
 	bookingSto         bookingSto
 	placeSto           placeSto
 	bookingDetailCache bookingDetailCache
+	postGuideSto       postGuideSto
+	bookingGuiderSto   bookingGuiderSto
 }
 
 func NewReportUseCase(
@@ -67,7 +78,9 @@ func NewReportUseCase(
 	commentSto commentSto,
 	bookingSto bookingSto,
 	placeSto placeSto,
-	bookingDetailCache bookingDetailCache) *reportUseCase {
+	bookingDetailCache bookingDetailCache,
+	postGuideSto postGuideSto,
+	bookingGuiderSto bookingGuiderSto) *reportUseCase {
 	return &reportUseCase{reportSto: reportSto,
 		accountCache:       accountCache,
 		placeCache:         placeCache,
@@ -76,5 +89,7 @@ func NewReportUseCase(
 		commentSto:         commentSto,
 		bookingSto:         bookingSto,
 		placeSto:           placeSto,
-		bookingDetailCache: bookingDetailCache}
+		bookingDetailCache: bookingDetailCache,
+		postGuideSto:       postGuideSto,
+		bookingGuiderSto:   bookingGuiderSto}
 }
