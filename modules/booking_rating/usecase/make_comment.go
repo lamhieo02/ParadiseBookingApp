@@ -4,10 +4,10 @@ import (
 	"context"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
-	"paradise-booking/modules/booking_rating/iomodel"
+	bookingratingiomodel "paradise-booking/modules/booking_rating/iomodel"
 )
 
-func (u *bookingRatingUsecase) MakeComment(ctx context.Context, userID int, data *iomodel.CreateBookingRatingReq) (*entities.BookingRating, error) {
+func (u *bookingRatingUsecase) MakeComment(ctx context.Context, userID int, data *bookingratingiomodel.CreateBookingRatingReq) (*entities.BookingRating, error) {
 
 	model := entities.BookingRating{
 		UserId:    userID,

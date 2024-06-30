@@ -1,4 +1,4 @@
-package iomodel
+package bookingratingiomodel
 
 import "paradise-booking/entities"
 
@@ -8,7 +8,7 @@ type GetCommentByUserResp struct {
 }
 
 type GetCommentRespByUser struct {
-	DataRating    *entities.BookingRating
-	DataPlace     *entities.Place     `json:"place"`
-	DataPostGuide *entities.PostGuide `json:"post_guide"`
+	DataRating    *DataBookingRating
+	DataPlace     *DataPlace     `json:"place"`
+	DataPostGuide *DataPostGuide `json:"post_guide"`
 }

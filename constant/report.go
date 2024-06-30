@@ -29,3 +29,10 @@ var MapReportStatus = map[int]string{
 	Report_Status_Processing: "processing",
 	Report_Status_Complete:   "complete",
 }
+
+const (
+	StatisticTypeDay   = 1
+	StatisticTypeWeek  = 2
+	StatisticTypeMonth = 3
+	StatisticTypeYear  = 4
+)

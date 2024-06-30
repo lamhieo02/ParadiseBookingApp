@@ -6,16 +6,17 @@ import (
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	"paradise-booking/entities"
-	"paradise-booking/modules/booking_rating/iomodel"
+	bookingratingconvert "paradise-booking/modules/booking_rating/convert"
+	bookingratingiomodel "paradise-booking/modules/booking_rating/iomodel"
 )
 
-func (uc *bookingRatingUsecase) GetCommentByVendorID(ctx context.Context, vendorID int, objectType int) (*iomodel.GetCommentByVendorResp, error) {
+func (uc *bookingRatingUsecase) GetCommentByVendorID(ctx context.Context, vendorID int, objectType int) (*bookingratingiomodel.GetCommentByVendorResp, error) {
 	res, err := uc.BookingRatingSto.GetByVendorID(ctx, vendorID, objectType)
 	if err != nil {
 		return nil, err
 	}
 
-	var result iomodel.GetCommentByVendorResp
+	var result bookingratingiomodel.GetCommentByVendorResp
 	for _, bookingRate := range res {
 
 		user, err := uc.AccountSto.GetProfileByID(ctx, bookingRate.UserId)
@@ -30,9 +31,9 @@ func (uc *bookingRatingUsecase) GetCommentByVendorID(ctx context.Context, vendor
 				log.Printf("Error when get place by id: %v\n", err)
 				continue
 			}
-			result.ListRating = append(result.ListRating, iomodel.GetCommentUserByVendor{
-				DataRating: bookingRate,
-				DataPlace:  place,
+			result.ListRating = append(result.ListRating, bookingratingiomodel.GetCommentUserByVendor{
+				DataRating: *bookingratingconvert.ConvertDataBookingRatingEntityToModel(&bookingRate),
+				DataPlace:  bookingratingconvert.ConvertPlaceEntityToModel(place),
 				DataUser:   *user,
 			})
 		} else if objectType == constant.BookingRatingObjectTypeGuide {
@@ -41,9 +42,9 @@ func (uc *bookingRatingUsecase) GetCommentByVendorID(ctx context.Context, vendor
 				log.Printf("Error when get post guide by id: %v\n", err)
 				continue
 			}
-			result.ListRating = append(result.ListRating, iomodel.GetCommentUserByVendor{
-				DataRating:    bookingRate,
-				DataPostGuide: postGuide,
+			result.ListRating = append(result.ListRating, bookingratingiomodel.GetCommentUserByVendor{
+				DataRating:    *bookingratingconvert.ConvertDataBookingRatingEntityToModel(&bookingRate),
+				DataPostGuide: bookingratingconvert.ConvertPostGuideEntityToModel(postGuide),
 				DataUser:      *user,
 			})
 		}
