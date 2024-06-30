@@ -4,7 +4,7 @@ type GetStatisticPlaceReq struct {
 	DateFrom string `json:"date_from" form:"date_from" binding:"required"`
 	DateTo   string `json:"date_to" form:"date_to" binding:"required"`
 	Type     int    `json:"type" form:"type" binding:"required"`
-	PlaceID  string `json:"place_id" form:"place_id"`
+	PlaceID  int    `json:"place_id" form:"place_id"`
 }
 
 type StatisticPlaceResp struct {
