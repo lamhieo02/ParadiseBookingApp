@@ -248,7 +248,7 @@ func main() {
 
 	// declare for report
 	reportSto := reportstorage.NewReportStorage(db)
-	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache, placeCache, postGuideCache, postReviewSto, commentSto, bookingSto, placeSto, bookingDetailStoCache)
+	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache, placeCache, postGuideCache, postReviewSto, commentSto, bookingSto, placeSto, bookingDetailStoCache, postGuideSto, bookingGuiderSto)
 	reportHdl := reporthandler.NewReportHandler(reportUseCase)
 
 	// run task processor
@@ -433,6 +433,7 @@ func main() {
 	v1.POST("/reports/list", middlewares.RequiredAuth(), reportHdl.ListReport())
 
 	v1.POST("/reports/statistics/place", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), reportHdl.GetStatisticPlace())
+	v1.POST("/reports/statistics/post_guide", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole), reportHdl.GetStatisticPostGuide())
 
 	// google login
 	//v1.GET("/google/login")

@@ -21,7 +21,7 @@ func (hdl *reportHandler) GetStatisticPlace() gin.HandlerFunc {
 			return
 		}
 
-		if valid, err := hdl.checkDateValid(&req); !valid || err != nil {
+		if valid, err := hdl.checkDateValid(req.DateFrom, req.DateTo, req.Type); !valid || err != nil {
 			var msg interface{}
 			msg = "invalid date range"
 			if err != nil {
@@ -41,18 +41,18 @@ func (hdl *reportHandler) GetStatisticPlace() gin.HandlerFunc {
 	}
 }
 
-func (hdl *reportHandler) checkDateValid(req *reportiomodel.GetStatisticPlaceReq) (bool, error) {
-	dateFrom, err := utils.ParseStringToTime(req.DateFrom)
+func (hdl *reportHandler) checkDateValid(timeFrom, timeTo string, _type int) (bool, error) {
+	dateFrom, err := utils.ParseStringToTime(timeFrom)
 	if err != nil {
 		return false, err
 	}
 
-	dateTo, err := utils.ParseStringToTime(req.DateTo)
+	dateTo, err := utils.ParseStringToTime(timeTo)
 	if err != nil {
 		return false, err
 	}
 
-	switch req.Type {
+	switch _type {
 	case constant.StatisticTypeDay:
 		// date range is 7 days
 		if dateTo.Sub(*dateFrom).Hours() > 24*7 {

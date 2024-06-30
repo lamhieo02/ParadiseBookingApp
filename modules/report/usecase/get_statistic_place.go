@@ -26,7 +26,7 @@ func (uc *reportUseCase) GetStatisticsPlace(ctx context.Context, req *reportiomo
 	layout := new(string)
 	placeIds := []int{}
 
-	columnsName, err := uc.getColumnNames(req, layout)
+	columnsName, err := uc.getColumnNames(req.DateFrom, req.DateTo, req.Type, layout)
 	if err != nil {
 		return nil, err
 	}
@@ -153,22 +153,22 @@ func (uc *reportUseCase) mappingColumnNameForTypeWeek(columnsName []string, date
 	return result
 }
 
-func (uc *reportUseCase) getColumnNames(req *reportiomodel.GetStatisticPlaceReq, layout *string) ([]string, error) {
+func (uc *reportUseCase) getColumnNames(timeFrom, timeTo string, _type int, layout *string) ([]string, error) {
 	var result []string
-	switch req.Type {
+	switch _type {
 	case constant.StatisticTypeDay:
 		// loop for all days in range: from req.DateFrom to req.DateTo
 		*layout = "2006-01-02"
-		dateFrom, _ := utils.ParseStringToTime(req.DateFrom)
-		dateTo, _ := utils.ParseStringToTime(req.DateTo)
+		dateFrom, _ := utils.ParseStringToTime(timeFrom)
+		dateTo, _ := utils.ParseStringToTime(timeTo)
 		for dateFrom.Before(dateTo.AddDate(0, 0, 1)) {
 			result = append(result, dateFrom.Format("2006-01-02"))
 			*dateFrom = dateFrom.AddDate(0, 0, 1)
 		}
 	case constant.StatisticTypeWeek:
 		// loop for all weeks in range: from req.DateFrom to req.DateTo
-		dateFrom, _ := utils.ParseStringToTime(req.DateFrom)
-		dateTo, _ := utils.ParseStringToTime(req.DateTo)
+		dateFrom, _ := utils.ParseStringToTime(timeFrom)
+		dateTo, _ := utils.ParseStringToTime(timeTo)
 		*layout = "1"
 		cntWeek := 1
 		for dateFrom.Before(dateTo.AddDate(0, 0, 1)) {
@@ -179,8 +179,8 @@ func (uc *reportUseCase) getColumnNames(req *reportiomodel.GetStatisticPlaceReq,
 	case constant.StatisticTypeMonth:
 		// loop for all months in range: from req.DateFrom to req.DateTo
 		*layout = "2006-01"
-		dateFrom, _ := utils.ParseStringToTime(req.DateFrom)
-		dateTo, _ := utils.ParseStringToTime(req.DateTo)
+		dateFrom, _ := utils.ParseStringToTime(timeFrom)
+		dateTo, _ := utils.ParseStringToTime(timeTo)
 		for dateFrom.Before(dateTo.AddDate(0, 0, 1)) {
 			result = append(result, dateFrom.Format("2006-01"))
 			*dateFrom = dateFrom.AddDate(0, 1, 0)
@@ -188,8 +188,8 @@ func (uc *reportUseCase) getColumnNames(req *reportiomodel.GetStatisticPlaceReq,
 	case constant.StatisticTypeYear:
 		// loop for all years in range: from req.DateFrom to req.DateTo
 		*layout = "2006"
-		dateFrom, _ := utils.ParseStringToTime(req.DateFrom)
-		dateTo, _ := utils.ParseStringToTime(req.DateTo)
+		dateFrom, _ := utils.ParseStringToTime(timeFrom)
+		dateTo, _ := utils.ParseStringToTime(timeTo)
 		for dateFrom.Before(dateTo.AddDate(0, 0, 1)) {
 			result = append(result, dateFrom.Format("2006"))
 			*dateFrom = dateFrom.AddDate(1, 0, 0)
