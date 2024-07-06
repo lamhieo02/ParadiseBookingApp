@@ -15,7 +15,7 @@ func (s *bookingStorage) ListByFilter(ctx context.Context, filter *iomodel.Filte
 
 	db = db.Table(entities.Booking{}.TableName())
 
-	db = db.Where("user_id = ?", userId)
+	db = db.Where("user_id = ?", userId).Order("id desc")
 	if v := filter; v != nil {
 		if len(v.Statuses) > 0 && v.Statuses[0] != 0 {
 			db = db.Where("status_id in (?) ", v.Statuses)

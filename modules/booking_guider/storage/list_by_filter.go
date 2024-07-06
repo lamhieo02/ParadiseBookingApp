@@ -15,7 +15,7 @@ func (s *bookingGuiderSto) ListByFilter(ctx context.Context, paging *common.Pagi
 
 	db = db.Table(entities.BookingGuider{}.TableName())
 
-	db = db.Where("user_id = ?", userId)
+	db = db.Where("user_id = ?", userId).Order("id desc")
 	if v := filter; v != nil {
 		if len(v.Statuses) > 0 && v.Statuses[0] != 0 {
 			db = db.Where("status_id in (?) ", v.Statuses)
