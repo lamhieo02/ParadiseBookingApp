@@ -2,8 +2,10 @@ package placeusecase
 
 import (
 	"context"
+	"fmt"
 	"paradise-booking/modules/place/convert"
 	"paradise-booking/modules/place/iomodel"
+	googlemapprovider "paradise-booking/provider/googlemap"
 )
 
 func (uc *placeUseCase) CreatePlace(ctx context.Context, data *iomodel.CreatePlaceReq, emailVendor string) error {
@@ -21,7 +23,8 @@ func (uc *placeUseCase) CreatePlace(ctx context.Context, data *iomodel.CreatePla
 	// get geocode to fill country, state, district
 	adress, err := uc.googleMap.GetAddressFromLatLng(ctx, data.Lat, data.Lng)
 	if err != nil {
-		return err
+		fmt.Printf("Error get address from lat lng: %v", err)
+		adress = &googlemapprovider.GoogleMapAddress{}
 	}
 
 	placeEntity.Country = adress.Country
