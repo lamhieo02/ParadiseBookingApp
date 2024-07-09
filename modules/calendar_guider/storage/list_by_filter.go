@@ -8,7 +8,7 @@ import (
 )
 
 func (s *calendarGuiderStorage) ListByFilter(ctx context.Context, paging *common.Paging, filter *calendarguideriomodel.Filter) ([]*entities.CalendarGuider, error) {
-	db := s.db.Table(entities.CalendarGuider{}.TableName())
+	db := s.db.Table(entities.CalendarGuider{}.TableName()).Order("id DESC")
 	var result []*entities.CalendarGuider
 	if filter.DateFrom != "" {
 		db = db.Where("date_from >= ?", filter.DateFrom)
