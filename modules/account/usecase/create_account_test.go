@@ -82,23 +82,24 @@ func TestCreateAccount(t *testing.T) {
 		}
 	}
 
+	for _, tc := range dataTests {
 	Convey("Test Create Account", t, func() {
-		for _, tc := range dataTests {
-			Convey("Check email is existed", func() {
-				mockAccountStorage.EXPECT().GetAccountByEmail(ctx, tc.Email).Return(&entities.Account{}, nil)
+		fmt.Println(tc)
+		Convey("Check email is existed", func() {
+			mockAccountStorage.EXPECT().GetAccountByEmail(ctx, tc.Email).Return(&entities.Account{}, nil)
 
-				result, err := uc.CreateAccount(ctx, &tc)
-				convey.So(result, convey.ShouldBeNil)
-				convey.So(err, convey.ShouldNotBeNil)
-				convey.So(err.Error(), convey.ShouldEqual, "email is existed")
-			})
-			Convey("Create account successfully", func() {
-				mockAccountStorage.EXPECT().GetAccountByEmail(ctx, tc.Email).Return(nil, gorm.ErrRecordNotFound)
-				mockAccountStorage.EXPECT().CreateTx(ctx, gomock.Any()).Return(nil)
-				result, err := uc.CreateAccount(ctx, &tc)
-				convey.So(result, convey.ShouldNotBeNil)
-				convey.So(err, convey.ShouldBeNil)
-			})
-		}
+			result, err := uc.CreateAccount(ctx, &tc)
+			convey.So(result, convey.ShouldBeNil)
+			convey.So(err, convey.ShouldNotBeNil)
+			convey.So(err.Error(), convey.ShouldEqual, "email is existed")
+		})
+		Convey("Create account successfully", func() {
+			mockAccountStorage.EXPECT().GetAccountByEmail(ctx, tc.Email).Return(nil, gorm.ErrRecordNotFound)
+			mockAccountStorage.EXPECT().CreateTx(ctx, gomock.Any()).Return(nil)
+			result, err := uc.CreateAccount(ctx, &tc)
+			convey.So(result, convey.ShouldNotBeNil)
+			convey.So(err, convey.ShouldBeNil)
+		})
 	})
+	}
 }
