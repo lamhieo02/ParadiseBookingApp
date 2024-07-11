@@ -4,7 +4,6 @@ import (
 	"context"
 	"paradise-booking/entities"
 	"paradise-booking/modules/account/iomodel"
-	accountstorage "paradise-booking/modules/account/storage"
 	"testing"
 
 	"github.com/brianvoe/gofakeit/v7"
@@ -95,10 +94,7 @@ func TestCreateAccount(t *testing.T) {
 			})
 			Convey("Create account successfully", func() {
 				mockAccountStorage.EXPECT().GetAccountByEmail(ctx, tc.Email).Return(nil, gorm.ErrRecordNotFound)
-				mockAccountStorage.EXPECT().CreateTx(ctx, gomock.Any()).DoAndReturn(func(ctx context.Context, param accountstorage.CreateUserTxParam) error {
-					param.AfterCreate(param.Data)
-					return nil
-				})
+				mockAccountStorage.EXPECT().CreateTx(ctx, gomock.Any()).Return(nil)
 				result, err := uc.CreateAccount(ctx, &tc)
 				convey.So(result, convey.ShouldNotBeNil)
 				convey.So(err, convey.ShouldBeNil)
