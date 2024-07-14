@@ -19,8 +19,11 @@ func ConvertBookingEntityToModel(entity *entities.BookingGuider, postGuide *post
 		Status:           constant.MapBookingGuiderStatus[entity.StatusID],
 		TotalPrice:       int(entity.TotalPrice),
 		Phone:            entity.Phone,
-		CreatedAt:        *entity.CreatedAt,
 		PaymentMethod:    constant.MapPaymentMethod[entity.PaymentMethod],
+	}
+
+	if entity.CreatedAt != nil {
+		res.CreatedAt = *entity.CreatedAt
 	}
 
 	if postGuide != nil {

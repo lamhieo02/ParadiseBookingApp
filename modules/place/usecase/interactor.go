@@ -39,11 +39,11 @@ type BookingSto interface {
 	GetBookingsWithinDateRange(ctx context.Context, dateFrom, dateTo *time.Time) ([]entities.Booking, error)
 }
 
-type postGuideCache interface {
+type PostGuideCache interface {
 	GetByID(ctx context.Context, id int) (*entities.PostGuide, error)
 }
 
-type postGuideSto interface {
+type PostGuideSto interface {
 	ListPostGuideIdsByCondition(ctx context.Context, limit int, condition map[string]interface{}) ([]int, error)
 }
 
@@ -55,8 +55,8 @@ type placeUseCase struct {
 	googleMap      *googlemapprovider.GoogleMap
 	placeStoCache  PlaceStoCache
 	bookingSto     BookingSto
-	postGuideCache postGuideCache
-	postGuideSto   postGuideSto
+	postGuideCache PostGuideCache
+	postGuideSto   PostGuideSto
 }
 
 func NewPlaceUseCase(
@@ -67,7 +67,7 @@ func NewPlaceUseCase(
 	placeWishSto PlaceWishListSto,
 	placeStoCache PlaceStoCache,
 	bookingSto BookingSto,
-	postGuideCache postGuideCache,
-	postGuideSto postGuideSto) *placeUseCase {
+	postGuideCache PostGuideCache,
+	postGuideSto PostGuideSto) *placeUseCase {
 	return &placeUseCase{placeSto, accoutSto, placeWishSto, cfg, googleMap, placeStoCache, bookingSto, postGuideCache, postGuideSto}
 }
