@@ -23,14 +23,14 @@ func (uc *bookingUseCase) ListBooking(ctx context.Context, paging *common.Paging
 	var res iomodel.ListBookingResp
 
 	user, err := uc.AccountSto.GetProfileByID(ctx, userID)
+	// get user	by id
+	if err != nil {
+		return nil, common.ErrCannotGetEntity("user", err)
+	}
+
 	res.UserId = user.Id
 	res.User = *user
 	for _, booking := range result {
-		// get user	by id
-		if err != nil {
-			return nil, common.ErrCannotGetEntity("user", err)
-		}
-
 		// get place by id
 		place, err := uc.PlaceSto.GetPlaceByID(ctx, booking.PlaceId)
 		if err != nil {
