@@ -17,5 +17,8 @@ func ConvertPostGuideUpdateToEntity(model *postguideiomodel.UpdatePostGuideReq) 
 		Address:     model.Address,
 		Schedule:    model.Schedule,
 		Languages:   strings.Join(model.Languages, ","), // Convert array to string
+		Country:     model.Country,
+		State:       model.State,
+		District:    model.District,
 	}
 }

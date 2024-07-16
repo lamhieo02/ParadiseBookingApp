@@ -16,13 +16,16 @@ func (postReviewUsecase *postReviewUsecase) UpdatePostReview(ctx context.Context
 
 	// update data
 	newData := &entities.PostReview{
-		Title:   data.Title,
-		Topic:   data.Topic,
-		Content: data.Content,
-		Image:   strings.Join(data.Images, ","),
-		Videos:  strings.Join(data.Videos, ","),
-		Lat:     data.Lat,
-		Lng:     data.Lng,
+		Title:    data.Title,
+		Topic:    data.Topic,
+		Content:  data.Content,
+		Image:    strings.Join(data.Images, ","),
+		Videos:   strings.Join(data.Videos, ","),
+		Lat:      data.Lat,
+		Lng:      data.Lng,
+		Country:  data.Country,
+		State:    data.State,
+		District: data.District,
 	}
 
 	if err := postReviewUsecase.postReviewStore.UpdateByID(ctx, int(data.PostReviewID), newData); err != nil {
