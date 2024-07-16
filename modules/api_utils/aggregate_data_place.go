@@ -74,11 +74,13 @@ func aggregatePlace(place *entities.Place, postGuide []*entities.PostGuide) stri
 	res = fmt.Sprintf("Home %s là một homestay theo mô tả như sau: %s, nằm tại địa chỉ %s, hotel/home này có giá thuê là %v một đêm và có thể đón tiếp tối đa %v khách. Với không gian %v phòng ngủ và %v giường. Địa chỉ: %s, Tọa độ: vĩ độ:%v, kinh độ: %v, thông tin bổ sung: giá phòng 1 đêm: %v, mã định dạng / mã id của địa điểm này: %v, thông tin của place này khi được hỏi nên được trả về là đường dẫn tới place đó như sau: %s",
 		place.Name, place.Description, place.Address, place.PricePerNight, place.MaxGuest, place.BedRoom, place.NumBed, place.Address, place.Lat, place.Lng, place.PricePerNight, place.Id, placeURL)
 
+	res += fmt.Sprintln()
 	// get post guide related to place
 	for _, postGuide := range postGuide {
-		res += fmt.Sprintf("\nCác Post Guide liên quan tới Place này, liên quan ở đây tức là tour du lịch đó có vị trí diễn ra gần với place này, thông tin của các post_guide(bài đăng hướng dẫn viên) đó theo đường dẫn trực tiếp tới bài post đó như sau:")
+		res += fmt.Sprintf("Các Post Guide liên quan tới Place này, liên quan ở đây tức là tour du lịch đó có vị trí diễn ra gần với place này, thông tin của các post_guide(bài đăng hướng dẫn viên) đó theo đường dẫn trực tiếp tới bài post đó như sau:")
 		postGuideURL := "https://booking.workon.space/post-guiders/" + strconv.Itoa(postGuide.Id)
-		res += fmt.Sprintf("\n%s", postGuideURL)
+		res += fmt.Sprintf("%s", postGuideURL)
+		res += fmt.Sprintln(" ")
 	}
 
 	return res
