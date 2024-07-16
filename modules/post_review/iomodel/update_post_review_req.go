@@ -10,4 +10,7 @@ type UpdatePostReviewReq struct {
 	Videos       []string `json:"videos"`
 	Lat          float64  `json:"lat"`
 	Lng          float64  `json:"lng"`
+	Country      string   `json:"country"`
+	State        string   `json:"state"`
+	District     string   `json:"district"`
 }

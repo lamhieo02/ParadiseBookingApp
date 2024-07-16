@@ -10,4 +10,7 @@ type UpdatePostGuideReq struct {
 	Address     string   `json:"address" form:"address"`
 	Languages   []string `json:"languages" form:"languages"`
 	Schedule    string   `json:"schedule" form:"schedule"`
+	Country     string   `json:"country"`
+	State       string   `json:"state"`
+	District    string   `json:"district"`
 }
