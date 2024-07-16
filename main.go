@@ -253,7 +253,7 @@ func main() {
 	reportHdl := reporthandler.NewReportHandler(reportUseCase)
 
 	// utils api
-	apiUtilHdl := apiutils.NewApiUtilsHandler(placeSto, postGuideSto, postGuideCache, placeCache)
+	apiUtilHdl := apiutils.NewApiUtilsHandler(placeSto, postGuideSto, postGuideCache, placeCache, calendarGuiderSto, postReviewSto)
 
 	// run task processor
 	wg := new(sync.WaitGroup)
@@ -441,6 +441,7 @@ func main() {
 
 	v1.GET("/aggregate_data_place", apiUtilHdl.AggregateDataPlace())
 	v1.GET("/aggregate_data_post_guide", apiUtilHdl.AggregateDataPostGuide())
+	v1.GET("/aggregate_data_post_review", apiUtilHdl.AggregateDataPostReview())
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
