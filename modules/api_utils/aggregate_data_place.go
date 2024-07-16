@@ -70,7 +70,7 @@ func (hdl *apiUtilHandler) AggregateDataPlace() gin.HandlerFunc {
 func aggregatePlace(place *entities.Place, postGuide []*entities.PostGuide) string {
 	res := ""
 	// write template like below
-	placeURL := "https://booking.workon.space/post-guiders/" + strconv.Itoa(place.Id)
+	placeURL := "https://booking.workon.space/listings/" + strconv.Itoa(place.Id)
 	res = fmt.Sprintf("Home %s là một homestay theo mô tả như sau: %s, nằm tại địa chỉ %s, hotel/home này có giá thuê là %v một đêm và có thể đón tiếp tối đa %v khách. Với không gian %v phòng ngủ và %v giường. Địa chỉ: %s, Tọa độ: vĩ độ:%v, kinh độ: %v, thông tin bổ sung: giá phòng 1 đêm: %v, mã định dạng / mã id của địa điểm này: %v, thông tin của place này khi được hỏi nên được trả về là đường dẫn tới place đó như sau: %s",
 		place.Name, place.Description, place.Address, place.PricePerNight, place.MaxGuest, place.BedRoom, place.NumBed, place.Address, place.Lat, place.Lng, place.PricePerNight, place.Id, placeURL)
 
