@@ -12,6 +12,7 @@ import (
 	amenityhandler "paradise-booking/modules/amenity/handler"
 	amenitystorage "paradise-booking/modules/amenity/storage"
 	amenityusecase "paradise-booking/modules/amenity/usecase"
+	apiutils "paradise-booking/modules/api_utils"
 	bookinghandler "paradise-booking/modules/booking/handler"
 	bookingstorage "paradise-booking/modules/booking/storage"
 	bookingusecase "paradise-booking/modules/booking/usecase"
@@ -251,6 +252,9 @@ func main() {
 	reportUseCase := reportusecase.NewReportUseCase(reportSto, accountCache, placeCache, postGuideCache, postReviewSto, commentSto, bookingSto, placeSto, bookingDetailStoCache, postGuideSto, bookingGuiderSto)
 	reportHdl := reporthandler.NewReportHandler(reportUseCase)
 
+	// utils api
+	apiUtilHdl := apiutils.NewApiUtilsHandler(placeSto, postGuideSto, postGuideCache)
+
 	// run task processor
 	wg := new(sync.WaitGroup)
 
@@ -435,6 +439,7 @@ func main() {
 	v1.POST("/reports/statistics/place", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.VendorRole), reportHdl.GetStatisticPlace())
 	v1.POST("/reports/statistics/post_guide", middlewares.RequiredAuth(), middlewares.RequiredRoles(constant.GuiderRole), reportHdl.GetStatisticPostGuide())
 
+	v1.GET("/aggregate_data_place", apiUtilHdl.AggregateDataPlace())
 	// google login
 	//v1.GET("/google/login")
 	router.Run(":" + cfg.App.Port)
