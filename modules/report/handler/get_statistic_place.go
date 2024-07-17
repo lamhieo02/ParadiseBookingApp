@@ -31,7 +31,7 @@ func (hdl *reportHandler) GetStatisticPlace() gin.HandlerFunc {
 			return
 		}
 
-		result, err := hdl.reportUseCase.GetStatisticsPlace(ctx, &req, requester.GetID())
+		result, err := hdl.reportUseCase.GetStatisticsPlace(ctx, req, requester.GetID())
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return

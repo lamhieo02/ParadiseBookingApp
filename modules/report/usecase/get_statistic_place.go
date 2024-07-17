@@ -13,7 +13,7 @@ import (
 	"github.com/samber/lo"
 )
 
-func (uc *reportUseCase) GetStatisticsPlace(ctx context.Context, req *reportiomodel.GetStatisticPlaceReq, vendorID int) (*reportiomodel.StatisticPlaceResp, error) {
+func (uc *reportUseCase) GetStatisticsPlace(ctx context.Context, req reportiomodel.GetStatisticPlaceReq, vendorID int) (*reportiomodel.StatisticPlaceResp, error) {
 
 	type valueBooking struct {
 		BookingSuccess int
