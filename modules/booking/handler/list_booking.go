@@ -23,12 +23,14 @@ func (hdl *bookingHandler) ListBooking() gin.HandlerFunc {
 		paging.Limit = limit
 
 		if err := ctx.ShouldBind(&filter); err != nil {
-			panic(err)
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
 
 		res, err := hdl.bookingUC.ListBooking(ctx.Request.Context(), &paging, &filter, requester.Id)
 		if err != nil {
-			panic(err)
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
 		}
 
 		ctx.JSON(http.StatusOK, gin.H{"data": res, "paging": paging})
