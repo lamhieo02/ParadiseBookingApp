@@ -8,6 +8,9 @@ import (
 )
 
 func ConvertPlaceEntityToModel(place *entities.Place) *iomodel.DataPlace {
+	if place == nil {
+		return nil
+	}
 	images := []string{}
 	if place.Cover != "" {
 		images = strings.Split(place.Cover, ",")

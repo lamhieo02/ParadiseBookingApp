@@ -2,6 +2,7 @@ package bookingusecase
 
 import (
 	"context"
+	"fmt"
 	"paradise-booking/common"
 	"paradise-booking/modules/booking/convert"
 	"paradise-booking/modules/booking/iomodel"
@@ -35,6 +36,10 @@ func (uc *bookingUseCase) ListBooking(ctx context.Context, paging *common.Paging
 		place, err := uc.PlaceSto.GetPlaceByID(ctx, booking.PlaceId)
 		if err != nil {
 			return nil, common.ErrCannotGetEntity("place", err)
+		}
+
+		if place == nil {
+			return nil, fmt.Errorf("place with id %d not found", booking.PlaceId)
 		}
 		res.ListData = append(res.ListData, convert.ConvertBookingModelToListBooking(booking, place))
 	}
