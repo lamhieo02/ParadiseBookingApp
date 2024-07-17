@@ -28,6 +28,7 @@ type TaskProcessor interface {
 
 type AccountStorage interface {
 	GetAccountByEmail(ctx context.Context, email string) (account *entities.Account, err error)
+	GetProfileByID(ctx context.Context, id int) (*entities.Account, error)
 }
 
 type BookingStorage interface {
@@ -43,16 +44,28 @@ type VerifyEmailsUseCase interface {
 	UpsertResetSetCodePassword(ctx context.Context, email string) (*entities.VerifyEmail, error)
 }
 
-type redisTaskProcessor struct {
-	server         *asynq.Server
-	accountSto     AccountStorage
-	verifyEmailsUC VerifyEmailsUseCase
-	bookingSto     BookingStorage
-	bookingUC      BookingUseCase
-	mailer         mail.EmailSender
+type BookinGuiderSto interface {
+	GetByID(ctx context.Context, id int) (*entities.BookingGuider, error)
 }
 
-func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountStorage, verifyEmailsUC VerifyEmailsUseCase, mailer mail.EmailSender, bookingSto BookingStorage, bookingUC BookingUseCase) TaskProcessor {
+type CalendarGuiderSto interface {
+	GetByID(ctx context.Context, id int) (*entities.CalendarGuider, error)
+}
+
+type redisTaskProcessor struct {
+	server            *asynq.Server
+	accountSto        AccountStorage
+	verifyEmailsUC    VerifyEmailsUseCase
+	bookingSto        BookingStorage
+	bookingUC         BookingUseCase
+	bookingGuiderSto  BookinGuiderSto
+	calendarGuiderSto CalendarGuiderSto
+	mailer            mail.EmailSender
+}
+
+func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountStorage,
+	verifyEmailsUC VerifyEmailsUseCase, mailer mail.EmailSender,
+	bookingSto BookingStorage, bookingUC BookingUseCase, bookingGuiderSto BookinGuiderSto, cls CalendarGuiderSto) TaskProcessor {
 
 	logger := NewLogger()
 	redis.SetLogger(logger)
@@ -71,7 +84,7 @@ func NewRedisTaskProcessor(redisOpt *asynq.RedisClientOpt, accountSto AccountSto
 			}),
 			Logger: logger,
 		})
-	return &redisTaskProcessor{server: server, accountSto: accountSto, verifyEmailsUC: verifyEmailsUC, mailer: mailer, bookingSto: bookingSto, bookingUC: bookingUC}
+	return &redisTaskProcessor{server: server, accountSto: accountSto, verifyEmailsUC: verifyEmailsUC, mailer: mailer, bookingSto: bookingSto, bookingUC: bookingUC, bookingGuiderSto: bookingGuiderSto, calendarGuiderSto: cls}
 }
 
 func (processor *redisTaskProcessor) Start() error {

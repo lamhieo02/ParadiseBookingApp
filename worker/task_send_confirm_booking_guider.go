@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"paradise-booking/constant"
+	"paradise-booking/entities"
 
 	"github.com/hibiken/asynq"
 	"github.com/rs/zerolog/log"
@@ -61,7 +62,23 @@ func (processor *redisTaskProcessor) ProcessTaskSendConfirmBookingGuider(ctx con
 		Email:    payload.Email,
 	}
 
-	sendMailToVerifyBookingGuider(processor, infoCustomer, payload.BookingGuiderID)
+	bguider, err := processor.bookingGuiderSto.GetByID(ctx, payload.BookingGuiderID)
+	if err != nil {
+		return fmt.Errorf("error when get booking guider by id: %w", err)
+
+	}
+
+	calendar, err := processor.calendarGuiderSto.GetByID(ctx, bguider.CalendarGuiderID)
+	if err != nil {
+		return fmt.Errorf("error when get calendar guider by id: %w", err)
+	}
+
+	guider, err := processor.accountSto.GetProfileByID(ctx, bguider.GuiderID)
+	if err != nil {
+		return fmt.Errorf("error when get guider by id: %w", err)
+	}
+
+	sendMailToVerifyBookingGuider(processor, infoCustomer, bguider, calendar, guider)
 	log.Info().Msg("send verify booking success")
 
 	log.Info().Str("type", task.Type()).Bytes("payload", task.Payload()).
@@ -70,14 +87,28 @@ func (processor *redisTaskProcessor) ProcessTaskSendConfirmBookingGuider(ctx con
 	return nil
 }
 
-func sendMailToVerifyBookingGuider(processor *redisTaskProcessor, customer *InfoCustomer, bookingGuiderID int) error {
+func sendMailToVerifyBookingGuider(processor *redisTaskProcessor, customer *InfoCustomer, bookingGuider *entities.BookingGuider, calendar *entities.CalendarGuider, guider *entities.Account) error {
 	subject := "Welcome to Paradise Booking"
 	verifyUrl := fmt.Sprintf("%s?booking_guider_id=%d&status=%d",
-		UrlConfirmBookingGuider, bookingGuiderID, constant.BookingGuiderStatusConfirmed)
+		UrlConfirmBookingGuider, bookingGuider.Id, constant.BookingGuiderStatusConfirmed)
+
+	date := calendar.DateFrom.Format("2006-01-02") + " - " + calendar.DateTo.Format("2006-01-02")
 	content := fmt.Sprintf(`Hello %s,<br/>
 	Thank you for booking guider with us!<br/>
+	Here is your booking information:<br/>
+	- Full name: %s<br/>
+	- Email: %s<br/>
+	- Date: %s<br/>
+	- Total price: %d<br/>
+	- Payment method: %s<br/>
+	Here is guider information:<br/>
+	- Full name: %s<br/>
+	- Email: %s<br/>
+	- Phone: %s<br/>
+	- Address: %s<br/>
+	To join the trip, you need to contact with guider through email or phone number.<br/>
 	Please <a href="%s">click here</a> to confirm your booking.<br/>
-	`, customer.FullName, verifyUrl)
+	`, customer.FullName, customer.FullName, customer.Email, date, int(bookingGuider.TotalPrice), constant.MapPaymentMethod[bookingGuider.PaymentMethod], guider.FullName, guider.Email, guider.Phone, guider.Address, verifyUrl)
 	to := []string{customer.Email}
 
 	err := processor.mailer.SendEmail(subject, content, to, nil, nil, nil)
