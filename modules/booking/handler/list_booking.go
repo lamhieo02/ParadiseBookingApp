@@ -3,6 +3,7 @@ package bookinghandler
 import (
 	"net/http"
 	"paradise-booking/common"
+	"paradise-booking/entities"
 	"paradise-booking/modules/booking/iomodel"
 	"strconv"
 
@@ -11,7 +12,7 @@ import (
 
 func (hdl *bookingHandler) ListBooking() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		requester := ctx.MustGet("Account").(common.Requester)
+		requester := ctx.MustGet("Account").(*entities.Account)
 
 		var paging common.Paging
 		var filter iomodel.FilterListBooking
@@ -25,7 +26,7 @@ func (hdl *bookingHandler) ListBooking() gin.HandlerFunc {
 			panic(err)
 		}
 
-		res, err := hdl.bookingUC.ListBooking(ctx.Request.Context(), &paging, &filter, requester.GetID())
+		res, err := hdl.bookingUC.ListBooking(ctx.Request.Context(), &paging, &filter, requester.Id)
 		if err != nil {
 			panic(err)
 		}
