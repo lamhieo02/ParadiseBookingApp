@@ -89,7 +89,7 @@ func aggregatePostGuide(postGuide *entities.PostGuide, places []*entities.Place,
 	for i, calendarGuider := range calendarGuider {
 		dateFrom := utils.ParseTimeWithHourToString(calendarGuider.DateFrom)
 		dateTo := utils.ParseTimeWithHourToString(calendarGuider.DateTo)
-		res += fmt.Sprintf("Lịch trình thứ %d, diễn ra từ thời gian %s - đến thời gian %s", i+1, dateFrom, dateTo)
+		res += fmt.Sprintf("Lịch trình thứ %d, diễn ra từ thời gian %s - đến thời gian %s, có giá dịch vụ trên 1 người là: %d", i+1, dateFrom, dateTo, int(calendarGuider.PricePerPerson))
 		res += fmt.Sprintln(" ")
 	}
 
