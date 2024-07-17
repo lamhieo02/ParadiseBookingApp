@@ -11,8 +11,6 @@ import (
 
 func (hdl *bookingGuiderHandler) ListBookingGuider() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		requester := ctx.MustGet("Account").(common.Requester)
-
 		var paging common.Paging
 		var filter bookingguideriomodel.Filter
 		page, _ := strconv.Atoi(ctx.Query("page"))
@@ -26,7 +24,7 @@ func (hdl *bookingGuiderHandler) ListBookingGuider() gin.HandlerFunc {
 			return
 		}
 
-		res, err := hdl.bookingGuiderUC.ListBooking(ctx.Request.Context(), &paging, &filter, requester.GetID())
+		res, err := hdl.bookingGuiderUC.ListBooking(ctx.Request.Context(), &paging, &filter)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return

@@ -39,12 +39,11 @@ func TestListBooking(t *testing.T) {
 	if err := gofakeit.Struct(&filter); err != nil {
 		t.Error(err)
 	}
-	userID := gofakeit.Number(1, 100)
 
 	Convey("Test List Booking", t, func() {
 		Convey("List by filter fail", func() {
-			mockBookingGuiderSto.EXPECT().ListByFilter(ctx, gomock.Any(), gomock.Any(), gomock.Any()).Return(nil, errors.New("error"))
-			_, err := uc.ListBooking(ctx, &paging, &filter, userID)
+			mockBookingGuiderSto.EXPECT().ListByFilter(ctx, gomock.Any(), gomock.Any()).Return(nil, errors.New("error"))
+			_, err := uc.ListBooking(ctx, &paging, &filter)
 			So(err, ShouldNotBeNil)
 		})
 		Convey("List by filter success", func() {
@@ -56,10 +55,10 @@ func TestListBooking(t *testing.T) {
 					t.Error(err)
 				}
 			}
-			mockBookingGuiderSto.EXPECT().ListByFilter(ctx, gomock.Any(), gomock.Any(), gomock.Any()).Return(data, nil)
+			mockBookingGuiderSto.EXPECT().ListByFilter(ctx, gomock.Any(), gomock.Any()).Return(data, nil)
 			mockPostGuideSto.EXPECT().GetPostGuideByID(ctx, gomock.Any()).Return(&postguideiomodel.GetPostGuideResp{}, nil).AnyTimes()
 			mockCalendarSto.EXPECT().GetByID(ctx, gomock.Any()).Return(&entities.CalendarGuider{DateFrom: &now, DateTo: &now}, nil).AnyTimes()
-			_, err := uc.ListBooking(ctx, &paging, &filter, userID)
+			_, err := uc.ListBooking(ctx, &paging, &filter)
 			So(err, ShouldBeNil)
 		})
 	})

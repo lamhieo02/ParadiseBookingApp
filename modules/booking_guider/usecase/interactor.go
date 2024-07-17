@@ -16,7 +16,7 @@ type bookingGuiderStorage interface {
 	UpdateStatus(ctx context.Context, bookingGuiderID int, status int) error
 	GetByID(ctx context.Context, id int) (*entities.BookingGuider, error)
 	ListByCondition(ctx context.Context, conditions []common.Condition) ([]*entities.BookingGuider, error)
-	ListByFilter(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter, userId int) ([]entities.BookingGuider, error)
+	ListByFilter(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter) ([]entities.BookingGuider, error)
 	DeleteByID(ctx context.Context, id int) error
 }
 

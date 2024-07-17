@@ -7,7 +7,7 @@ import (
 	bookingguideriomodel "paradise-booking/modules/booking_guider/iomodel"
 )
 
-func (uc *bookingGuiderUseCase) ListBooking(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter, userID int) ([]*bookingguideriomodel.GetBookingGuiderResp, error) {
+func (uc *bookingGuiderUseCase) ListBooking(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter) ([]*bookingguideriomodel.GetBookingGuiderResp, error) {
 
 	if paging != nil {
 		paging.Process()
@@ -15,7 +15,7 @@ func (uc *bookingGuiderUseCase) ListBooking(ctx context.Context, paging *common.
 
 	var res []*bookingguideriomodel.GetBookingGuiderResp
 
-	data, err := uc.bookingGuiderSto.ListByFilter(ctx, paging, filter, userID)
+	data, err := uc.bookingGuiderSto.ListByFilter(ctx, paging, filter)
 	if err != nil {
 		return nil, err
 	}

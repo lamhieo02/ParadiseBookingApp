@@ -97,18 +97,18 @@ func (mr *MockbookingGuiderStorageMockRecorder) ListByCondition(ctx, conditions 
 }
 
 // ListByFilter mocks base method.
-func (m *MockbookingGuiderStorage) ListByFilter(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter, userId int) ([]entities.BookingGuider, error) {
+func (m *MockbookingGuiderStorage) ListByFilter(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter) ([]entities.BookingGuider, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListByFilter", ctx, paging, filter, userId)
+	ret := m.ctrl.Call(m, "ListByFilter", ctx, paging, filter)
 	ret0, _ := ret[0].([]entities.BookingGuider)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListByFilter indicates an expected call of ListByFilter.
-func (mr *MockbookingGuiderStorageMockRecorder) ListByFilter(ctx, paging, filter, userId interface{}) *gomock.Call {
+func (mr *MockbookingGuiderStorageMockRecorder) ListByFilter(ctx, paging, filter interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListByFilter", reflect.TypeOf((*MockbookingGuiderStorage)(nil).ListByFilter), ctx, paging, filter, userId)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListByFilter", reflect.TypeOf((*MockbookingGuiderStorage)(nil).ListByFilter), ctx, paging, filter)
 }
 
 // UpdateStatus mocks base method.

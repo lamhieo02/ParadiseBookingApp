@@ -13,10 +13,17 @@ func (s *bookingGuiderSto) ListByFilter(ctx context.Context, paging *common.Pagi
 
 	var data []entities.BookingGuider
 
-	db = db.Table(entities.BookingGuider{}.TableName())
+	db = db.Table(entities.BookingGuider{}.TableName()).Order("id desc")
 
-	db = db.Where("user_id = ?", userId).Order("id desc")
 	if v := filter; v != nil {
+		if v.UserID != 0 {
+			db = db.Where("user_id = ?", v.UserID)
+		}
+
+		if v.GuiderID != 0 {
+			db = db.Where("guider_id = ?", v.GuiderID)
+		}
+
 		if len(v.Statuses) > 0 && v.Statuses[0] != 0 {
 			db = db.Where("status_id in (?) ", v.Statuses)
 		}
