@@ -8,6 +8,10 @@ import (
 )
 
 func ConvertPlaceEntityToModel(place *entities.Place) *iomodel.DataPlace {
+	images := []string{}
+	if place.Cover != "" {
+		images = strings.Split(place.Cover, ",")
+	}
 	placeModel := iomodel.DataPlace{
 		Id:            place.Id,
 		VendorID:      place.VendorID,
@@ -15,7 +19,7 @@ func ConvertPlaceEntityToModel(place *entities.Place) *iomodel.DataPlace {
 		Description:   place.Description,
 		PricePerNight: place.PricePerNight,
 		Address:       place.Address,
-		Images:        strings.Split(place.Cover, ","),
+		Images:        images,
 		Lat:           place.Lat,
 		Lng:           place.Lng,
 		Country:       place.Country,
