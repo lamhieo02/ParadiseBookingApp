@@ -8,7 +8,7 @@ import (
 	"paradise-booking/utils"
 )
 
-func (s *bookingGuiderSto) ListByFilter(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter, userId int) ([]entities.BookingGuider, error) {
+func (s *bookingGuiderSto) ListByFilter(ctx context.Context, paging *common.Paging, filter *bookingguideriomodel.Filter) ([]entities.BookingGuider, error) {
 	db := s.db
 
 	var data []entities.BookingGuider
