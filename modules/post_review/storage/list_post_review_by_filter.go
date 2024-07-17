@@ -7,6 +7,20 @@ import (
 	postreviewiomodel "paradise-booking/modules/post_review/iomodel"
 )
 
+func (s *postReviewStorage) ListByCondition(ctx context.Context, condition map[string]interface{}) ([]*entities.PostReview, error) {
+	db := s.db
+
+	var data []*entities.PostReview
+
+	db = db.Table(entities.PostReview{}.TableName()).Where(condition)
+
+	if err := db.Find(&data).Error; err != nil {
+		return nil, common.ErrorDB(err)
+	}
+
+	return data, nil
+}
+
 func (s *postReviewStorage) ListPostReviewByFilter(ctx context.Context, paging *common.Paging, filter *postreviewiomodel.Filter) ([]*entities.PostReview, error) {
 	db := s.db
 
@@ -19,7 +33,7 @@ func (s *postReviewStorage) ListPostReviewByFilter(ctx context.Context, paging *
 	}
 
 	if filter.Lat != 0 && filter.Lng != 0 {
-		db = db.Where("country = ? AND state = ? AND district = ?", filter.Country, filter.State, filter.District)
+		db = db.Where("state = ?", filter.State)
 	}
 
 	if filter.DateFrom != nil {

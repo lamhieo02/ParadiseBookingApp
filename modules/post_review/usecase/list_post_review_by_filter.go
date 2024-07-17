@@ -18,8 +18,25 @@ func (postReviewUsecase *postReviewUsecase) ListPostReviewByFilter(ctx context.C
 		ggAddress, err := postReviewUsecase.googleMap.GetAddressFromLatLng(ctx, filter.Lat, filter.Lng)
 		if err != nil {
 			log.Printf("error get address from googlemap with lat=%v lng=%v got error: %v", filter.Lat, filter.Lng, err)
-			filter.Lat = 0
-			filter.Lng = 0
+
+			condition := map[string]interface{}{
+				"lat": filter.Lat,
+				"lng": filter.Lng,
+			}
+			post, err := postReviewUsecase.postReviewStore.ListByCondition(ctx, condition)
+			if err != nil {
+				return nil, err
+			}
+
+			if len(post) == 0 {
+				filter.Lat = 0
+				filter.Lng = 0
+			} else {
+				filter.Country = post[0].Country
+				filter.State = post[0].State
+				filter.District = post[0].District
+			}
+
 		} else {
 			filter.Country = ggAddress.Country
 			filter.State = ggAddress.State

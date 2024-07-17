@@ -16,6 +16,7 @@ type PostReviewStore interface {
 	ListPostReviewByAccountID(ctx context.Context, accountID int, paging *common.Paging) ([]*entities.PostReview, error)
 	DeleteByID(ctx context.Context, postReviewID int) error
 	ListPostReviewByFilter(ctx context.Context, paging *common.Paging, filter *postreviewiomodel.Filter) ([]*entities.PostReview, error)
+	ListByCondition(ctx context.Context, condition map[string]interface{}) ([]*entities.PostReview, error)
 }
 
 type CommentStorage interface {
