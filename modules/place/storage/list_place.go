@@ -26,15 +26,15 @@ func (s *placeStorage) ListPlaces(ctx context.Context, paging *common.Paging, fi
 		}
 
 		if v.Lat != nil && v.Lng != nil {
-			if address.Country != "" {
-				db = db.Where("country = ?", address.Country)
-			}
+			// if address.Country != "" {
+			// 	db = db.Where("country = ?", address.Country)
+			// }
 			if address.State != "" {
 				db = db.Where("state = ?", address.State)
 			}
-			if address.District != "" {
-				db = db.Where("district = ?", address.District)
-			}
+			// if address.District != "" {
+			// 	db = db.Where("district = ?", address.District)
+			// }
 		}
 
 		if v.Guest != nil {
