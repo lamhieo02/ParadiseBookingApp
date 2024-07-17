@@ -261,7 +261,7 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		cmdworker.RunTaskProcessor(&redisOpt, accountSto, cfg, verifyEmailsUseCase, bookingSto, bookingUseCase)
+		cmdworker.RunTaskProcessor(&redisOpt, accountSto, cfg, verifyEmailsUseCase, bookingSto, bookingUseCase, bookingGuiderSto, calendarGuiderSto)
 	}()
 
 	wg.Add(1)

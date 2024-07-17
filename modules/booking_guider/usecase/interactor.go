@@ -10,7 +10,7 @@ import (
 	"paradise-booking/worker"
 )
 
-type bookingGuiderStorage interface {
+type BookingGuiderStorage interface {
 	Create(ctx context.Context, data *entities.BookingGuider) error
 	UpdateWithMap(ctx context.Context, id int, props map[string]interface{}) error
 	UpdateStatus(ctx context.Context, bookingGuiderID int, status int) error
@@ -33,7 +33,7 @@ type PostGuideUC interface {
 }
 
 type bookingGuiderUseCase struct {
-	bookingGuiderSto bookingGuiderStorage
+	bookingGuiderSto BookingGuiderStorage
 	taskDistributor  worker.TaskDistributor
 	momoProvider     *momoprovider.Momo
 	paymentSto       PaymentSto
@@ -41,7 +41,7 @@ type bookingGuiderUseCase struct {
 	postGuideUC      PostGuideUC
 }
 
-func NewBookingGuiderUseCase(bookingGuiderSto bookingGuiderStorage,
+func NewBookingGuiderUseCase(bookingGuiderSto BookingGuiderStorage,
 	taskDistributor worker.TaskDistributor,
 	momoProvider *momoprovider.Momo,
 	paymentSto PaymentSto,
