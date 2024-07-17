@@ -50,7 +50,7 @@ func (uc *reportUseCase) GetStatisticsPlace(ctx context.Context, req reportiomod
 	}
 
 	dFrom := req.DateFrom + " 00:00:00"
-	dTo := req.DateFrom + " 23:59:59"
+	dTo := req.DateTo + " 23:59:59"
 	timeFrom, _ := utils.ParseStringToTimeWithHour(dFrom)
 	timeTo, _ := utils.ParseStringToTimeWithHour(dTo)
 	conditions := []common.Condition{}
