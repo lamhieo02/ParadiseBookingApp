@@ -94,18 +94,18 @@ func sendMailToVerifyBookingGuider(processor *redisTaskProcessor, customer *Info
 
 	date := calendar.DateFrom.Format("2006-01-02") + " - " + calendar.DateTo.Format("2006-01-02")
 	content := fmt.Sprintf(`Hello %s,<br/>
-	Thank you for booking guider with us!<br/>
+	Thank you for booking guider with us!<br/><br/>
 	Here is your booking information:<br/>
 	- Full name: %s<br/>
 	- Email: %s<br/>
 	- Date: %s<br/>
-	- Total price: %d<br/>
-	- Payment method: %s<br/>
+	- Total price: %d VND<br/>
+	- Payment method: %s<br/><br/>
 	Here is guider information:<br/>
 	- Full name: %s<br/>
 	- Email: %s<br/>
 	- Phone: %s<br/>
-	- Address: %s<br/>
+	- Address: %s<br/><br/>
 	To join the trip, you need to contact with guider through email or phone number.<br/>
 	Please <a href="%s">click here</a> to confirm your booking.<br/>
 	`, customer.FullName, customer.FullName, customer.Email, date, int(bookingGuider.TotalPrice), constant.MapPaymentMethod[bookingGuider.PaymentMethod], guider.FullName, guider.Email, guider.Phone, guider.Address, verifyUrl)
