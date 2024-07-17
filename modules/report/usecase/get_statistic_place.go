@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"paradise-booking/common"
 	"paradise-booking/constant"
 	reportiomodel "paradise-booking/modules/report/iomodel"
@@ -78,6 +79,8 @@ func (uc *reportUseCase) GetStatisticsPlace(ctx context.Context, req reportiomod
 	if err != nil {
 		return nil, err
 	}
+
+	log.Println(bookings)
 
 	for _, booking := range bookings {
 		bookingDetail, err := uc.bookingDetailCache.GetByBookingID(ctx, booking.Id)
