@@ -46,8 +46,10 @@ func (uc *reportUseCase) GetStatisticsPostGuide(ctx context.Context, req *report
 		}
 	}
 
-	timeFrom, _ := utils.ParseStringToTime(req.DateFrom)
-	timeTo, _ := utils.ParseStringToTime(req.DateTo)
+	dFrom := req.DateFrom + " 00:00:00"
+	dTo := req.DateTo + " 23:59:59"
+	timeFrom, _ := utils.ParseStringToTimeWithHour(dFrom)
+	timeTo, _ := utils.ParseStringToTimeWithHour(dTo)
 	conditions := []common.Condition{}
 	conditions = append(conditions, common.Condition{
 		Field:    "post_guide_id",
