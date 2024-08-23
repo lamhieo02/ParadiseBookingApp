@@ -1,38 +1,38 @@
 # ParadiseBookingApp
-# Hướng Dẫn Cài Đặt Ứng Dụng BackEnd
+# Backend Application Setup Guide
 
-Hướng dẫn này cung cấp các bước chi tiết để thiết lập và chạy ứng dụng BackEnd sử dụng Docker và Docker Compose. Ứng dụng bao gồm ba thành phần chính: dịch vụ BackEnd, cơ sở dữ liệu MySQL và bộ nhớ đệm Redis.
+This guide provides detailed steps to set up and run the Backend application using Docker and Docker Compose. The application consists of three main components: the Backend service, MySQL database, and Redis cache.
 
-## Yêu Cầu Cần Thiết
+## Prerequisites
 
-Trước khi bắt đầu, hãy đảm bảo bạn đã cài đặt các thành phần sau trên hệ thống của mình:
+Before starting, make sure you have installed the following components on your system:
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Các Bước Cài Đặt
+## Installation Steps
 
-### Bước 1: Cài Đặt Docker
+### Step 1: Install Docker
 
-Theo dõi hướng dẫn trong tài liệu của Docker để cài đặt Docker cho hệ điều hành cụ thể của bạn:
-- Hướng dẫn cài đặt Docker: [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+Follow the instructions in the Docker documentation to install Docker for your specific operating system:
+- Docker installation guide: [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 
-### Bước 2: Cài Đặt Docker Compose
+### Step 2: Install Docker Compose
 
-Sau khi cài đặt Docker, tiếp tục cài đặt Docker Compose theo hướng dẫn trong tài liệu của Docker:
-- Hướng dẫn cài đặt Docker Compose: [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
+After installing Docker, continue with the Docker Compose installation according to the Docker documentation:
+- Docker Compose installation guide: [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
 
-### Bước 3: Chạy Ứng Dụng
+### Step 3: Run the Application
 
-1. Mở terminal.
-2. Di chuyển đến thư mục của ứng dụng:
+1. Open the terminal.
+2. Navigate to the application directory:
    ```bash
    cd path/to/your/application
 
-### Bước 4: Thực thi lệnh sau để khởi động ứng dụng sử dụng Docker Compose
+### Step 4: Execute the following command to start the application using Docker Compose
    ```bash
     docker compose up -d
    ```
-   - Ứng dụng sẽ chạy dưới port 8080 ở localhost, và đường dẫn export của API ra ngoài là http://localhost:8080/api/v1/
+   - The application will run on port 8080 on localhost, and the API export path will be http://localhost:8080/api/v1/
 
-## Kiến Trúc Hệ Thống 
+## System Architecture 
 ![Alt text](image.png)
